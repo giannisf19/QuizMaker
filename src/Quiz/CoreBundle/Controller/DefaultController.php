@@ -22,6 +22,6 @@ class DefaultController extends Controller
 
          $obj = new QuizTest();
 
-        return new Response($obj->TellMeSomething());
+        return new Response($this->get('security.context')->getToken());
     }
 }
