@@ -4,13 +4,14 @@ namespace Quiz\CoreBundle\Entity;
 
 use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
- * @ORM\Table(name="ClientUser")
+ * @ORM\Table(name="users_table")
  * @ORM\Entity
  */
 
-class ClientUser {
+class ClientUser extends BaseUser {
 
     /**
      * @ORM\Id
