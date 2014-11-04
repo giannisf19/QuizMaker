@@ -18,6 +18,12 @@ class Question {
      */
     protected $id;
 
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $questionText;
+
     /**
      * Get id
      *
