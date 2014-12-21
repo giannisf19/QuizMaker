@@ -2,8 +2,13 @@
 
 
 
-{% block body %}
-    {{ translated_message }}
-
-    <span>Current locale: {{ app.request.locale }}</span>
+{% block container %}
+    <div class="row">
+        <div class="col-lg-6">
+            <p>Column 1</p>
+        </div>
+        <div class="col-lg-6">
+            <p>Column 2</p>
+        </div>
+    </div>
 {% endblock %}
