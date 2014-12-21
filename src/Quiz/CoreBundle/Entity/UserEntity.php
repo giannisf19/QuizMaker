@@ -11,7 +11,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * @ORM\Entity
  */
 
-class ClientUser extends BaseUser {
+class UserEntity extends BaseUser {
 
     /**
      * @ORM\Id
@@ -26,8 +26,6 @@ class ClientUser extends BaseUser {
     protected $name;
 
 
-
-
     /**
      * Get id
      *
@@ -37,4 +35,12 @@ class ClientUser extends BaseUser {
     {
         return $this->id;
     }
+
+
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+
 }

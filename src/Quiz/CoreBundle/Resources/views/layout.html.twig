@@ -1,12 +1,9 @@
-<!DOCTYPPE html>
-<html>
-    <head>
-        {% block head %}
-          <title> {% block title %}Welcome{% endblock %}</title>
-        {% endblock %}
-    </head>
+{% extends '::base.html.twig' %}
 
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+
+{% block body %}
+    <div class="container">
+        {% block container %}
+        {% endblock %}
+    </div>
+{% endblock %}

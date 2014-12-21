@@ -19,6 +19,7 @@ security:
             id: fos_user.user_provider.username
 
 
+
     firewalls:
         main:
           pattern: ^/

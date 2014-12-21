@@ -7,6 +7,7 @@ namespace Quiz\CoreBundle\Controller;
 use Quiz\CoreBundle\Engine\QuizEngine\QuizTest;
 use Quiz\CoreBundle\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,14 +15,22 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('QuizCoreBundle:Default:index.html.twig', array("haha" => "ti re?"));
+
+        $tm = $this->get('translator')->trans('Symfony is great');
+
+
+        return $this->render('@QuizCore/Default/index.html.twig', ['translated_message' => $tm]);
     }
 
     public function testAction()
     {
 
-         $obj = new QuizTest();
+        $en = $this->container->get('doctrine')->getRepository('QuizCoreBundle:UserEntity')->find(1);
 
-        return new Response($this->get('security.context')->getToken());
+
+        $a = $this->get('security.context');
+
+
+        return $this->render('@QuizCore/Default/index.html.twig');
     }
 }

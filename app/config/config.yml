@@ -4,7 +4,9 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+
+    default_locale: el_GR
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -36,14 +38,11 @@ assetic:
     bundles:        [ QuizCoreBundle ]
     #java: /usr/bin/java
     filters:
-        less:
-            node: "%nodejs_dir%"
-            node_paths: "%nodejs_modules%"
-            apply_to: "\.less$"
+
         cssrewrite: ~
 
-braincrafted_bootstrap:
-    less_filter: less
+
+
 
 # Doctrine Configuration
 doctrine:
@@ -76,4 +75,4 @@ swiftmailer:
 fos_user:
   db_driver: orm
   firewall_name: main
-  user_class: Quiz\CoreBundle\Entity\ClientUser
+  user_class: Quiz\CoreBundle\Entity\UserEntity
