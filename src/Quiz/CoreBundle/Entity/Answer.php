@@ -24,9 +24,9 @@ class Answer
     /**
      * @var string
      *
-     * @ORM\Column(name="QuestionText", type="string", length=255)
+     * @ORM\Column(name="AnswerText", type="string", length=255)
      */
-    private $questionText;
+    private $answerText;
 
 
     /**
@@ -60,5 +60,57 @@ class Answer
     public function getQuestionText()
     {
         return $this->questionText;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     */
+    protected $question;
+
+    /**
+     * Set question
+     *
+     * @param \Quiz\CoreBundle\Entity\Question $question
+     * @return Answer
+     */
+    public function setQuestion(\Quiz\CoreBundle\Entity\Question $question = null)
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    /**
+     * Get question
+     *
+     * @return \Quiz\CoreBundle\Entity\Answer 
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
+    /**
+     * Set answerText
+     *
+     * @param string $answerText
+     * @return Answer
+     */
+    public function setAnswerText($answerText)
+    {
+        $this->answerText = $answerText;
+
+        return $this;
+    }
+
+    /**
+     * Get answerText
+     *
+     * @return string 
+     */
+    public function getAnswerText()
+    {
+        return $this->answerText;
     }
 }

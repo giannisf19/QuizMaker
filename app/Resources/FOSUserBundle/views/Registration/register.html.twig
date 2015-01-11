@@ -1,0 +1,109 @@
+{% extends '@FOSUser/layout.html.twig' %}
+
+ {% block pageTitle %}{{ "Εγγραφή νέου χρήστη" | trans() }}{% endblock %}
+
+{% block fos_user_content %}
+
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form role="form" class="form-horizontal" action="{{ path('fos_user_registration_register') }}" method="post" {{ form_enctype(form) }}>
+                <h2>{{ "Εγγραφή νέου χρήστη" | trans() }}</h2>
+                <hr class="colorgraph">
+
+                        <div class="form-group">
+                            <label for="fos_user_registration_form_firstName" class="col-sm-2 control-label">{{ 'Όνομα' | trans() }}:</label>
+                            <div class="col-xs-10 input-group">
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                                <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                            </div>
+
+                        </div>
+
+                    <div class="form-group">
+                        <label for="fos_user_registration_form_lastName" class="col-sm-2 control-label">{{ 'Επώνυμο' | trans() }}:</label>
+                        <div class="col-xs-10 input-group">
+                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                            <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                        </div>
+                    </div>
+
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_department" class="col-sm-2 control-label">{{ 'Τμήμα' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.department, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                        <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                    </div>
+                </div>
+
+
+                        <div class="form-group">
+                            <label for="fos_user_registration_form_registryNumber" class="col-sm-2 control-label">{{ 'ΑΕΜ' | trans() }}:</label>
+                            <div class="col-xs-10 input-group">
+                                {{ form_widget(form.registryNumber, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                                <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fos_user_registration_form_semester" class="col-sm-2 control-label">{{ 'Εξάμηνο' | trans() }}:</label>
+                            <div class="col-xs-10 input-group">
+                                {{ form_widget(form.semester, {'attr': {'class': 'form-control col-sm-10', 'pattern' : '\\d*' }}) }}
+                                <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                            </div>
+                        </div>
+
+
+                {{ form_row(form._token) }}
+                <div class="form-group">
+                    <label for="fos_user_registration_form_username" class="col-sm-2 control-label">{{ 'Όνομα χρήστη' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.username, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                        <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_email" class="col-sm-2 control-label">{{ 'Email' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                        <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                    </div>
+
+                    {% if  form_errors(form.email)  %}
+                        <div ><span>{{ form_errors(form.email) }}</span></div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_plainPassword_first" class="col-sm-2 control-label">{{ 'Κωδικός' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                        <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_plainPassword_second" class="col-sm-2 control-label">{{ 'Επαλήθευση' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                        <div class="input-group-addon"><i class="fa fa-check"></i> </div>
+
+                    </div>
+                    {% if  form_errors(form.plainPassword.first)  %}
+                        <div ><span>{{ form_errors(form.plainPassword.first) }}</span></div>
+                    {% endif %}
+                </div>
+
+                <hr class="colorgraph">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6"><input type="submit"  value="{{ 'Εγγραφή'|trans }}" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+                    <div class="col-xs-12 col-md-6"><a href="{{ path('fos_user_security_login') }}" class="btn btn-success btn-block btn-lg">{{ 'Είσοδος'|trans }}</a></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock fos_user_content %}

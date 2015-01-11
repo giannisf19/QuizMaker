@@ -1,11 +1,12 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - {resource: "@QuizCoreBundle/Resources/config/services.yml"}
 
 framework:
     #esi:             ~
 
-    default_locale: el_GR
+    default_locale: %locale%
     translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
@@ -31,6 +32,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
+
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
@@ -38,8 +40,8 @@ assetic:
     bundles:        [ QuizCoreBundle ]
     #java: /usr/bin/java
     filters:
-
         cssrewrite: ~
+
 
 
 
@@ -76,3 +78,9 @@ fos_user:
   db_driver: orm
   firewall_name: main
   user_class: Quiz\CoreBundle\Entity\UserEntity
+  registration:
+    form:
+        type: quiz_user_registration
+
+
+

@@ -2,20 +2,24 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block pageTitle %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
-
         {% stylesheets '@QuizCoreBundle/Resources/public/css/bootstrap.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+        {% stylesheets 'bundles/quizcore/css/font-awesome.min.css'  filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
-
     </head>
+
+
     <body>
         {% block body %}{% endblock %}
 
@@ -28,7 +32,13 @@
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.color.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
+        {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
         {% block javascripts %}{% endblock %}
     </body>

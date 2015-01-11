@@ -1,0 +1,5 @@
+services:
+    quiz_user.registration.form.type:
+      class: Quiz\CoreBundle\Form\Type\RegistrationFormType
+      tags:
+        - {name: form.type, alias: quiz_user_registration}
