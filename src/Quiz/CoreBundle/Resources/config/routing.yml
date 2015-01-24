@@ -9,3 +9,9 @@ _test:
 _teacher:
     path: /teacher
     defaults: {_controller: QuizCoreBundle:Default:teacher}
+
+_registration:
+    path: /register/checkEmail
+    defaults: {_controller: QuizCoreBundle:Registration:emailAvailable, email: null}
+    requirements:
+        _method: POST

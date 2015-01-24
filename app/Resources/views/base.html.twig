@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block pageTitle %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/bootstrap.min.css' %}
@@ -17,6 +17,8 @@
         {% stylesheets '@QuizCoreBundle/Resources/public/css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
+
+        {% block stylesheets %}{% endblock %}
     </head>
 
 

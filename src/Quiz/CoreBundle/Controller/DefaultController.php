@@ -18,7 +18,6 @@ class DefaultController extends Controller
     public function indexAction()
     {
 
-
         return $this->render('@QuizCore/Default/index.html.twig', ['locale' => 'nai']);
     }
 

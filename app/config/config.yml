@@ -37,10 +37,11 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ QuizCoreBundle ]
-    #java: /usr/bin/java
+    bundles:         [ QuizCoreBundle, FOSUserBundle ]
     filters:
         cssrewrite: ~
+        typescript:
+
 
 
 

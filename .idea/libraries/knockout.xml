@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="knockout" type="javaScript">
+    <properties>
+      <option name="frameworkName" value="Knockout" />
+    </properties>
+    <CLASSES />
+    <SOURCES />
+  </library>
+</component>
