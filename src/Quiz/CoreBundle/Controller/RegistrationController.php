@@ -18,6 +18,23 @@ class RegistrationController extends Controller
         $d = $this->get('doctrine')->getRepository('QuizCoreBundle:UserEntity');
         $user =   $d->findBy(['email' => $email]);
 
+        return count($user) >=  1 ?  new Response(0) : new Response(1);
+    }
+
+
+    public function usernameAvailableAction(Request $request) {
+        $email = $request->request->get('email');
+        $d = $this->get('doctrine')->getRepository('QuizCoreBundle:UserEntity');
+        $user =   $d->findBy(['username' => $email]);
+
+        return count($user) >=  1 ?  new Response(0) : new Response(1);
+    }
+
+
+    public function registryNumberAvailable(Request $request) {
+        $email = $request->request->get('email');
+        $d = $this->get('doctrine')->getRepository('QuizCoreBundle:UserEntity');
+        $user =   $d->findBy(['registryNumber' => $email]);
 
         return count($user) >=  1 ?  new Response(0) : new Response(1);
     }

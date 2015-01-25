@@ -10,8 +10,21 @@ _teacher:
     path: /teacher
     defaults: {_controller: QuizCoreBundle:Default:teacher}
 
-_registration:
+_registration_check_email:
     path: /register/checkEmail
     defaults: {_controller: QuizCoreBundle:Registration:emailAvailable, email: null}
+    requirements:
+        _method: POST
+
+_registration_check_username:
+    path: /register/checkUsername
+    defaults: {_controller: QuizCoreBundle:Registration:usernameAvailable, username: null}
+    requirements:
+        _method: POST
+
+
+_registration_check_registry_number:
+    path: /register/checkRegistryNumber
+    defaults: {_controller: QuizCoreBundle:Registration:usernameAvailable, registryNumber: null}
     requirements:
         _method: POST
