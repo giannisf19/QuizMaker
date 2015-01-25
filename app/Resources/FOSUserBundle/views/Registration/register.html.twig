@@ -4,7 +4,7 @@
 
     {% block stylesheets %}
         {% stylesheets '@QuizCoreBundle/Resources/public/css/registration.css' %}
-            <link rel="stylesheet" href="{{ asset_url }}">
+        <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
     {% endblock %}
 
@@ -16,22 +16,22 @@
                 <h2>{{ "Εγγραφή νέου χρήστη" | trans() }}</h2>
                 <hr class="colorgraph">
 
-                        <div class="form-group">
-                            <label for="fos_user_registration_form_firstName" class="col-sm-2 control-label">{{ 'Όνομα' | trans() }}:</label>
-                            <div class="col-xs-10 input-group">
-                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: name, valueUpdate: 'afterkeydown'" }}) }}
-                                <div class="input-group-addon" data-bind="css: name.isValid() ? 'valid' : '' "><i data-bind="css: name.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
-                            </div>
-
-                        </div>
-
-                    <div class="form-group">
-                        <label for="fos_user_registration_form_lastName" class="col-sm-2 control-label">{{ 'Επώνυμο' | trans() }}:</label>
-                        <div class="col-xs-10 input-group">
-                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: lastName, valueUpdate: 'afterkeydown'" }}) }}
-                            <div class="input-group-addon" data-bind="css: lastName.isValid() ? 'valid' : '' "><i data-bind="css: lastName.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
-                        </div>
+                <div class="form-group">
+                    <label for="fos_user_registration_form_firstName" class="col-sm-2 control-label">{{ 'Όνομα' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: name, valueUpdate: 'afterkeydown'" }}) }}
+                        <div class="input-group-addon" data-bind="css: name.isValid() ? 'valid' : '' "><i data-bind="css: name.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
                     </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_lastName" class="col-sm-2 control-label">{{ 'Επώνυμο' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.lastName, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: lastName, valueUpdate: 'afterkeydown'" }}) }}
+                        <div class="input-group-addon" data-bind="css: lastName.isValid() ? 'valid' : '' "><i data-bind="css: lastName.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
+                    </div>
+                </div>
 
 
                 <div class="form-group">
@@ -42,21 +42,21 @@
                     </div>
                 </div>
 
-               <div class="form-group">
-                   <label for="fos_user_registration_form_registryNumber" class="col-sm-2 control-label">{{ 'ΑΕΜ' | trans() }}:</label>
-                   <div class="col-xs-10 input-group">
-                       {{ form_widget(form.registryNumber, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: registrationNumber, valueUpdate: 'afterkeydown'" }}) }}
-                       <div class="input-group-addon" data-bind="css: registrationNumber.isValid() ? 'valid' : '' "><i data-bind="css: registrationNumber.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
-                   </div>
-               </div>
+                <div class="form-group">
+                    <label for="fos_user_registration_form_registryNumber" class="col-sm-2 control-label">{{ 'ΑΕΜ' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.registryNumber, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: registrationNumber, valueUpdate: 'afterkeydown'" }}) }}
+                        <div class="input-group-addon" data-bind="css: registrationNumber.isValid() ? 'valid' : '' "><i data-bind="css: registrationNumber.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <label for="fos_user_registration_form_semester" class="col-sm-2 control-label">{{ 'Εξάμηνο' | trans() }}:</label>
-                            <div class="col-xs-10 input-group">
-                                {{ form_widget(form.semester, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: semester, valueUpdate: 'afterkeydown' " }}) }}
-                                <div class="input-group-addon" data-bind="css: semester.isValid() ? 'valid' : '' "><i data-bind="css: semester.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label for="fos_user_registration_form_semester" class="col-sm-2 control-label">{{ 'Εξάμηνο' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.semester, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: semester, valueUpdate: 'afterkeydown' " }}) }}
+                        <div class="input-group-addon" data-bind="css: semester.isValid() ? 'valid' : '' "><i data-bind="css: semester.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
+                    </div>
+                </div>
 
 
                 {{ form_row(form._token) }}
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label for="fos_user_registration_form_plainPassword_second" class="col-sm-2 control-label">{{ 'Επαλήθευση' | trans() }}:</label>
                     <div class="col-xs-10 input-group">
-                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control col-sm-10', 'data-bind': "value: validatePassword, valueUpdate: 'afterkeydpwm'" }}) }}
+                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control col-sm-10', 'data-bind': "value: validatePassword, valueUpdate: 'afterkeydown'" }}) }}
                         <div class="input-group-addon" data-bind="css: validatePassword.isValid() ? 'valid' : ''"><i data-bind="css: validatePassword.isValid() ? 'fa fa-check'  : 'fa fa-times'"></i> </div>
 
                     </div>
@@ -114,20 +114,20 @@
 
 {% block javascripts %}
     {% javascripts '@QuizCoreBundle/Resources/public/js/models/registration/RegistrationModel.js'  %}
-        <script src="{{ asset_url }}" type="text/javascript"></script>
+    <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
     {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.js'  %}
-        <script src="{{ asset_url }}" type="text/javascript"></script>
+    <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
     {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.el-gr.js'  %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
 
     <script type="text/javascript">
-        var vm = new RegistrationModule();
+        var vm = new RegistrationModule('{{ app.request.host  }}', '{{ app.request.port  }}');
 
         {% if app.request.locale == 'el' %}
-            ko.validation.locale('el-GR');
+        ko.validation.locale('el-GR');
         {% endif %}
 
         ko.applyBindings(vm);
