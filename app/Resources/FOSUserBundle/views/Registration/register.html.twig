@@ -46,7 +46,11 @@
                     <label for="fos_user_registration_form_registryNumber" class="col-sm-2 control-label">{{ 'ΑΕΜ' | trans() }}:</label>
                     <div class="col-xs-10 input-group">
                         {{ form_widget(form.registryNumber, {'attr': {'class': 'form-control col-sm-10', 'data-bind' : "value: registrationNumber, valueUpdate: 'afterkeydown'" }}) }}
-                        <div class="input-group-addon" data-bind="css: registrationNumber.isValid() ? 'valid' : '' "><i data-bind="css: registrationNumber.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
+                        <div class="input-group-addon" data-bind="css: registrationNumber.isValid() ? 'valid' : '' ">
+                            <i data-bind="visible: !registrationNumber.isValidating(), css: registrationNumber.isValid() ? 'fa fa-check' : 'fa fa-times' "></i>
+                            <i data-bind="visible: registrationNumber.isValidating()" class="fa fa-spinner fa-spin"></i>
+
+                        </div>
                     </div>
                 </div>
 
@@ -64,7 +68,11 @@
                     <label for="fos_user_registration_form_username" class="col-sm-2 control-label">{{ 'Όνομα χρήστη' | trans() }}:</label>
                     <div class="col-xs-10 input-group">
                         {{ form_widget(form.username, {'attr': {'class': 'form-control col-sm-10', 'data-bind': "value: userName, valueUpdate: 'afterkeydown'" }}) }}
-                        <div class="input-group-addon" data-bind="css: userName.isValid() ? 'valid' : '' "><i data-bind="css: userName.isValid() ? 'fa fa-check' : 'fa fa-times' "></i> </div>
+                        <div class="input-group-addon" data-bind="css: userName.isValid() ? 'valid' : '' ">
+                            <i data-bind="visible: !userName.isValidating(), css: userName.isValid() ? 'fa fa-check' : 'fa fa-times' "></i>
+                            <i data-bind="visible: userName.isValidating()" class="fa fa-spinner fa-spin"></i>
+
+                        </div>
                     </div>
                 </div>
 
@@ -73,7 +81,10 @@
                     <label for="fos_user_registration_form_email" class="col-sm-2 control-label">{{ 'Email' | trans() }}:</label>
                     <div class="col-xs-10 input-group">
                         {{ form_widget(form.email, {'attr': {'class': 'form-control col-sm-10', 'data-bind': "value: email, valueUpdate: 'afterkeydown'" }}) }}
-                        <div class="input-group-addon" data-bind="css: email.isValid() ? 'valid' : ''"><i data-bind="css: email.isValid() ? 'fa fa-check'  : 'fa fa-times'"></i> </div>
+                        <div class="input-group-addon" data-bind="css: email.isValid() ? 'valid' : ''">
+                            <i data-bind="visible: !email.isValidating() ,css: email.isValid() ? 'fa fa-check'  : 'fa fa-times'"></i>
+                            <i data-bind="visible: email.isValidating()" class="fa fa-spinner fa-spin"></i>
+                        </div>
                     </div>
 
                     {% if  form_errors(form.email)  %}
