@@ -1,22 +1,45 @@
 {% extends "QuizCoreBundle::layout.html.twig" %}
 
+{% block stylesheets %}
+ {% stylesheets 'bundles/quizcore/css/index.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
 
+{% endblock %}
 
 
 {% block container %}
-    <div class="row">
-        <div class="col-sm-6">
-            <p>Column 123</p>
-            <p>
-                {{ locale }}
 
-                {% verbatim %}
-                    {{ nananai }}
-                {% endverbatim %}
-            </p>
+
+
+    <div class="row">
+        <div class="col-sm-12 user-bar">
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <i class="fa fa-home fa-3x"></i>
+                </div>
+
+                <div class="col-sm-6">
+                    <h3>Welcome</h3>
+                </div>
+
+                <div class="col-sm-3">
+
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div>
+                        <a href="/login">{{ 'Είσοδος' | trans }}</a> ή <a href="/register">{{ 'Εγγραφή' | trans }}</a>
+                    </div>
+                    {% else %}
+                        {{ app.user }}
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
         </div>
-        <div class="col-sm-6">
-            <p>Column 2</p>
-        </div>
-    </div>
+
+     </div>
 {% endblock %}
