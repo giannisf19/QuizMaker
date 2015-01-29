@@ -1,4 +1,32 @@
 .user-bar {
-
     background: tomato;
+}
+
+.filter-bar {
+    margin-top: 10px;
+}
+
+.quiz-info-box {
+    width: 200px;
+    height: auto;
+    background: #8fc6f9;
+    margin-top: 60px;
+    padding: 2px 4px;
+}
+
+.quiz-name {
+    font-size: 20px;
+    color: white;
+    letter-spacing: 1px;
+    padding-right: 5px;
+    background: darkgreen;
+}
+
+.quiz-list {
+    list-style: none;
+
+}
+
+.quiz-list > li {
+    display: inline-block;
 }

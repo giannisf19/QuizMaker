@@ -28,3 +28,10 @@ _registration_check_registry_number:
     defaults: {_controller: QuizCoreBundle:Registration:usernameAvailable, registryNumber: null}
     requirements:
         _method: POST
+
+_quiz_page:
+        path: /quiz/{id}
+        defaults: {_controller: QuizCoreBundle:Quiz:index, id: 0}
+        requirements:
+            page: \d+
+            _method: GET

@@ -30,6 +30,19 @@ class Quiz
      */
     private $name;
 
+    /**
+     * @ORM\Column(name="Private", type="boolean")
+     */
+
+    private $isPrivate;
+
+
+    /**
+     * @ORM\Column(name="Disabled", type="boolean")
+     */
+
+    private $isDisabled;
+
 
     /**
      * Get id
