@@ -1,0 +1,21 @@
+{% extends '@QuizCore/layout.html.twig' %}
+
+{% block pageTitle %}Quiz page yahh{% endblock %}
+
+
+{% block stylesheets %}
+    {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block container %}
+    <div class="container-fluid">
+        <div class="user-bar">
+            user bar
+        </div>
+
+
+    </div>
+{% endblock %}

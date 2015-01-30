@@ -21,7 +21,7 @@ class QuizController extends Controller
 
             // Valid test
 
-
+           return  $this->render('@QuizCore/Default/quiz.twig');
 
         }
     }

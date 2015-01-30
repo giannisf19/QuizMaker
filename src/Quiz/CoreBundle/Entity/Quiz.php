@@ -45,6 +45,12 @@ class Quiz
 
 
     /**
+     * @ORM\Column(name="Time", type="datetime")
+     */
+
+    private $time;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -118,5 +124,74 @@ class Quiz
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+    /**
+     * Set isPrivate
+     *
+     * @param boolean $isPrivate
+     * @return Quiz
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+
+        return $this;
+    }
+
+    /**
+     * Get isPrivate
+     *
+     * @return boolean 
+     */
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
+    /**
+     * Set isDisabled
+     *
+     * @param boolean $isDisabled
+     * @return Quiz
+     */
+    public function setIsDisabled($isDisabled)
+    {
+        $this->isDisabled = $isDisabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isDisabled
+     *
+     * @return boolean 
+     */
+    public function getIsDisabled()
+    {
+        return $this->isDisabled;
+    }
+
+    /**
+     * Set time
+     *
+     * @param \DateTime $time
+     * @return Quiz
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * Get time
+     *
+     * @return \DateTime 
+     */
+    public function getTime()
+    {
+        return $this->time;
     }
 }
