@@ -1,21 +1,33 @@
 {% extends '@QuizCore/layout.html.twig' %}
 
-{% block pageTitle %}Quiz page yahh{% endblock %}
-
+{% block pageTitle %}Magicc{% endblock %}
 
 {% block stylesheets %}
-    {% stylesheets '@QuizCoreBundle/Resources/public/css/index.css' %}
+    {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
 
 {% endblock %}
 
 {% block container %}
-    <div class="container-fluid">
+
         <div class="user-bar">
-            user bar
-        </div>
+            {{ quiz.name }}
 
 
     </div>
-{% endblock %}
+
+    <ul>
+        {% for question in quiz.questions %}
+            <li>{{ question.questionText }}
+
+            <ul>
+                {% for answer in question.answers %}
+                    <li>{{ answer.answerText }}</li>
+                {% endfor %}
+            </ul>
+
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock  %}

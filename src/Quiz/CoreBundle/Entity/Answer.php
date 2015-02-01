@@ -30,6 +30,29 @@ class Answer
 
 
     /**
+     * @ORM\Column(name="Correct", type="boolean")
+     */
+    private $isCorrect;
+
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
+     */
+    private $question;
+
+
+
+
+
+
+    public function __construct() {
+        $this->isCorrect = false;
+    }
+
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -39,34 +62,9 @@ class Answer
         return $this->id;
     }
 
-    /**
-     * Set questionText
-     *
-     * @param string $questionText
-     * @return Answer
-     */
-    public function setQuestionText($questionText)
-    {
-        $this->questionText = $questionText;
 
-        return $this;
-    }
 
-    /**
-     * Get questionText
-     *
-     * @return string 
-     */
-    public function getQuestionText()
-    {
-        return $this->questionText;
-    }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
-     */
-    protected $question;
 
     /**
      * Set question
@@ -74,12 +72,12 @@ class Answer
      * @param \Quiz\CoreBundle\Entity\Question $question
      * @return Answer
      */
-    public function setQuestion(\Quiz\CoreBundle\Entity\Question $question = null)
+    public function setQuestion( $question )
     {
         $this->question = $question;
-
         return $this;
     }
+
 
     /**
      * Get question
@@ -112,5 +110,28 @@ class Answer
     public function getAnswerText()
     {
         return $this->answerText;
+    }
+
+    /**
+     * Set isCorrect
+     *
+     * @param boolean $isCorrect
+     * @return Answer
+     */
+    public function setIsCorrect($isCorrect)
+    {
+        $this->isCorrect = $isCorrect;
+
+        return $this;
+    }
+
+    /**
+     * Get isCorrect
+     *
+     * @return boolean 
+     */
+    public function getIsCorrect()
+    {
+        return $this->isCorrect;
     }
 }

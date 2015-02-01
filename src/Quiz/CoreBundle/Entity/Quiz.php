@@ -50,6 +50,13 @@ class Quiz
 
     private $time;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\TestResult", mappedBy="quiz", cascade={"persist"})
+     */
+
+    private $TestResults;
+
     /**
      * Get id
      *
@@ -85,12 +92,17 @@ class Quiz
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", mappedBy="quizes")
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="quizes", cascade={"persist"})
      */
     protected $questions;
 
+
     public function __construct() {
         $this->questions = new ArrayCollection();
+        $this->TestResults = new ArrayCollection();
+        $this->isPrivate = true;
+        $this->isDisabled = false;
+        $this->time = new \DateTime();
     }
 
     /**
@@ -99,10 +111,9 @@ class Quiz
      * @param \Quiz\CoreBundle\Entity\Question $questions
      * @return Quiz
      */
-    public function addQuestion(\Quiz\CoreBundle\Entity\Question $questions)
+    public function addQuestion(\Quiz\CoreBundle\Entity\Question $question)
     {
-        $this->questions[] = $questions;
-
+        $this->questions->add($question);
         return $this;
     }
 

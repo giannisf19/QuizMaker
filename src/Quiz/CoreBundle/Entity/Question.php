@@ -26,13 +26,13 @@ class Question {
     protected $questionText;
 
    /**
-    * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question")
+    * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question", cascade={"persist"})
     */
-    protected $answers;
+    private $answers;
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", inversedBy="questions")
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="questions" )
      */
     protected $quizes;
 
@@ -80,9 +80,10 @@ class Question {
      * @param \Quiz\CoreBundle\Entity\Answer $answers
      * @return Question
      */
-    public function addAnswer(\Quiz\CoreBundle\Entity\Answer $answers)
+    public function addAnswer(\Quiz\CoreBundle\Entity\Answer $answer)
     {
-        $this->answers[] = $answers;
+        $this->answers->add($answer);
+        $answer->setQuestion($this);
 
         return $this;
     }
@@ -115,7 +116,7 @@ class Question {
      */
     public function addQuiz(\Quiz\CoreBundle\Entity\Quiz $quizes)
     {
-        $this->quizes[] = $quizes;
+        $this->quizes->add($quizes);
         return $this;
     }
 
@@ -147,8 +148,11 @@ class Question {
      */
     public function addQuize(\Quiz\CoreBundle\Entity\Quiz $quizes)
     {
-        $this->quizes[] = $quizes;
-
+        $this->quizes->add($quizes);
         return $this;
     }
+
+   public function __toString() {
+       return $this->questionText;
+   }
 }
