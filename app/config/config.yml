@@ -47,6 +47,7 @@ assetic:
 
 
 
+
 # Doctrine Configuration
 doctrine:
     dbal:

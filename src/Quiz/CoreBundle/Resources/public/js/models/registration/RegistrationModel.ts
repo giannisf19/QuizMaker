@@ -6,7 +6,6 @@
 class RegistrationModule {
 
 
-
     email : KnockoutObservable<string> ;
     userName : KnockoutObservable<string> ;
     registrationNumber : KnockoutObservable<Number> ;
@@ -39,10 +38,7 @@ class RegistrationModule {
         this.host(host);
 
 
-
     }
-
-
 
 
 
@@ -57,9 +53,8 @@ class RegistrationModule {
 
                 $.ajax({
                     method: 'post',
-                    url:  location.pathname + 'check' + type,
                     data: { email: val },
-                    success: function(result) {
+                    success: (result : any) => {
                         if (result == 1) {
                             callback(true);
                         } else {

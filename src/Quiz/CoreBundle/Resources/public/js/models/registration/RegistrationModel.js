@@ -25,7 +25,6 @@ var RegistrationModule = (function () {
             validator: function (val, type, callback) {
                 $.ajax({
                     method: 'post',
-                    url: location.pathname + 'check' + type,
                     data: { email: val },
                     success: function (result) {
                         if (result == 1) {

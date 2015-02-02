@@ -35,12 +35,7 @@ class TestResult
      */
     private $question;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="answer", type="object")
-     */
-    private $answer;
+
 
     /**
      * @var \DateTime
@@ -210,5 +205,10 @@ class TestResult
     public function getDegree()
     {
         return $this->degree;
+    }
+
+
+    public function __construct() {
+
     }
 }
