@@ -5,6 +5,8 @@ namespace Quiz\CoreBundle\Controller;
 use Quiz\CoreBundle\Entity\Answer;
 use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
+use Quiz\CoreBundle\Entity\Result;
+use Quiz\CoreBundle\Entity\TestResult;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,6 +15,10 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class QuizController extends Controller
 {
+    /**
+     * @param $id
+     * @return RedirectResponse|Response
+     */
     public function indexAction($id)
     {
 
@@ -28,10 +34,12 @@ class QuizController extends Controller
             // Valid test
             // render the test page
 
-
             $em = $this->getDoctrine()->getManager();
-
             $quiz = $em->getRepository('QuizCoreBundle:Quiz')->find(1);
+
+
+
+
 
 
            return  $this->render('@QuizCore/Default/quiz.html.twig', ['quiz' => $quiz]);

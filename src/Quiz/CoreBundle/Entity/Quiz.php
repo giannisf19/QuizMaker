@@ -205,4 +205,37 @@ class Quiz
     {
         return $this->time;
     }
+
+    /**
+     * Add TestResults
+     *
+     * @param \Quiz\CoreBundle\Entity\TestResult $testResults
+     * @return Quiz
+     */
+    public function addTestResult(\Quiz\CoreBundle\Entity\TestResult $testResults)
+    {
+        $this->TestResults[] = $testResults;
+
+        return $this;
+    }
+
+    /**
+     * Remove TestResults
+     *
+     * @param \Quiz\CoreBundle\Entity\TestResult $testResults
+     */
+    public function removeTestResult(\Quiz\CoreBundle\Entity\TestResult $testResults)
+    {
+        $this->TestResults->removeElement($testResults);
+    }
+
+    /**
+     * Get TestResults
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTestResults()
+    {
+        return $this->TestResults;
+    }
 }

@@ -22,16 +22,16 @@ class Result
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="question", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Question")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
     private $question;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="answer", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer")
+     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
      */
     private $answer;
 

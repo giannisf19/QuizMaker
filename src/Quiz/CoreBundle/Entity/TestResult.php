@@ -2,7 +2,9 @@
 
 namespace Quiz\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * TestResult
@@ -28,14 +30,14 @@ class TestResult
      */
     private $quiz;
 
+
     /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="question", type="object")
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Result")
+     * @ORM\JoinTable(name="test_results",
+     * joinColumns={@ORM\JoinColumn(name="test_result_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="result_id", referencedColumnName="id", unique=true)})
      */
-    private $question;
-
-
+    protected $results;
 
     /**
      * @var \DateTime
@@ -92,51 +94,7 @@ class TestResult
         return $this->quiz;
     }
 
-    /**
-     * Set question
-     *
-     * @param \stdClass $question
-     * @return TestResult
-     */
-    public function setQuestion($question)
-    {
-        $this->question = $question;
 
-        return $this;
-    }
-
-    /**
-     * Get question
-     *
-     * @return \stdClass 
-     */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    /**
-     * Set answer
-     *
-     * @param \stdClass $answer
-     * @return TestResult
-     */
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
-    /**
-     * Get answer
-     *
-     * @return \stdClass 
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
-    }
 
     /**
      * Set date
@@ -209,6 +167,39 @@ class TestResult
 
 
     public function __construct() {
+        $this->results = new ArrayCollection();
+    }
 
+    /**
+     * Add results
+     *
+     * @param \Quiz\CoreBundle\Entity\Result $results
+     * @return TestResult
+     */
+    public function addResult(\Quiz\CoreBundle\Entity\Result $results)
+    {
+        $this->results[] = $results;
+
+        return $this;
+    }
+
+    /**
+     * Remove results
+     *
+     * @param \Quiz\CoreBundle\Entity\Result $results
+     */
+    public function removeResult(\Quiz\CoreBundle\Entity\Result $results)
+    {
+        $this->results->removeElement($results);
+    }
+
+    /**
+     * Get results
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResults()
+    {
+        return $this->results;
     }
 }
