@@ -23,12 +23,11 @@ class RegistrationModule {
 
     constructor(host, port) {
 
-        RegistrationModule.Init();
+        this.Init();
 
         this.email = ko.observable<string>().extend({ validateInput: 'Email',  email: true, required: true});
         this.registrationNumber  = ko.observable<Number>().extend({validateInput: 'RegistryNumber',  required: true, number: true});
-        this.userName = ko.observable<string>().extend({validateInput: 'RegistryNumber',  required: true});
-
+        this.userName = ko.observable<string>().extend({validateInput: 'username',  required: true});
 
 
         if (port != 80) {
@@ -44,17 +43,37 @@ class RegistrationModule {
 
 
 
-    static Init() {
-
+     Init() {
 
         ko.validation.rules['validateInput'] = {
             async: true,
             validator: (val, type, callback) => {
 
+
+                var url = location.href;
+
+                switch (type) {
+                    case 'Email':
+                        url +=  'checkEmail';
+                        break;
+                    case 'username':
+                        url +=  'checkUsername';
+                        break;
+                    case 'RegistryNumber':
+                        url +=  'checkRegistryNumber';
+                        break;
+                }
+
+                if (! val) {
+                    callback(false);
+                    return;
+                }
                 $.ajax({
+                    url: url,
                     method: 'post',
                     data: { email: val },
                     success: (result : any) => {
+                        console.log(result);
                         if (result == 1) {
                             callback(true);
                         } else {

@@ -138,7 +138,7 @@
         var vm = new RegistrationModule('{{ app.request.host  }}', '{{ app.request.port  }}');
 
         {% if app.request.locale == 'el' %}
-        ko.validation.locale('el-GR');
+            ko.validation.locale('el-GR');
         {% endif %}
 
         ko.applyBindings(vm);
