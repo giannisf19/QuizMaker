@@ -12,22 +12,53 @@
 {% block container %}
 
         <div class="user-bar">
-            {{ quiz.name }}
+            {{ include('@QuizCore/Partials/_header.html.twig')}}
+    </div>
 
+
+    <div class="row top-buffer">
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ include('@QuizCore/Partials/_quiz_details.html.twig') }}
+                </div>
+            </div>
+
+            <span class="btn btn-block btn-success">{{ 'Έναρξη' | trans }}</span>
+
+        </div>
 
     </div>
 
-    <ul>
-        {% for question in quiz.questions %}
-            <li>{{ question.questionText }}
 
-            <ul>
-                {% for answer in question.answers %}
-                    <li>{{ answer.answerText }}</li>
-                {% endfor %}
-            </ul>
 
-            </li>
-        {% endfor %}
-    </ul>
 {% endblock  %}
+
+
+{% block javascripts %}
+
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.plugin.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.countdown.js' %}
+    <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+
+
+    {% if app.request.locale == 'el' %}
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.countdown-el.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+        {% endjavascripts %}
+    {% endif %}
+
+
+    <script type="text/javascript">
+        $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true})
+    </script>
+
+
+{% endblock %}

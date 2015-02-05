@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
+
+
         {% stylesheets '@QuizCoreBundle/Resources/public/css/material-wfont.min.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
@@ -58,7 +60,7 @@
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        <script>
+        <script type="text/javascript">
             $(function() {
                 $.material.init();
             });

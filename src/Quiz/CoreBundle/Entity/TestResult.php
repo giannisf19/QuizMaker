@@ -23,6 +23,14 @@ class TestResult
      */
     private $id;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\UserEntity")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+
+    private $user;
+
     /**
      * @var \stdClass
      *
@@ -201,5 +209,28 @@ class TestResult
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Quiz\CoreBundle\Entity\UserEntity $user
+     * @return TestResult
+     */
+    public function setUser(\Quiz\CoreBundle\Entity\UserEntity $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Quiz\CoreBundle\Entity\UserEntity 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
