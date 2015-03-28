@@ -22,11 +22,15 @@ class QuizController extends Controller
     public function indexAction($id)
     {
 
+        // current user
+        $user = $this->getUser();
+
+
         // No quiz selected go back to main page
         // or show error page
 
        if ($id == 0) {
-           return new RedirectResponse($this->get('router')->getContext()->getBaseUrl(), 302);
+           return new RedirectResponse($this->get('router')->getContext()->getBaseUrl(), 301);
        }
 
         else {
@@ -35,13 +39,17 @@ class QuizController extends Controller
             // render the test page
 
             $em = $this->getDoctrine()->getManager();
-            $quiz = $em->getRepository('QuizCoreBundle:Quiz')->find(1);
+            $quiz = $em->getRepository('QuizCoreBundle:Quiz')->find($id);
 
 
+            // check if the quiz is public OR we have a user logged in
+
+            if ($quiz->getIsPrivate() && !$user) {
+                return new RedirectResponse($this->get('router')->getContext()->getBaseUrl(), 301);
+            }
 
 
-
-
+            // render the page
            return  $this->render('@QuizCore/Default/quiz.html.twig', ['quiz' => $quiz]);
 
         }

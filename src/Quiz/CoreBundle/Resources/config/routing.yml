@@ -10,6 +10,10 @@ _teacher:
     path: /teacher
     defaults: {_controller: QuizCoreBundle:Default:teacher}
 
+_add_quiz_debug:
+  path: /addquiz
+  defaults: {_controller: QuizCoreBundle:Default:addQuiz}
+
 _registration_check_email:
     path: /register/checkEmail
     defaults: {_controller: QuizCoreBundle:Registration:emailAvailable, email: null}

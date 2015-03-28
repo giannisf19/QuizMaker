@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/QuizModel.js" />
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/QuizModel.js" />
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
