@@ -12,13 +12,6 @@
 
 
 
-        {% stylesheets '@QuizCoreBundle/Resources/public/css/material-wfont.min.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}">
-        {% endstylesheets %}
-
-        {% stylesheets '@QuizCoreBundle/Resources/public/css/ripples.min.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}">
-        {% endstylesheets %}
 
         {% stylesheets 'bundles/quizcore/css/font-awesome.min.css'  filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}">
@@ -52,19 +45,9 @@
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/ripples.min.js' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/material.min.js' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
-        <script type="text/javascript">
-            $(function() {
-                $.material.init();
-            });
-        </script>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

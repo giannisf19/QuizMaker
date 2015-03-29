@@ -42,13 +42,25 @@ class Answer
     private $question;
 
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $leftOrRight;
 
-
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer")
+     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
+     *
+     */
+    protected $answer;
 
 
     public function __construct() {
         $this->isCorrect = false;
     }
+
+
 
 
 
@@ -133,5 +145,54 @@ class Answer
     public function getIsCorrect()
     {
         return $this->isCorrect;
+    }
+
+    /**
+     * Set leftOrRight
+     *
+     * @param string $leftOrRight
+     * @return Answer
+     */
+    public function setLeftOrRight($leftOrRight)
+    {
+        $this->leftOrRight = $leftOrRight;
+
+        return $this;
+    }
+
+    /**
+     * Get leftOrRight
+     *
+     * @return string 
+     */
+    public function getLeftOrRight()
+    {
+        return $this->leftOrRight;
+    }
+
+
+
+
+    /**
+     * Set answer
+     *
+     * @param \Quiz\CoreBundle\Entity\Answer $answer
+     * @return Answer
+     */
+    public function setAnswer(\Quiz\CoreBundle\Entity\Answer $answer = null)
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Get answer
+     *
+     * @return \Quiz\CoreBundle\Entity\Answer 
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
     }
 }

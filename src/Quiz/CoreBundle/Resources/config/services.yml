@@ -3,3 +3,9 @@ services:
       class: Quiz\CoreBundle\Form\Type\RegistrationFormType
       tags:
         - {name: form.type, alias: quiz_user_registration}
+
+    app.twig_extension:
+           class: Quiz\CoreBundle\Twig\GetQuizTypeName
+           public: false
+           tags:
+               - { name: twig.extension }

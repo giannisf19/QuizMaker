@@ -7,11 +7,24 @@
             <span><i class="fa fa-3x fa-clock"></i> </span>
         </div>
         <div class="row-content">
-            <h4 class="list-group-item-heading">Tile with another avatar</h4>
+            <h4 class="list-group-item-heading"></h4>
         </div>
     </div>
     <div class="list-group-separator"></div>
     <div class="list-group-item">
+
+
+
+
+
+
+        <ul>
+           {% for key,a in types %}
+            <li>{{ key|name }} {{ a }}</li>
+            {% endfor %}
+        </ul>
+
+
         <div class="row-action-primary checkbox">
             <label><input type="checkbox" checked disabled></label>
         </div>

@@ -28,48 +28,16 @@ class DefaultController extends Controller
     {
         $doctrine = $this->get("doctrine.orm.entity_manager");
 
-        $ong = $doctrine->getRepository("QuizCoreBundle:OngoingTest");
-        $qz = $doctrine->getRepository("QuizCoreBundle:Quiz");
 
+       return new JsonResponse("{date: " . (new \DateTime("now"))->format('h') . "}");
 
-
-        $first  = $ong->find(1);
-        $quiz = $qz->findOneBy(["id" => $first->getQuizId()]);
-        $questions = $quiz->getQuestions();
-
-
-        return new Response($questions->get(0));
     }
 
 
     public function addQuizAction() {
 
 
-        $quiz = new Quiz();
-        $quiz->setName("test quiz");
 
-        $question = new Question();
-
-        $question->setQuestionText("Ποια είναι η πρωτεύουσα της Ελλάδας?");
-        $answer = new Answer();
-        $answer2 = new Answer();
-
-        $answer->setAnswerText("Αθήνα");
-        $answer2->setAnswerText("Θεσσαλονίκη");
-
-        $question->addAnswer($answer);
-        $question->addAnswer($answer2);
-
-        $quiz->addQuestion($question);
-
-
-        $doctrine = $this->get("doctrine.orm.entity_manager");
-        $doctrine->persist($quiz);
-        $doctrine->flush();
-
-
-
-        return new Response("Adding");
     }
 
     public function teacherAction() {

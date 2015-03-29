@@ -21,6 +21,12 @@ class Question {
 
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+
+    protected $type;
+
+    /**
      * @ORM\Column(type="string")
      */
     protected $questionText;
@@ -155,4 +161,27 @@ class Question {
    public function __toString() {
        return $this->questionText;
    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Question
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

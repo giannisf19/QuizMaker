@@ -7,6 +7,7 @@ use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
 use Quiz\CoreBundle\Entity\Result;
 use Quiz\CoreBundle\Entity\TestResult;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,8 +39,9 @@ class QuizController extends Controller
             // Valid test
             // render the test page
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->get('doctrine.orm.entity_manager');
             $quiz = $em->getRepository('QuizCoreBundle:Quiz')->find($id);
+
 
 
             // check if the quiz is public OR we have a user logged in
@@ -49,8 +51,27 @@ class QuizController extends Controller
             }
 
 
+            $types = $quiz->getQuestions()->map(function($e) {
+               return $e->getType();
+            });
+
+
+
+            $t = ['multiple' => 0, 'match' => 0, 'truefalse' => 0];
+
+            foreach ($types as $d) {
+                if ($d == '') continue;
+                $t[$d] = (int)$t[$d] + 1;
+            }
+
+
+            $t = array_filter($t,function($item){
+                return $item != 0;
+            });
+
+
             // render the page
-           return  $this->render('@QuizCore/Default/quiz.html.twig', ['quiz' => $quiz]);
+           return  $this->render('@QuizCore/Default/quiz.html.twig', ['quiz' => $quiz, 'types' => $t]);
 
         }
     }
