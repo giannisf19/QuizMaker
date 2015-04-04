@@ -5,6 +5,7 @@ namespace Quiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Quiz
@@ -45,7 +46,7 @@ class Quiz
 
 
     /**
-     * @ORM\Column(name="Time", type="datetime")
+     * @ORM\Column(name="Time", type="integer")
      */
 
     private $time;
@@ -53,6 +54,7 @@ class Quiz
 
     /**
      * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\TestResult", mappedBy="quiz", cascade={"persist"})
+     * @Exclude()
      */
 
     private $TestResults;
@@ -102,7 +104,7 @@ class Quiz
         $this->TestResults = new ArrayCollection();
         $this->isPrivate = true;
         $this->isDisabled = false;
-        $this->time = new \DateTime();
+        $this->time = 60;
     }
 
     /**
@@ -192,7 +194,6 @@ class Quiz
     public function setTime($time)
     {
         $this->time = $time;
-
         return $this;
     }
 

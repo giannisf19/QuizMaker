@@ -4,6 +4,7 @@
 namespace Quiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 
 /**
@@ -39,6 +40,7 @@ class Question {
 
     /**
      * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="questions" )
+     * @Exclude()
      */
     protected $quizes;
 

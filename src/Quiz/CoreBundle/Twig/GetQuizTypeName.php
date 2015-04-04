@@ -6,7 +6,9 @@
  * Time: 10:53 μμ
  */
 
-class GetQuizTypeName
+namespace Quiz\CoreBundle\Twig;
+
+class GetQuizTypeName extends \Twig_Extension
 {
 
 
@@ -21,7 +23,16 @@ class GetQuizTypeName
     }
 
     public function nameFilter($type) {
-        return strtoupper($type);
+        switch($type) {
+            case 'multiple':
+                return 'πολλαπλής επιλογής';
+            case 'match':
+                return 'αντιστοίχισης';
+            case 'truefalse':
+                return 'σωστού λάθους';
+            case 'essay':
+                return 'ανάπτυξης';
+        }
     }
 
     public function getFilters() {

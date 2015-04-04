@@ -3,6 +3,7 @@
 namespace Quiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Answer
@@ -31,6 +32,7 @@ class Answer
 
     /**
      * @ORM\Column(name="Correct", type="boolean")
+     * @Exclude()
      */
     private $isCorrect;
 
@@ -59,8 +61,6 @@ class Answer
     public function __construct() {
         $this->isCorrect = false;
     }
-
-
 
 
 

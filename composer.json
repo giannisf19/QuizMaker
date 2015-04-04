@@ -21,7 +21,8 @@
         "symfony/symfony1": "1.4.x-dev",
         "friendsofsymfony/user-bundle": "2.0.x-dev",
         "twbs/bootstrap": "3.3.0.x-dev",
-        "braincrafted/bootstrap-bundle": "2.1.x-dev"
+        "braincrafted/bootstrap-bundle": "2.1.x-dev",
+        "jms/serializer-bundle": "0.13.*"
 
     },
     "require-dev": {

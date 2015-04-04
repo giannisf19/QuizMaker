@@ -1,0 +1,44 @@
+{% extends '@QuizCore/layout.html.twig' %}
+
+{% block pageTitle %}Magicc{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block container %}
+
+        <div class="user-bar">
+            {{ include('@QuizCore/Partials/_header.html.twig')}}
+    </div>
+
+
+    <div class="row top-buffer">
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ include('@QuizCore/Partials/_quiz_details.html.twig') }}
+                </div>
+            </div>
+
+            <form method="post" action="{{ path(app.request.attributes.get('_route')) ~ '/' ~ quiz.getId ~ '/start'  }}">
+                <input type="hidden" name="quizId" value="{{ quiz.getId }}"/>
+                <input type="submit" class="btn btn-block btn-success" value='{{ 'Έναρξη' | trans }}' />
+            </form>
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+{% endblock  %}
+
+

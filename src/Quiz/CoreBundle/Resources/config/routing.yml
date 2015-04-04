@@ -39,3 +39,9 @@ _quiz_page:
         requirements:
             page: \d+
             _method: GET
+
+_start_quiz:
+            path: /quiz/{id}/start
+            defaults: {_controller: QuizCoreBundle:Quiz:start}
+            requirements:
+              _method: POST

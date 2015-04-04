@@ -1,0 +1,58 @@
+{% extends '@QuizCore/layout.html.twig' %}
+
+{% block pageTitle %}Τεστ {{ quiz.getName }}{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block container %}
+
+    <div class="user-bar">
+        {% include '@QuizCore/Partials/_header.html.twig' %}
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.plugin.min.js' %}
+<script type="text/javascript" src="{{ asset_url }}" ></script>
+{% endjavascripts %}
+
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.countdown.js' %}
+<script type="text/javascript" src="{{ asset_url }}" ></script>
+{% endjavascripts %}
+
+
+    {% if app.request.locale == 'el' %}
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.countdown-el.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+        {% endjavascripts %}
+    {% endif %}
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/QuizViewModel.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+
+{% endjavascripts %}
+
+
+<script type="text/javascript">
+    $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true})
+
+
+    var vm = new QuizViewModel('{{ sq |raw }}');
+
+    ko.applyBindings(vm);
+
+
+</script>
+
+{% endblock %}

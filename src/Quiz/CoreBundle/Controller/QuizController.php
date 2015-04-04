@@ -2,6 +2,7 @@
 
 namespace Quiz\CoreBundle\Controller;
 
+use Doctrine\DBAL\Types\JsonArrayType;
 use Quiz\CoreBundle\Entity\Answer;
 use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
@@ -11,7 +12,11 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class QuizController extends Controller
@@ -56,8 +61,7 @@ class QuizController extends Controller
             });
 
 
-
-            $t = ['multiple' => 0, 'match' => 0, 'truefalse' => 0];
+            $t = ['multiple' => 0, 'match' => 0, 'truefalse' => 0, 'essay' => 0];
 
             foreach ($types as $d) {
                 if ($d == '') continue;
@@ -69,10 +73,25 @@ class QuizController extends Controller
                 return $item != 0;
             });
 
+            $time = $quiz->getTime();
 
             // render the page
-           return  $this->render('@QuizCore/Default/quiz.html.twig', ['quiz' => $quiz, 'types' => $t]);
+           return  $this->render('@QuizCore/Quiz/quiz.html.twig', ['quiz' => $quiz, 'types' => $t,
+               'time' => $time
+           ]);
 
         }
+    }
+
+
+    public function startAction(Request $request) {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $quizrep  = $em->getRepository('QuizCoreBundle:Quiz');
+        $serializer = $this->get('serializer');
+        $quiz = $quizrep->findOneBy(['id' => $request->get('quizId')]);
+
+
+
+        return $this->render('@QuizCore/Quiz/quizStart.html.twig', ['quiz' => $quiz, 'sq' => $serializer->serialize($quiz, 'json')]);
     }
 }
