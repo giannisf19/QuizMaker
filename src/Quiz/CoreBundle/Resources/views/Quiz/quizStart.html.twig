@@ -17,6 +17,68 @@
 
 
 
+
+    <ul class="list-inline">
+    {% for a in quiz.getQuestions %}
+        <li>
+        <a href="#questions_carousel" data-slide-to="{{ loop.index0 }}">{{ loop.index0 }}</a></li>
+      {% endfor %}
+ </ul>
+
+
+
+    <div id="questions_carousel" class="carousel slide">
+
+
+        <form action="{{ path(app.request.attributes.get('_route')) ~ '/' ~ quiz.getId ~ '/submit' }}" method="post">
+
+
+        <div  class="carousel-inner" role="listbox">
+
+            {% for question in quiz.getQuestions %}
+
+                    <div class="item{{ loop.index0 == 0 ? ' active' }}">
+                        <div class="question-title">
+                            <span class="btn-block text-info text-center">{{ question.getQuestionText }}</span>
+                        </div>
+
+
+                            {% if question.getType == 'multiple' %}
+
+                                {% for answer in question.getAnswers %}
+                                    <div class="answer-line">
+                                        <input  class="answer"  type="checkbox" name="{{ quiz.getId  ~ ':' ~ answer.getId }}"/> <span> {{ answer.getAnswerText }} </span>
+                                    </div>
+
+                                {% endfor %}
+
+                            {% elseif question.getType == 'match' %}
+
+
+                            {% elseif question.getType == 'truefalse' %}
+
+                            {% elseif question.getType == 'essay' %}
+
+                            {% elseif question.getType == 'radio' %}
+
+                            {% endif %}
+
+
+
+            </div>
+
+            {% endfor %}
+
+        <input type="submit" class="btn btn-block btn-success" value={{ 'Αποστολή' | trans }} />
+
+
+    </div>
+        </form>
+
+    </div>
+
+
+
 {% endblock %}
 
 {% block javascripts %}
@@ -44,11 +106,18 @@
 {% endjavascripts %}
 
 
-<script type="text/javascript">
-    $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true})
+    {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/Quiz.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
 
+    {% endjavascripts %}
+
+
+<script type="text/javascript">
+    $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true});
 
     var vm = new QuizViewModel('{{ sq |raw }}');
+
+
 
     ko.applyBindings(vm);
 

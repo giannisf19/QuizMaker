@@ -22,6 +22,12 @@ class Question {
 
 
     /**
+     * @ORM\Column(type="integer")
+     */
+
+    protected $order;
+
+    /**
      * @ORM\Column(type="string", nullable=false)
      */
 
@@ -185,5 +191,28 @@ class Question {
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set order
+     *
+     * @param integer $order
+     * @return Question
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer 
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

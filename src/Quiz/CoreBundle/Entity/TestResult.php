@@ -217,7 +217,7 @@ class TestResult
      * @param \Quiz\CoreBundle\Entity\UserEntity $user
      * @return TestResult
      */
-    public function setUser(\Quiz\CoreBundle\Entity\UserEntity $user = null)
+    public function setUser(UserEntity $user = null)
     {
         $this->user = $user;
 

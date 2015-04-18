@@ -88,10 +88,15 @@ class QuizController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         $quizrep  = $em->getRepository('QuizCoreBundle:Quiz');
         $serializer = $this->get('serializer');
-        $quiz = $quizrep->findOneBy(['id' => $request->get('quizId')]);
-
-
+        $quiz = $quizrep->findOneBy(['id' => 1]);
 
         return $this->render('@QuizCore/Quiz/quizStart.html.twig', ['quiz' => $quiz, 'sq' => $serializer->serialize($quiz, 'json')]);
+    }
+
+
+
+
+    public function submitQuizAction(Request $request) {
+
     }
 }
