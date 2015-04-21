@@ -8,6 +8,7 @@ use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
 use Quiz\CoreBundle\Entity\Result;
 use Quiz\CoreBundle\Entity\TestResult;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,8 +96,12 @@ class QuizController extends Controller
 
 
 
-
     public function submitQuizAction(Request $request) {
+        $response = $request->getContent();
 
+        $serializer = $this->get('serializer');
+
+
+        return new JsonResponse($response);
     }
 }

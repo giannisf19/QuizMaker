@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \Bmatzner\FontAwesomeBundle\BmatznerFontAwesomeBundle(),
             new QuizCoreBundle()
 
 

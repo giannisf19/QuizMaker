@@ -31,7 +31,7 @@ class RegistrationController extends Controller
     }
 
 
-    public function registryNumberAvailable(Request $request) {
+    public function registryNumberAvailableAction(Request $request) {
         $email = $request->request->get('email');
         $d = $this->get('doctrine')->getRepository('QuizCoreBundle:UserEntity');
         $user =   $d->findBy(['registryNumber' => $email]);

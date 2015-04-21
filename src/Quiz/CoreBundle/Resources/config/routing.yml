@@ -2,18 +2,6 @@ _index:
     path: /
     defaults: {_controller: QuizCoreBundle:Default:index}
 
-_test:
-    path: /test
-    defaults: {_controller: QuizCoreBundle:Default:test}
-
-_teacher:
-    path: /teacher
-    defaults: {_controller: QuizCoreBundle:Default:teacher}
-
-_add_quiz_debug:
-  path: /addquiz
-  defaults: {_controller: QuizCoreBundle:Default:addQuiz}
-
 _registration_check_email:
     path: /register/checkEmail
     defaults: {_controller: QuizCoreBundle:Registration:emailAvailable, email: null}
@@ -29,7 +17,7 @@ _registration_check_username:
 
 _registration_check_registry_number:
     path: /register/checkRegistryNumber
-    defaults: {_controller: QuizCoreBundle:Registration:usernameAvailable, registryNumber: null}
+    defaults: {_controller: QuizCoreBundle:Registration:registryNumberAvailable, registryNumber: null}
     requirements:
         _method: POST
 
@@ -46,7 +34,16 @@ _start_quiz:
             requirements:
               _method: GET
 
-#_quiz_results
-#        path: /quiz/{id}/submit
-#        defaults: {_controller: QuizCoreBundle:Quiz:submitQuiz}
-#        _method: POST
+_submit_quiz:
+        path: /quiz/{id}/submit
+        defaults: {_controller: QuizCoreBundle:Quiz:submitQuiz}
+        requirements:
+          _method: POST
+
+_edit_quiz:
+          path: /quiz/edit/{id}
+          defaults: {_controller: QuizCoreBundle:Admin:editOrCreateQuiz, id: null}
+
+_new_quiz:
+          path: /createQuiz
+          defaults: {_controller: QuizCoreBundle:Admin:editOrCreateQuiz, id: null}

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Controller/AdminController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Controller/DefaultController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Entity/Question.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Entity/UserEntity.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/css/quiz.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/views/Teacher/editQuiz.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/views/Teacher/teacherDashboard.html.twig" charset="UTF-8" />
+  </component>
 </project>
-

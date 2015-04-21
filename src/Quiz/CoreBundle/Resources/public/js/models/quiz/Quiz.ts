@@ -4,3 +4,17 @@ class UserAnswer {
     }
 }
 
+class QuizGradeResult {
+
+    public questionId : string;
+    public userAnswersId : any;
+    public correctAnswerId : any;
+
+    constructor(qid, userAnswer, correct) {
+        this.questionId = qid;
+        this.userAnswersId = userAnswer;
+        this.correctAnswerId = correct;
+    }
+
+}
+

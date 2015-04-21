@@ -25,6 +25,12 @@ class Quiz
     private $id;
 
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\UserEntity", inversedBy="quizes", cascade={"persist"})
+     * @Exclude()
+     */
+
+    private $owners;
 
 
     /**
@@ -241,5 +247,38 @@ class Quiz
     public function getTestResults()
     {
         return $this->TestResults;
+    }
+
+    /**
+     * Add owners
+     *
+     * @param \Quiz\CoreBundle\Entity\UserEntity $owners
+     * @return Quiz
+     */
+    public function addOwner(\Quiz\CoreBundle\Entity\UserEntity $owners)
+    {
+        $this->owners[] = $owners;
+
+        return $this;
+    }
+
+    /**
+     * Remove owners
+     *
+     * @param \Quiz\CoreBundle\Entity\UserEntity $owners
+     */
+    public function removeOwner(\Quiz\CoreBundle\Entity\UserEntity $owners)
+    {
+        $this->owners->removeElement($owners);
+    }
+
+    /**
+     * Get owners
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwners()
+    {
+        return $this->owners;
     }
 }

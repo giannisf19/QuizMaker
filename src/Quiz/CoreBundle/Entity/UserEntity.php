@@ -5,6 +5,7 @@ namespace Quiz\CoreBundle\Entity;
 use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use JMS\Serializer\Annotation\Exclude;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -28,19 +29,26 @@ class UserEntity extends BaseUser {
 
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $registryNumber;
 
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="owners" )
+     * @Exclude()
+     */
+
+    private $quizes;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $semester;
 
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $lastName;
 
@@ -64,7 +72,6 @@ class UserEntity extends BaseUser {
 
     public function __construct() {
         parent::__construct();
-        $this->setRoles(["ROLE_STUDENT"]);
     }
 
 
@@ -165,7 +172,6 @@ class UserEntity extends BaseUser {
     public function setRegistryNumber($registryNumber)
     {
         $this->registryNumber = $registryNumber;
-
         return $this;
     }
 
@@ -200,5 +206,38 @@ class UserEntity extends BaseUser {
     public function getSemester()
     {
         return $this->semester;
+    }
+
+    /**
+     * Add quizes
+     *
+     * @param \Quiz\CoreBundle\Entity\Quiz $quizes
+     * @return UserEntity
+     */
+    public function addQuize(\Quiz\CoreBundle\Entity\Quiz $quizes)
+    {
+        $this->quizes[] = $quizes;
+
+        return $this;
+    }
+
+    /**
+     * Remove quizes
+     *
+     * @param \Quiz\CoreBundle\Entity\Quiz $quizes
+     */
+    public function removeQuize(\Quiz\CoreBundle\Entity\Quiz $quizes)
+    {
+        $this->quizes->removeElement($quizes);
+    }
+
+    /**
+     * Get quizes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQuizes()
+    {
+        return $this->quizes;
     }
 }

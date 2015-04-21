@@ -1,0 +1,99 @@
+{% extends '@QuizCore/layout.html.twig' %}
+
+
+{% if quiz is not null %}
+    {% set name = ' του ' ~ quiz.getName %}
+{% else %}
+    {% set name =   ' νέου Quiz' %}
+{% endif %}
+
+{% block pageTitle %}{{ action ~ name }}{% endblock %}
+
+
+{% block container %}
+
+{% include '@QuizCore/Partials/_header.html.twig' %}
+
+
+<div class="row">
+
+<div class="col-xs-12">
+    <h2 class="page-header">{{ action ~ name }}</h2>
+
+    <form class="form-horizontal" role="form">
+
+    <div class="form-group">
+        <label for="name" class="control-label col-sm-2">Όνομα:</label>
+        <div class="col-sm-6 input-group">
+            <input id="name" type="text" class="form-control "
+                   value="{{ quiz.getName }}"/>
+            <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+            <label for="duration" class="control-label col-sm-2">Διάρκεια (λεπτά):</label>
+            <div class="col-sm-6 input-group">
+                <input id="duration" type="text" class="form-control "
+                       value="{{ quiz.getName }}"/>
+
+                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="duration" class="control-label col-sm-2">Δημοσιευμένο:</label>
+            <div class="col-sm-6 input-group">
+                <input id="enabled" type="checkbox" class="checkbox-inline "
+                       value="{{ quiz.getName }}"/>
+
+                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+
+            </div>
+        </div>
+
+
+        <h4 class="page-header">Ερωτήσεις</h4>
+
+
+        <div class="answer-buttons">
+
+            <span class="btn btn-info">Νέα ερώτηση</span>
+            <span class="btn btn-info">Προσθήκη</span>
+
+            <div data-bind="foreach: Quiz.questions">
+                sdf
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+    {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/QuizEditViewModel.js'  %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+
+    <script type="text/javascript">
+        var vm = new QuizEditViewModel( {{ quiz | serialize | raw }} );
+
+
+        ko.applyBindings(vm);
+    </script>
+
+
+{% endblock %}

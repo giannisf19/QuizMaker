@@ -17,20 +17,19 @@
 
 
 
+    <div class="spinner" data-bind="visible: isLoading">
+        <span><i class="fa fa-5x fa-spinner fa-spin"></i> </span>
+    </div>
 
-    <ul class="list-inline">
-    {% for a in quiz.getQuestions %}
-        <li>
-        <a href="#questions_carousel" data-slide-to="{{ loop.index0 }}">{{ loop.index0 }}</a></li>
-      {% endfor %}
+    <ul class="list-inline top-buffer">
+        {% for a in quiz.getQuestions %}
+            <li class="question-list-item {{ loop.index0 == 0 ? 'question-active' : '' }}"><a href="#questions_carousel" data-interval="false" data-slide-to="{{ loop.index0 }}">{{ loop.index }}</a></li>
+          {% endfor %}
  </ul>
 
 
 
     <div id="questions_carousel" class="carousel slide">
-
-
-        <form action="{{ path(app.request.attributes.get('_route')) ~ '/' ~ quiz.getId ~ '/submit' }}" method="post">
 
 
         <div  class="carousel-inner" role="listbox">
@@ -47,7 +46,7 @@
 
                                 {% for answer in question.getAnswers %}
                                     <div class="answer-line">
-                                        <input  class="answer"  type="checkbox" name="{{ quiz.getId  ~ ':' ~ answer.getId }}"/> <span> {{ answer.getAnswerText }} </span>
+                                        <input  class="answer"  type="checkbox" name="{{ question.getId  ~ ':' ~ answer.getId }}"/> <span> {{ answer.getAnswerText }} </span>
                                     </div>
 
                                 {% endfor %}
@@ -69,11 +68,10 @@
 
             {% endfor %}
 
-        <input type="submit" class="btn btn-block btn-success" value={{ 'Αποστολή' | trans }} />
+        <input type="button" data-bind="click: submitQuiz" class="btn btn-block btn-success" value={{ 'Αποστολή' | trans }} />
 
 
     </div>
-        </form>
 
     </div>
 
@@ -116,9 +114,6 @@
     $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true});
 
     var vm = new QuizViewModel('{{ sq |raw }}');
-
-
-
     ko.applyBindings(vm);
 
 

@@ -13,12 +13,27 @@
 
 
 
-        {% stylesheets 'bundles/quizcore/css/font-awesome.min.css'  filter='cssrewrite' %}
-        <link rel="stylesheet" href="{{ asset_url }}">
-        {% endstylesheets %}
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery-1.11.2.min.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/bootstrap.min.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bmatznerfontawesome/css/font-awesome.min.css') }}" />
+
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/sweetalert.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
         {% block stylesheets %}{% endblock %}
@@ -29,13 +44,7 @@
         {% block body %}{% endblock %}
 
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery-1.11.2.min.js' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/bootstrap.min.js' %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.color.js' %}
         <script src="{{ asset_url }}"></script>
@@ -46,10 +55,22 @@
         {% endjavascripts %}
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.mapping.js' %}
+             <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/scripts.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
 
+        {% javascripts '@QuizCoreBundle/Resources/public/js/lodash.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/sweetalert.min.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
         {% block javascripts %}{% endblock %}
     </body>

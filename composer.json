@@ -6,6 +6,10 @@
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
+
+
+
+
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.6.*",
@@ -22,7 +26,8 @@
         "friendsofsymfony/user-bundle": "2.0.x-dev",
         "twbs/bootstrap": "3.3.0.x-dev",
         "braincrafted/bootstrap-bundle": "2.1.x-dev",
-        "jms/serializer-bundle": "0.13.*"
+        "jms/serializer-bundle": "0.13.*",
+        "bmatzner/fontawesome-bundle": "~4.3"
 
     },
     "require-dev": {
