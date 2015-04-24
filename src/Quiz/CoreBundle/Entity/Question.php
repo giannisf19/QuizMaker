@@ -5,6 +5,7 @@ namespace Quiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 
 
 /**
@@ -17,29 +18,34 @@ class Question {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"public", "admin"})
      */
     protected $id;
 
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"public", "admin"})
      */
 
     protected $order;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Groups({"public", "admin"})
      */
 
     protected $type;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"public", "admin"})
      */
     protected $questionText;
 
    /**
     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question", cascade={"persist"})
+    * @Groups({"public", "admin"})
     */
     private $answers;
 

@@ -47,3 +47,13 @@ _edit_quiz:
 _new_quiz:
           path: /createQuiz
           defaults: {_controller: QuizCoreBundle:Admin:editOrCreateQuiz, id: null}
+
+
+_save_quiz:
+      path: /saveQuiz
+      defaults: {_controller: QuizCoreBundle:Admin:saveQuiz}
+
+
+_profile_page:
+      path: /profile
+      defaults: {_controller: QuizCoreBundle:Default:Profile}

@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
+
 
 /**
  * Quiz
@@ -21,6 +23,7 @@ class Quiz
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"public", "admin"})
      */
     private $id;
 
@@ -37,11 +40,13 @@ class Quiz
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255)
+     * @Groups({"public", "admin"})
      */
     private $name;
 
     /**
      * @ORM\Column(name="Private", type="boolean")
+     * @Groups({"public", "admin"})
      */
 
     private $isPrivate;
@@ -49,6 +54,7 @@ class Quiz
 
     /**
      * @ORM\Column(name="Disabled", type="boolean")
+     * @Groups({"public", "admin"})
      */
 
     private $isDisabled;
@@ -56,6 +62,7 @@ class Quiz
 
     /**
      * @ORM\Column(name="Time", type="integer")
+     * @Groups({"public", "admin"})
      */
 
     private $time;
@@ -104,6 +111,7 @@ class Quiz
 
     /**
      * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="quizes", cascade={"persist"})
+     * @Groups({"public", "admin"})
      */
     protected $questions;
 

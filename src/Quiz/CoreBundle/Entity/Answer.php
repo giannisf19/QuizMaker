@@ -3,7 +3,8 @@
 namespace Quiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
+
 
 /**
  * Answer
@@ -19,6 +20,7 @@ class Answer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"public", "admin"})
      */
     private $id;
 
@@ -26,13 +28,14 @@ class Answer
      * @var string
      *
      * @ORM\Column(name="AnswerText", type="string", length=255)
+     * @Groups({"public", "admin"})
      */
     private $answerText;
 
 
     /**
      * @ORM\Column(name="Correct", type="boolean")
-     * @Exclude()
+     * @Groups({"admin"})
      */
     private $isCorrect;
 
@@ -40,12 +43,14 @@ class Answer
 
     /**
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
+     * @Groups({"public", "admin"})
      */
     private $question;
 
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"public", "admin"})
      */
     protected $leftOrRight;
 
@@ -53,7 +58,7 @@ class Answer
      *
      * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer")
      * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
-     *
+     * @Groups({"public", "admin"})
      */
     protected $answer;
 

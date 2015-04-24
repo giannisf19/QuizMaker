@@ -26,7 +26,7 @@
         <label for="name" class="control-label col-sm-2">Όνομα:</label>
         <div class="col-sm-6 input-group">
             <input id="name" type="text" class="form-control "
-                   value="{{ quiz.getName }}"/>
+                  data-bind="textInput: Quiz.name"/>
             <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
 
         </div>
@@ -44,14 +44,15 @@
         </div>
 
         <div class="form-group">
-            <label for="duration" class="control-label col-sm-2">Δημοσιευμένο:</label>
+            <label for="enabled" class="control-label col-sm-2">Δημοσιευμένο:</label>
             <div class="col-sm-6 input-group">
-                <input id="enabled" type="checkbox" class="checkbox-inline "
+                <input data-bind="checked: !Quiz.is_disabled()"   id="enabled" type="checkbox" class="checkbox-inline "
                        value="{{ quiz.getName }}"/>
 
-                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                <span data-bind="click: saveQuiz" class="btn btn-info">Αποθήκευση <i data-bind="visible: $root.isLoading()" class="fa fa-spin fa-spinner"></i></span>
 
             </div>
+
         </div>
 
 
@@ -63,8 +64,41 @@
             <span class="btn btn-info">Νέα ερώτηση</span>
             <span class="btn btn-info">Προσθήκη</span>
 
-            <div data-bind="foreach: Quiz.questions">
-                sdf
+            <div class="top-buffer" data-bind="foreach: Quiz.questions">
+
+                <div class="question-box" data-bind="visible: $data.type() == 'multiple' ">
+
+                    <div class="form-group">
+
+                        <label for="quiz_name" class="control-label col-sm-2" > {{ 'Κείμενο ερώτησης:' }}  </label>
+                        <div class="col-sm-6">
+                            <textarea id="quiz_name" class="form-control" type="text" data-bind="textInput: $data.question_text"></textarea>
+                        </div>
+                        <span class="btn btn-danger" data-bind="click: function() { $root.removeQuestion($index())}">Διαγραφή</span>
+                    </div>
+
+
+                    <ul data-bind="foreach: $data.answers">
+                        <li class="list-group-item" data-bind="css: { 'correct-answer': $data.is_correct() == true }">
+                            <input type="text" data-bind="textInput: $data.answer_text"/>
+                            <label>Σωστό</label>
+                            <input type="checkbox" data-bind="checked: $data.is_correct"/>
+                            <span data-bind="click: function() {$root.remove($parentContext.$index(), $index()) }" class="left-buffer-twenty-px btn btn-danger badge"><i class="fa fa-remove"></i></span>
+                        </li>
+                    </ul>
+
+                    <span class="btn btn-success" data-bind="click: function() {$root.addNewAnswer($index())} "><i class="fa fa-plus"></i></span>
+
+                </div>
+
+                <div data-bind="visible: $data.type() == 'match' ">
+                </div>
+
+
+                <div data-bind="visible: $data.type() == 'essay' ">
+
+                </div>
+
             </div>
 
         </div>
@@ -89,10 +123,9 @@
 
 
     <script type="text/javascript">
-        var vm = new QuizEditViewModel( {{ quiz | serialize | raw }} );
-
-
+        var vm = new QuizEditViewModel( {{ quiz | serialize | raw }}, '{{ url('_save_quiz') }}' );
         ko.applyBindings(vm);
+
     </script>
 
 

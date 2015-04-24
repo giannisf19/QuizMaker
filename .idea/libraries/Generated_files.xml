@@ -5,12 +5,11 @@
         <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/QuizViewModel.js" />
         <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Types.js" />
         <item url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Types.js" />
-        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
-        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Quiz.js" />
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
         <item url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/QuizViewModel.js" />
         <item url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Quiz.js" />
-        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
-        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Quiz.js" />
+        <item url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
@@ -19,12 +18,11 @@
       <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/QuizViewModel.js" />
       <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Types.js" />
       <root url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Types.js" />
-      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
-      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Quiz.js" />
-      <root url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Quiz.js" />
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
       <root url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/QuizViewModel.js" />
-      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
-      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/_typings.js" />
+      <root url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Quiz.js" />
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/quiz/Quiz.js" />
+      <root url="file://$PROJECT_DIR$/web/bundles/quizcore/js/models/registration/RegistrationModel.js" />
     </CLASSES>
     <SOURCES />
   </library>

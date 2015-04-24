@@ -21,9 +21,9 @@
                     </div>
                 {% else %}
                     <div class="user-name menu-item"> <i class="fa fa-user"></i> {{ app.user }} </div>
-                    <ul class="user-info-box nav">
-                        <li><i class="fa fa-user"></i> <span> {{ 'Προφίλ' | trans }}</span></li>
-                        <li> <i class="fa fa-sign-out"></i> <span>{{ 'Έξοδος' | trans }}</span></li>
+                    <ul class="user-info-box">
+                        <li><i class="fa fa-user"></i> <a class="menu-link" href="{{ url('_profile_page') }}"> {{ 'Προφίλ' | trans }}</a></li>
+                        <li>  <i class="fa fa-sign-out"></i> <a class="menu-link" href="{{ url('fos_user_security_logout') }}">{{ 'Έξοδος' | trans }}</a></li>
                     </ul>
                 {% endif %}
 

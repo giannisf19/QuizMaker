@@ -95,4 +95,23 @@ body {
 }
 
 
+.menu-link {
+    display: inline;
+    padding-left: 30px;
+}
+
+.left-buffer-twenty-px {
+    margin-left: 20px;
+}
+
+
+.question-box {
+    border: 1px dotted;
+    padding: 10px;
+}
+
+.correct-answer {
+    background-color: green;
+}
+
 

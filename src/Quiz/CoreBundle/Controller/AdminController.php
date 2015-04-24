@@ -2,9 +2,12 @@
 
 namespace Quiz\CoreBundle\Controller;
 
-use Doctrine\ORM\PersistentCollection;
+use Quiz\CoreBundle\Engine\QuizInfo;
+use Quiz\CoreBundle\Entity\Quiz;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
@@ -56,6 +59,49 @@ class AdminController extends Controller
         }
 
 
+
+    }
+
+    public function saveQuizAction()
+    {
+
+        $user = $this->getUser();
+        $serializer = $this->get('serializer');
+        $em = $this->get('doctrine.orm.entity_manager');
+
+
+        if (!isset($user)) {
+            return new Response('Access Denied');
+        } else {
+            $roles = $user->getRoles();
+
+            if (in_array('ROLE_TEACHER', $roles)) {
+                // The user is a teacher, he can edit a quiz
+
+
+                $stringJson = $this->get('request')->getContent();
+                $toSave  = json_decode($stringJson);
+
+                /* @var $s Quiz */
+                $s =  $serializer->deserialize($toSave, 'Quiz\CoreBundle\Entity\Quiz', 'json');
+
+
+//                $em->persist($s);
+//                $em->flush();
+
+                return new Response($toSave->id);
+
+            } else {
+                // not a teacher trying to edit a quiz, we cannot allow that
+
+            }
+        }
+
+
+    }
+
+
+    private function getQuizEntity($json) {
 
     }
 }

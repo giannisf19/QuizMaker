@@ -3,6 +3,7 @@
 namespace Quiz\CoreBundle\Controller;
 
 use Doctrine\DBAL\Types\JsonArrayType;
+use JMS\Serializer\SerializationContext;
 use Quiz\CoreBundle\Entity\Answer;
 use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
@@ -76,6 +77,7 @@ class QuizController extends Controller
 
             $time = $quiz->getTime();
 
+
             // render the page
            return  $this->render('@QuizCore/Quiz/quiz.html.twig', ['quiz' => $quiz, 'types' => $t,
                'time' => $time
@@ -91,7 +93,8 @@ class QuizController extends Controller
         $serializer = $this->get('serializer');
         $quiz = $quizrep->findOneBy(['id' => 1]);
 
-        return $this->render('@QuizCore/Quiz/quizStart.html.twig', ['quiz' => $quiz, 'sq' => $serializer->serialize($quiz, 'json')]);
+        return $this->render('@QuizCore/Quiz/quizStart.html.twig', ['quiz' => $quiz, 'sq' => $serializer->serialize($quiz, 'json'
+        , SerializationContext::create()->setGroups(array('public'))), 'message' => 'Εξέταση']);
     }
 
 

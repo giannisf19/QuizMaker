@@ -28,6 +28,10 @@
             <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/toastr.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
         {% stylesheets '@QuizCoreBundle/Resources/public/css/quiz.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
@@ -70,6 +74,15 @@
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/sweetalert.min.js' %}
         <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/toastr.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/Quiz.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+
         {% endjavascripts %}
 
         {% block javascripts %}{% endblock %}

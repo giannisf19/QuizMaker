@@ -7,3 +7,4 @@
 /// <reference path="../typings/knockout.mapping/knockout.mapping.d.ts"/>
 /// <reference path="../typings/toastr/toastr.d.ts"/>
 /// <reference path="quiz/Quiz.ts"/>
+//# sourceMappingURL=_typings.js.map
