@@ -32,11 +32,10 @@
              confirmButtonColor: "#DD6B55",
              confirmButtonText: "Ναι!",
              cancelButtonText: "Όχι!",
-             closeOnConfirm: false },
+             closeOnConfirm: true },
              function(){
                  // remove the question
                  self.Quiz.questions.splice(questionIndex,1);
-                 swal("Επιτυχία!", "Η ερώτηση διεγράφη.", "success");
              });
 
      }
@@ -69,14 +68,13 @@
 
      saveQuiz() {
 
-         if (this.canSave()) {
-             var data = {data: this.Quiz};
+         if (true) {
              this.isLoading(true);
 
              $.ajax(this.saveQuizUrl, {
                  'type' : 'post',
-                 data: ko.toJSON(data),
-                 contentType: 'application/json',
+                 data: ko.toJSON(this.Quiz),
+                 contentType: 'application/json; charset=utf-8',
                      success: (response,status) => {
                      if (status == 'success') {
                          console.log(response);

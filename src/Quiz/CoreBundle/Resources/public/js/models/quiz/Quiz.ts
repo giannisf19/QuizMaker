@@ -19,6 +19,7 @@ class Answer {
         this.answer_text = ko.observable('');
         this.is_correct = ko.observable(false);
         this.left_or_right = ko.observable('');
+        this.id = ko.observable(0);
     }
 }
 

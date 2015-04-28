@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 
 
 /**
@@ -25,15 +26,18 @@ class Quiz
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Groups({"public", "admin"})
      */
-    private $id;
+    protected $id;
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\UserEntity", inversedBy="quizes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\UserEntity", inversedBy="quizes")
+     * @Groups({"admin"})
+     * @Type("Quiz\CoreBundle\Entity\UserEntity")
      * @Exclude()
+     *
      */
 
-    private $owners;
+    protected $owners;
 
 
     /**
@@ -42,14 +46,14 @@ class Quiz
      * @ORM\Column(name="Name", type="string", length=255)
      * @Groups({"public", "admin"})
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(name="Private", type="boolean")
      * @Groups({"public", "admin"})
      */
 
-    private $isPrivate;
+    protected $isPrivate;
 
 
     /**
@@ -57,23 +61,35 @@ class Quiz
      * @Groups({"public", "admin"})
      */
 
-    private $isDisabled;
+    protected $isDisabled;
 
 
     /**
-     * @ORM\Column(name="Time", type="integer")
+     * @ORM\Column(name="quizTime", type="integer")
      * @Groups({"public", "admin"})
      */
 
-    private $time;
+    protected $time;
+
+
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\TestResult", mappedBy="quiz", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Question", mappedBy="quiz", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * @Groups({"public", "admin"})
+     */
+    protected $questions;
+
+
+
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\TestResult", mappedBy="quiz", cascade={"all"})
      * @Exclude()
      */
 
-    private $TestResults;
+    protected $TestResults;
 
     /**
      * Get id
@@ -109,11 +125,7 @@ class Quiz
     }
 
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="quizes", cascade={"persist"})
-     * @Groups({"public", "admin"})
-     */
-    protected $questions;
+
 
 
     public function __construct() {
@@ -133,6 +145,7 @@ class Quiz
     public function addQuestion(\Quiz\CoreBundle\Entity\Question $question)
     {
         $this->questions->add($question);
+        $question->setQuiz($this);
         return $this;
     }
 
@@ -149,7 +162,7 @@ class Quiz
     /**
      * Get questions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getQuestions()
     {
@@ -225,6 +238,17 @@ class Quiz
     }
 
     /**
+     * @param ArrayCollection $questions
+     * @return Quiz
+     */
+
+    public function setQuestions( $questions ) {
+        $this->questions = $questions;
+        return $this;
+    }
+
+
+    /**
      * Add TestResults
      *
      * @param \Quiz\CoreBundle\Entity\TestResult $testResults
@@ -266,7 +290,6 @@ class Quiz
     public function addOwner(\Quiz\CoreBundle\Entity\UserEntity $owners)
     {
         $this->owners[] = $owners;
-
         return $this;
     }
 
@@ -289,4 +312,45 @@ class Quiz
     {
         return $this->owners;
     }
+
+    /**
+     * Set quizRunTime
+     *
+     * @param integer $quizRunTime
+     *
+     * @return Quiz
+     */
+    public function setQuizRunTime($quizRunTime)
+    {
+        $this->quizRunTime = $quizRunTime;
+
+        return $this;
+    }
+
+    /**
+     * Get quizRunTime
+     *
+     * @return integer
+     */
+    public function getQuizRunTime()
+    {
+        return $this->quizRunTime;
+    }
+
+    /**
+     * Set owners
+     *
+     * @param \Quiz\CoreBundle\Entity\UserEntity $owners
+     *
+     * @return Quiz
+     */
+    public function setOwners(\Quiz\CoreBundle\Entity\UserEntity $owners = null)
+    {
+        $this->owners = $owners;
+
+        return $this;
+    }
+
+
+
 }

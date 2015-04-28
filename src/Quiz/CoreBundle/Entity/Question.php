@@ -24,7 +24,7 @@ class Question {
 
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="question_order",type="integer")
      * @Groups({"public", "admin"})
      */
 
@@ -44,21 +44,22 @@ class Question {
     protected $questionText;
 
    /**
-    * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
     * @Groups({"public", "admin"})
     */
-    private $answers;
+    protected $answers;
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="questions" )
+     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Quiz", inversedBy="questions" )
+     * @ORM\JoinColumn(name="quiz_id", referencedColumnName="id", onDelete="CASCADE")
      * @Exclude()
      */
-    protected $quizes;
+    protected $quiz;
 
     public function __construct() {
         $this->answers = new ArrayCollection();
-        $this->quizes = new ArrayCollection();
+
     }
 
     /**
@@ -97,14 +98,12 @@ class Question {
     /**
      * Add answers
      *
-     * @param \Quiz\CoreBundle\Entity\Answer $answers
+     * @param Answer $answer
      * @return Question
      */
-    public function addAnswer(\Quiz\CoreBundle\Entity\Answer $answer)
+    public function addAnswer(Answer $answer)
     {
         $this->answers->add($answer);
-        $answer->setQuestion($this);
-
         return $this;
     }
 
@@ -113,7 +112,7 @@ class Question {
      *
      * @param \Quiz\CoreBundle\Entity\Answer $answers
      */
-    public function removeAnswer(\Quiz\CoreBundle\Entity\Answer $answers)
+    public function removeAnswer( $answers)
     {
         $this->answers->removeElement($answers);
     }
@@ -137,6 +136,7 @@ class Question {
     public function addQuiz(\Quiz\CoreBundle\Entity\Quiz $quizes)
     {
         $this->quizes->add($quizes);
+        $quizes->addQuestion($this);
         return $this;
     }
 
@@ -220,5 +220,45 @@ class Question {
     public function getOrder()
     {
         return $this->order;
+    }
+
+
+
+    /**
+     * Set answers
+     *
+     * @param ArrayCollection $answers
+     *
+     * @return Question
+     */
+    public function setAnswers(ArrayCollection $answers = null)
+    {
+        $this->answers = $answers;
+
+        return $this;
+    }
+
+    /**
+     * Set quiz
+     *
+     * @param \Quiz\CoreBundle\Entity\Quiz $quiz
+     *
+     * @return Question
+     */
+    public function setQuiz(\Quiz\CoreBundle\Entity\Quiz $quiz = null)
+    {
+        $this->quiz = $quiz;
+
+        return $this;
+    }
+
+    /**
+     * Get quiz
+     *
+     * @return \Quiz\CoreBundle\Entity\Quiz
+     */
+    public function getQuiz()
+    {
+        return $this->quiz;
     }
 }

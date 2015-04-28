@@ -6,6 +6,8 @@ use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -35,8 +37,9 @@ class UserEntity extends BaseUser {
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="owners" )
-     * @Exclude()
+     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="owners", )
+     * @Groups({"admin"})
+     * @Type("Quiz\CoreBundle\Entity\UserEntity")
      */
 
     private $quizes;

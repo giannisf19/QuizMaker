@@ -22,7 +22,7 @@ class Answer
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Groups({"public", "admin"})
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -30,22 +30,23 @@ class Answer
      * @ORM\Column(name="AnswerText", type="string", length=255)
      * @Groups({"public", "admin"})
      */
-    private $answerText;
+    protected $answerText;
 
 
     /**
      * @ORM\Column(name="Correct", type="boolean")
      * @Groups({"admin"})
      */
-    private $isCorrect;
+    protected $isCorrect;
 
 
 
     /**
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      * @Groups({"public", "admin"})
      */
-    private $question;
+    protected $question;
 
 
     /**
@@ -56,8 +57,7 @@ class Answer
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer")
-     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer", cascade={"persist"})
      * @Groups({"public", "admin"})
      */
     protected $answer;
@@ -65,6 +65,7 @@ class Answer
 
     public function __construct() {
         $this->isCorrect = false;
+
     }
 
 
@@ -86,12 +87,13 @@ class Answer
     /**
      * Set question
      *
-     * @param \Quiz\CoreBundle\Entity\Question $question
+     * @param Question $question
      * @return Answer
      */
     public function setQuestion( $question )
     {
         $this->question = $question;
+        $question->addAnswer($this);
         return $this;
     }
 
@@ -199,5 +201,31 @@ class Answer
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * Add question
+     *
+     * @param Question $question
+     *
+     * @return Answer
+     */
+    public function addQuestion(Question $question)
+    {
+        $this->question[] = $question;
+
+        return $this;
+    }
+
+    /**
+     * Remove question
+     *
+     * @param Question $question
+     * @return $this
+     */
+    public function removeQuestion(Question $question)
+    {
+        $this->question = null;
+        return $this;
     }
 }

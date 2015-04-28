@@ -5,6 +5,7 @@ namespace Quiz\CoreBundle\Controller;
 
 
 use Doctrine\ORM\PersistentCollection;
+use FOS\UserBundle\Model\User;
 use Quiz\CoreBundle\Engine\QuizEngine\QuizTest;
 use Quiz\CoreBundle\Entity\Answer;
 use Quiz\CoreBundle\Entity\OngoingTest;
@@ -25,15 +26,19 @@ class DefaultController extends Controller
     {
 
 
+
+        /* @var $user UserEntity  */
         $user = $this->getUser();
 
         $router = $this->get('router');
+
 
 
         $em = $this->get('doctrine.orm.entity_manager');
 
 
         $userManger = $this->get('fos_user.user_manager');
+
 
 
 
