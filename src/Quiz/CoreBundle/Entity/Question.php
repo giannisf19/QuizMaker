@@ -51,14 +51,14 @@ class Question {
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Quiz", inversedBy="questions" )
-     * @ORM\JoinColumn(name="quiz_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", inversedBy="questions")
      * @Exclude()
      */
-    protected $quiz;
+    protected $quizes;
 
     public function __construct() {
         $this->answers = new ArrayCollection();
+        $this->quizes = new ArrayCollection();
 
     }
 
@@ -136,16 +136,15 @@ class Question {
     public function addQuiz(\Quiz\CoreBundle\Entity\Quiz $quizes)
     {
         $this->quizes->add($quizes);
-        $quizes->addQuestion($this);
         return $this;
     }
 
     /**
      * Remove quizes
      *
-     * @param \Quiz\CoreBundle\Entity\Question $quizes
+     * @param \Quiz\CoreBundle\Entity\Quiz $quizes
      */
-    public function removeQuize(\Quiz\CoreBundle\Entity\Question $quizes)
+    public function removeQuize(Quiz $quizes)
     {
         $this->quizes->removeElement($quizes);
     }
@@ -248,7 +247,6 @@ class Question {
     public function setQuiz(\Quiz\CoreBundle\Entity\Quiz $quiz = null)
     {
         $this->quiz = $quiz;
-
         return $this;
     }
 

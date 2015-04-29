@@ -46,13 +46,21 @@ _edit_quiz:
 
 _new_quiz:
           path: /createQuiz
-          defaults: {_controller: QuizCoreBundle:Admin:editOrCreateQuiz, id: null}
+          defaults: {_controller: QuizCoreBundle:Admin:editOrCreateQuiz, id: 0}
 
 
 _save_quiz:
       path: /saveQuiz
       defaults: {_controller: QuizCoreBundle:Admin:saveQuiz}
+      requirements:
+        _method: POST
 
+
+_get_questions:
+    path: /getQuestions
+    defaults: {_controller: QuizCoreBundle:Admin:getQuestions}
+    requirements:
+      _method: POST
 
 _profile_page:
       path: /profile

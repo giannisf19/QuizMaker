@@ -17,6 +17,15 @@ body {
 }
 
 
+.bottom-buffer-tenpx {
+    margin-bottom: 10px;
+}
+
+.question-disabled {
+    background-color:gray;
+}
+
+
 .spinner > span {
     left: 50%;
     top: 50%;
@@ -112,6 +121,10 @@ body {
 
 .correct-answer {
     background-color: green;
+}
+
+#insert-question-modal {
+    z-index: 100000;
 }
 
 

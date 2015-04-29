@@ -25,6 +25,8 @@ class AdminController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         $user = $this->getUser();
 
+        $serializer = $this->get('serializer');
+
         if (! isset($user)) {
             return new RedirectResponse($this->get('router')->generate('fos_user_security_login'));
         }
@@ -35,13 +37,11 @@ class AdminController extends Controller
         $message = 'Καθηγητής';
 
 
-        if ($isTeacher && !isset($id)) {
+        if ($isTeacher && $id == 0) {
             // create new quiz
 
-            $q = $em->find('QuizCoreBundle:Quiz', $id);
-
             $action = 'Δημιουργία';
-            return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => $q, 'message' => $message, 'action' => $action ]);
+            return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => '{}', 'message' => $message, 'action' => $action ]);
         }
 
         foreach ($user->getQuizes() as $quiz) {
@@ -63,13 +63,57 @@ class AdminController extends Controller
 
             $action = 'Επεξεργασία';
 
-            return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => $quiz, 'message' => $message, 'action' => $action]);
+            return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => $serializer->serialize($quiz, 'json'),
+                'message' => $message, 'action' => $action, 'name' => $quiz->getName()]);
 
         } else {
             return new Response("error");
         }
 
 
+
+    }
+
+    public function getQuestionsAction()
+    {
+
+
+        /* @var $user \Quiz\CoreBundle\Entity\UserEntity */
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+        $serializer = $this->get('serializer');
+
+
+
+        if (isset($user)) {
+
+            if (in_array('ROLE_TEACHER', $roles)) {
+
+                /* @var $quizes ArrayCollection<Quiz> */
+                $quizes = $user->getQuizes();
+
+                $questions = [];
+
+                foreach($quizes as $quiz) {
+                    /* @var $quiz Quiz */
+                    foreach($quiz->getQuestions() as $qq) {
+                        $questions[] = $qq;
+                    }
+                }
+
+
+
+
+
+
+                return new Response($serializer->serialize($questions, 'json'));
+
+            } else {
+                new Response('You are not a teacher');
+            }
+        } else {
+            return new Response('Access Denied.');
+        }
 
     }
 
@@ -101,156 +145,30 @@ class AdminController extends Controller
                 $quiz = $em->find('QuizCoreBundle:Quiz', $jsonObject->id);
 
 
+                $quizId = null;
+
                 if (isset($quiz)) {
                     // existing quiz
-
-                    $quiz->setName($jsonObject->name);
-                    $quiz->setIsDisabled($jsonObject->is_disabled);
-                    $quiz->setIsPrivate($jsonObject->is_private);
-                    $quiz->setTime($jsonObject->time);
-
-
-                    $qids = array_map(function($item){
-                        return $item->id;
-                    }, $jsonObject->questions);
-
-
-
-                    foreach($jsonObject->questions as $question) {
-                        /* @var $question object */
-
-                        $currentQId=  $question->id;
-
-                        $currentQuestionsFromDb = null;
-
-                        foreach ($quiz->getQuestions() as $qq) {
-                            /* @var $qq Question */
-
-
-                             if (! in_array($qq->getId(), $qids)) {
-                                $quiz->removeQuestion($qq);
-                            }
-
-                            if ($qq->getId() == $question->id) {
-                                $currentQuestionsFromDb = $qq;
-                            }
-                        }
-
-                        if ($question->id == 0) {
-                            // new question to insert
-
-                        }
-
-                       else {
-
-                            $currentQuestionsFromDb->setQuestionText($question->question_text);
-                            $currentQuestionsFromDb->setType($question->type);
-                            $currentQuestionsFromDb->setOrder($question->order);
-
-                        }
-
-
-                        $aids  = array_map(function($item){
-                            return $item->id;
-                        }, $question->answers);
-
-
-
-
-                        foreach($question->answers as $answer) {
-                            /* @var $answer object */
-
-
-                            $currentAId = $answer->id;
-
-                            /* @var $currentAnswerFromDb Answer */
-                            $currentAnswerFromDb = null;
-
-                             if ($currentQuestionsFromDb != null) {
-                                 foreach($currentQuestionsFromDb->getAnswers() as $aa) {
-                                     /* @var $aa Answer */
-
-
-                                     if  (! in_array($aa->getId(), $aids)) {
-                                         //remove
-                                         $currentQuestionsFromDb->removeAnswer($aa);
-                                     }
-
-                                     if ($aa->getId() == $answer->id) {
-                                         $currentAnswerFromDb = $aa;
-                                     }
-                                 }
-                             }
-
-                            if ($answer->id == 0) {
-                                // new answer to insert
-                                $answerToAdd = new Answer();
-                                $answerToAdd->setAnswerText($answer->answer_text);
-                                $answerToAdd->setLeftOrRight($answer->left_or_right);
-                                $answerToAdd->setIsCorrect($answer->is_correct);
-                                $answerToAdd->setQuestion($currentQuestionsFromDb);
-
-
-                            } else {
-                                //edit
-                                $currentAnswerFromDb->setAnswerText($answer->answer_text);
-                                $currentAnswerFromDb->setLeftOrRight($answer->left_or_right);
-                                $currentAnswerFromDb->setIsCorrect($answer->is_correct);
-                            }
-                        }
-
-                    }
-
+                    $this->saveDataToDb($quiz, $jsonObject);
+                    $quizId = $quiz->getId();
 
                 } else {
                     // create new quiz
 
+                    $newQuiz = new Quiz();
+
+                    $newQuiz->setOwners($user);
+                    $em->persist($newQuiz);
+                    $this->saveDataToDb($newQuiz, $jsonObject);
+
+                    $em->flush();
+                    $quizId = $newQuiz->getId();
 
                 }
 
 
-
-
-
                 $em->flush();
-                return new Response('ok');
-
-
-
-
-
-
-//                $quiz =  new Quiz();
-//
-//                $quiz->setName("test quiz");
-//                $quiz->setIsDisabled(false);
-//                $quiz->setTime(60);
-//                $quiz->setOwners($user);
-//
-//                $nq = new Question();
-//
-//                $nq->setQuestionText('poso kanei 1 + 1')
-//                    ->setOrder(4)
-//                    ->setType('multiple');
-//
-//                $na = new Answer();
-//
-//                $na->setAnswerText('2')
-//                    ->setIsCorrect(true)
-//                    ->setLeftOrRight('right');
-//
-//
-//                $na->setQuestion($nq);
-//
-//                $quiz->addQuestion($nq);
-//
-//                $em->persist($quiz);
-//
-//                $em->flush();
-//
-//
-//
-//                return new Response('ok');
+                return new Response($quizId);
 
 
             } else {
@@ -264,7 +182,134 @@ class AdminController extends Controller
     }
 
 
-    private function getQuizEntity($json) {
+    /**
+     * @param $quiz Quiz
+     * @param $jsonObject
+     */
+    private function saveDataToDb($quiz, $jsonObject) {
+
+
+        /* @var $quiz Quiz */
+
+        $quiz->setName($jsonObject->name);
+        $quiz->setIsDisabled($jsonObject->is_disabled);
+        $quiz->setIsPrivate($jsonObject->is_private);
+        $quiz->setTime($jsonObject->time);
+
+
+        $qids = array_map(function($item){
+            return $item->id;
+        }, $jsonObject->questions);
+
+
+        foreach ($quiz->getQuestions() as $qqqq) {
+            /* @var $qqqq Question */
+
+
+            if (!in_array($qqqq->getId(), $qids) ) {
+                $qqqq->removeQuize($quiz);
+            }
+        }
+
+
+
+        foreach($jsonObject->questions as $question) {
+            /* @var $question object */
+
+            $currentQId=  $question->id;
+
+            $currentQuestionsFromDb = null;
+
+
+
+            foreach ($quiz->getQuestions() as $qq) {
+                /* @var $qq Question */
+                if ($qq->getId() == $question->id) {
+                    $currentQuestionsFromDb = $qq;
+                }
+            }
+
+            if ($currentQuestionsFromDb == null) {
+                $currentQuestionsFromDb = $this->get('doctrine.orm.entity_manager')->find('QuizCoreBundle:Question', $question->id);
+            }
+
+            if ($question->id == 0) {
+                // new question to insert
+                $questionToInsert = new Question();
+                $questionToInsert->setOrder($question->order);
+                $questionToInsert->setType($question->type);
+                $questionToInsert->setQuestionText($question->question_text);
+
+                $quiz->addQuestion($questionToInsert);
+                $currentQuestionsFromDb = $questionToInsert;
+
+            }
+
+            else {
+
+                $currentQuestionsFromDb->setQuestionText($question->question_text);
+                $currentQuestionsFromDb->setType($question->type);
+                $currentQuestionsFromDb->setOrder($question->order);
+
+                if (isset($question->selected)) {
+                    $quiz->addQuestion($currentQuestionsFromDb);
+                }
+
+            }
+
+
+            $aids  = array_map(function($item){
+                return $item->id;
+            }, $question->answers);
+
+
+
+
+            foreach($question->answers as $answer) {
+                /* @var $answer object */
+
+
+                $currentAId = $answer->id;
+
+                /* @var $currentAnswerFromDb Answer */
+                $currentAnswerFromDb = null;
+
+                if ($currentQuestionsFromDb != null) {
+                    foreach($currentQuestionsFromDb->getAnswers() as $aa) {
+                        /* @var $aa Answer */
+
+
+                        if  (! in_array($aa->getId(), $aids)) {
+                            //remove
+                            $currentQuestionsFromDb->removeAnswer($aa);
+                        }
+
+                        if ($aa->getId() == $answer->id) {
+                            $currentAnswerFromDb = $aa;
+                        }
+                    }
+                }
+
+                if ($answer->id == 0) {
+                    // new answer to insert
+                    $answerToAdd = new Answer();
+                    $answerToAdd->setAnswerText($answer->answer_text);
+                    $answerToAdd->setLeftOrRight($answer->left_or_right);
+                    $answerToAdd->setIsCorrect($answer->is_correct);
+
+
+                    $answerToAdd->setQuestion($currentQuestionsFromDb);
+
+
+                } else {
+                    //edit
+                    $currentAnswerFromDb->setAnswerText($answer->answer_text);
+                    $currentAnswerFromDb->setLeftOrRight($answer->left_or_right);
+                    $currentAnswerFromDb->setIsCorrect($answer->is_correct);
+                }
+            }
+
+        }
 
     }
 }

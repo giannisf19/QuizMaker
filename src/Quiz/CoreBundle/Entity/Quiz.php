@@ -75,7 +75,7 @@ class Quiz
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Question", mappedBy="quiz", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", mappedBy="quizes", cascade={"persist", "remove", "merge"})
      * @Groups({"public", "admin"})
      */
     protected $questions;
@@ -145,7 +145,7 @@ class Quiz
     public function addQuestion(\Quiz\CoreBundle\Entity\Question $question)
     {
         $this->questions->add($question);
-        $question->setQuiz($this);
+        $question->addQuiz($this);
         return $this;
     }
 

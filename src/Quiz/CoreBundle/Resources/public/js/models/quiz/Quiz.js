@@ -24,4 +24,27 @@ var QuizGradeResult = (function () {
     }
     return QuizGradeResult;
 })();
+var Question = (function () {
+    function Question() {
+        this.id = ko.observable(0);
+        this.question_text = ko.observable('');
+        this.order = ko.observable(0);
+        this.type = ko.observable('multiple');
+        this.answers = ko.observableArray([]);
+        this.selected = ko.observable(false);
+        this.edit = ko.observable(false);
+    }
+    return Question;
+})();
+var Quiz = (function () {
+    function Quiz() {
+        this.id = ko.observable(0);
+        this.name = ko.observable('');
+        this.is_disabled = ko.observable(true);
+        this.is_private = ko.observable(true);
+        this.time = ko.observable(60);
+        this.questions = ko.observableArray([]);
+    }
+    return Quiz;
+})();
 //# sourceMappingURL=Quiz.js.map
