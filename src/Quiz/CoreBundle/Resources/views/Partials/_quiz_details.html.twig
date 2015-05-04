@@ -3,10 +3,49 @@
 <div class="list-group top-buffer">
 
 
-           {% for key,a in types %}
-             <div class="list-group-item">
-                 {{ a }} ερωτήσεις {{ key|name }}.
-             </div>
-            {% endfor %}
+  {% for key,a in types %}
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-check green-color"></i></span>
+        {{ a }} ερωτήσεις {{ key|name }}.
+    </div>
+   {% endfor %}
+
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-clock-o green-color"></i></span>
+   {% if quiz.getTime > 0 %}
+       {{ quiz.getTime }} λεπτά χρονικός περιορισμός
+   {% else %}
+         Χωρίς χρονικό περιορισμό.
+   {% endif %}
+    </div>
+
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-mortar-board green-color"></i></span>
+        {{ quiz.getTotalGrade }} συνολικοί βαθμοί.
+    </div>
+
+
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-bars green-color"></i></span>
+       <span> {{ quiz.getPassGrade }} η βάση. </span>
+    </div>
+
+
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-minus green-color"></i></span>
+
+        <span>
+        {% if quiz.hasNegativeGrade %}
+            Υπάρχει αρνητική βαθμολογία.
+        {% else %}
+            ΔΕΝ υπάρχει αρνητική βαθμολογία.
+        {% endif %}
+        </span>
+    </div>
+
+    <div class="list-group-item">
+        <span><i class="fa fa-2x fa-info red-color"></i></span>
+          <span>  Αν ξεκινήσεις το Quiz και το εγκαταλείψεις θα μετρηθεί ως λάθος.</span>
+    </div>
 
 </div>

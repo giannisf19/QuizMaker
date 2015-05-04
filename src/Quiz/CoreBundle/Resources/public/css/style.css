@@ -25,7 +25,10 @@ body {
     background-color:gray;
 }
 
+.spinner {
+    z-index: 10000000000;
 
+}
 .spinner > span {
     left: 50%;
     top: 50%;
@@ -45,6 +48,11 @@ body {
 
 }
 
+.media-element {
+    margin-top: 80px;
+    margin-right: 20px;
+}
+
 .menu-item {
     cursor: pointer;
     -webkit-user-select: none;
@@ -55,6 +63,19 @@ body {
 }
 
 
+.answer-text {
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+.answer-control {
+    margin-left: 15px !important;
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    -moz-transform: scale(2);
+    -ms-transform: scale(2);
+}
+
 .no-padding {
     padding-left: 0;
 }
@@ -64,9 +85,24 @@ body {
 }
 
 .quiz-info-bar {
-    background-color: #ddff43;
-    display: inline-block;
+    background-color: #848181;
+    display: block;
+    margin: 10px;
 
+}
+
+.edit-quiz-btn {
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.dashboard-menu-item {
+    font-size: 18px;
+    color: #FCFCFC;
+}
+
+.dashboard-menu-item > a {
+    color:#E2F2FF;
 }
 
 .visible-info  {
@@ -76,6 +112,7 @@ body {
 
 .quiz-more-info {
     display: none;
+    padding-left: 10px;
 }
 
 .menu-item:hover {
@@ -94,7 +131,10 @@ body {
 
 .user-info-box > li {
     cursor: pointer;
+    list-style: none;
 }
+
+
 
 
 .user-info-box  span {
@@ -103,6 +143,10 @@ body {
 
 }
 
+.question-title {
+    color: #1A3542;
+    font-size: 30px;
+}
 
 .menu-link {
     display: inline;
@@ -117,14 +161,55 @@ body {
 .question-box {
     border: 1px dotted;
     padding: 10px;
+    margin-bottom: 20px;
 }
 
 .correct-answer {
-    background-color: green;
+    background-color: rgb(148, 216, 148);
 }
 
 #insert-question-modal {
     z-index: 100000;
 }
 
+.red-color {
+    color: red;
+}
 
+.white-color {
+    color: white;
+}
+
+.error-box {
+    background: tomato;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.countdown-container {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.status-text {
+    font-size: 30px;
+}
+
+.final-degree {
+    font-size: 30px;
+    display: block;
+
+}
+
+.green-color {
+    color: green;
+}
+
+.top40-buffer {
+    margin-top: 40px;
+}
+
+.bottom-buffer {
+    margin-bottom:20px;
+}

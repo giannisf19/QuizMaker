@@ -6,6 +6,7 @@ namespace Quiz\CoreBundle\Controller;
 
 use Doctrine\ORM\PersistentCollection;
 use FOS\UserBundle\Model\User;
+use JMS\Serializer\SerializationContext;
 use Quiz\CoreBundle\Engine\QuizEngine\QuizTest;
 use Quiz\CoreBundle\Entity\Answer;
 use Quiz\CoreBundle\Entity\OngoingTest;
@@ -29,13 +30,23 @@ class DefaultController extends Controller
 
         /* @var $user UserEntity  */
         $user = $this->getUser();
-
         $router = $this->get('router');
-
-
-
         $em = $this->get('doctrine.orm.entity_manager');
+        $serializer = $this->get('serializer');
 
+        $all = $em->getRepository('QuizCoreBundle:Quiz')->findAll();
+
+        $retValues = [];
+
+        foreach($all as $quiz) {
+            /* @var $quiz Quiz */
+            $ret  = new \stdClass();
+            $ret->name = $quiz->getName();
+            $ret->id = $quiz->getId();
+
+            array_push($retValues, $ret);
+
+        }
 
         $userManger = $this->get('fos_user.user_manager');
 
@@ -55,13 +66,22 @@ class DefaultController extends Controller
 
             $message = 'Καθηγητής';
 
-            return $this->render('@QuizCore/Teacher/teacherDashboard.html.twig', ['user' => $this->getUser(), 'message' => $message]);
+
+            return $this->render('@QuizCore/Teacher/teacherDashboard.html.twig', ['quiz' => json_encode($retValues)  ,'user' => $this->getUser(), 'message' => $message]);
 
         } else if (in_array('ROLE_SUPER_ADMIN',$userRoles)) {
             // super
         }
 
-        return new Response(implode('' ,  $userRoles));
+        $enabledQuizes = $em->getRepository('QuizCoreBundle:Quiz')->findBy(['isDisabled' => false]);
+
+        $enabledQuizes = array_filter($enabledQuizes, function($item) {
+            /* @var $item Quiz */
+            return $item->getQuestions()->count() > 0;
+        });
+
+        return $this->render('@QuizCore/Default/index.html.twig', ['message' => '', 'quizes' => $enabledQuizes,
+            'sq' => $serializer->serialize($enabledQuizes, 'json', SerializationContext::create()->setGroups(['public']))]);
     }
 
 

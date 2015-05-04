@@ -30,11 +30,88 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Ακύρωση</button>
-                        <button type="button" class="btn btn-primary" data-bind="click: addSelectedQuestions">Προσθήκη επιλεγμένων</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: addSelectedQuestions">Προσθήκη επιλεγμένων</button>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+        {#insert media modal#}
+        <div class="modal fade" id="insert-media-modal" tabindex="-1" data-backdrop="false" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Προσθήκη media</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div role="tabpanel">
+
+                            <!-- Nav tabs -->
+                            <ul id="media-insert-tabs" class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#upload" aria-controls="home" role="tab" data-toggle="tab">Ανέβασμα</a></li>
+                                <li role="presentation"><a href="#url" aria-controls="profile" role="tab" data-toggle="tab">URL</a></li>
+                                <li data-bind="click: function() {$root.getMediaElements()}" role="presentation"><a href="#existing" aria-controls="messages" role="tab" data-toggle="tab">Υπάρχοντα</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="upload">
+                                    <div data-bind="fileDrag: $root.upload_media_element">
+                                        <div class="image-upload-preview">
+                                            <img data-bind="attr: { src: upload_media_element().dataURL}, visible: upload_media_element().dataURL" height="250" width="250" >
+                                        </div>
+                                        <div class="image-upload-input">
+                                            <input type="file" data-bind="fileInput: upload_media_element, , customFileInput: {}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="url">
+                                    <input class="form-control" data-bind="value: $root.url_media_element, valueUpdate: 'afterkeydown'">
+                                    <div class="image-upload-preview">
+                                        <img data-bind="attr: { src: $root.url_media_element}, visible: url_media_element().length > 0" height="250" width="250" >
+                                    </div>
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="existing">
+
+                                    <div class="loader text-center" data-bind="visible: $root.isMediaElementsLoading()">
+                                        <div class="bottom-buffer-tenpx"><i class="fa fa-4x fa-refresh fa-spin"></i></div>
+                                        <span>Φόρτωση...</span>
+                                    </div>
+
+
+                                    <ul class="list-inline" data-bind="foreach: MyMediaElements">
+                                        <li>
+                                            <input type="checkbox" data-bind="checked: $data.selected">
+                                            <img width="200" height="200" data-bind="attr: {src: $data.src}"/>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ακύρωση</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: function(){$root.insertNewMediaElement()}" >Προσθήκη</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
     </div>
 </div>
 

@@ -18,34 +18,75 @@ class Question {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $id;
 
 
     /**
      * @ORM\Column(name="question_order",type="integer")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
 
     protected $order;
 
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
 
     protected $type;
 
+
+
+
+
+
+
+
+    /**
+     * @ORM\Column(type="decimal")
+     * @Groups({"public", "admin", "results"})
+     */
+
+    protected $wrongAnswerGrade;
+
+
+    /**
+     * @ORM\Column(type="decimal")
+     * @Groups({"public", "admin", "results"})
+     */
+    protected $correctAnswerGrade;
+
+
+
+
+
+
+
+
+
+
     /**
      * @ORM\Column(type="string")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $questionText;
 
+
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\MediaElement", mappedBy="questions", cascade={"persist", "remove", "merge"})
+     * @Groups({"public", "admin"})
+     */
+    protected $mediaElements;
+
+
+
    /**
     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-    * @Groups({"public", "admin"})
+    * @Groups({"public", "admin", "results"})
     */
     protected $answers;
 
@@ -59,6 +100,7 @@ class Question {
     public function __construct() {
         $this->answers = new ArrayCollection();
         $this->quizes = new ArrayCollection();
+        $this->mediaElements = new ArrayCollection();
 
     }
 
@@ -258,5 +300,87 @@ class Question {
     public function getQuiz()
     {
         return $this->quiz;
+    }
+
+    /**
+     * Add mediaElement
+     *
+     * @param \Quiz\CoreBundle\Entity\MediaElement $mediaElement
+     *
+     * @return Question
+     */
+    public function addMediaElement(\Quiz\CoreBundle\Entity\MediaElement $mediaElement)
+    {
+        $this->mediaElements[] = $mediaElement;
+        $mediaElement->addQuestion($this);
+        return $this;
+    }
+
+    /**
+     * Remove mediaElement
+     *
+     * @param \Quiz\CoreBundle\Entity\MediaElement $mediaElement
+     */
+    public function removeMediaElement(\Quiz\CoreBundle\Entity\MediaElement $mediaElement)
+    {
+        $this->mediaElements->removeElement($mediaElement);
+    }
+
+    /**
+     * Get mediaElements
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMediaElements()
+    {
+        return $this->mediaElements;
+    }
+
+    /**
+     * Set wrongAnswerGrade
+     *
+     * @param string $wrongAnswerGrade
+     *
+     * @return Question
+     */
+    public function setWrongAnswerGrade($wrongAnswerGrade)
+    {
+        $this->wrongAnswerGrade = $wrongAnswerGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get wrongAnswerGrade
+     *
+     * @return string
+     */
+    public function getWrongAnswerGrade()
+    {
+        return $this->wrongAnswerGrade;
+    }
+
+    /**
+     * Set correctAnswerGrade
+     *
+     * @param string $correctAnswerGrade
+     *
+     * @return Question
+     */
+    public function setCorrectAnswerGrade($correctAnswerGrade)
+    {
+        $this->correctAnswerGrade = $correctAnswerGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get correctAnswerGrade
+     *
+     * @return float
+     */
+    public function getCorrectAnswerGrade()
+    {
+        return $this->correctAnswerGrade;
     }
 }

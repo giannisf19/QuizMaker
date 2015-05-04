@@ -27,7 +27,8 @@
         "twbs/bootstrap": "3.3.0.x-dev",
         "braincrafted/bootstrap-bundle": "2.1.x-dev",
         "jms/serializer-bundle": "0.13.*",
-        "bmatzner/fontawesome-bundle": "~4.3"
+        "bmatzner/fontawesome-bundle": "~4.3",
+        "snilius/twig-sort-by-field": "0.1.*"
 
     },
     "require-dev": {

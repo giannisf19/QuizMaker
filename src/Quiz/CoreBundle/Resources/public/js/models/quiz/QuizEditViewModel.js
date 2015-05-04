@@ -1,23 +1,49 @@
 /// <reference path="../_typings.ts"/>
 var QuizEditViewModel = (function () {
-    function QuizEditViewModel(quiz, url, getQuestionsUrl) {
+    function QuizEditViewModel(quiz, url, getQuestionsUrl, url2) {
         var _this = this;
+        this.totalQuestionsGrade = ko.observable(0);
         if (quiz.name) {
             this.Quiz = ko.mapping.fromJS(quiz);
+            this.Quiz.name = ko.observable(this.Quiz.name()).extend({ required: true });
+            this.Quiz.time = ko.observable(this.Quiz.time()).extend({ number: true, required: true });
+            this.Quiz.total_grade = ko.observable(this.Quiz.total_grade()).extend({ number: true, required: true });
+            this.Quiz.pass_grade = ko.observable(this.Quiz.pass_grade()).extend({ number: true, required: true, equalOrLess: this.Quiz.total_grade });
             _.map(this.Quiz.questions(), function (curr) {
                 curr.edit = ko.observable(false);
             });
         }
         else {
             this.Quiz = new Quiz();
+            this.Quiz.name = ko.observable('').extend({ number: false, required: true });
+            this.Quiz.time = ko.observable(60).extend({ number: true, required: true });
+            this.Quiz.total_grade = ko.observable(0).extend({ number: true, required: true });
+            this.Quiz.pass_grade = ko.observable(0).extend({ number: true, required: true, equalOrLess: this.Quiz.total_grade });
         }
         this.saveQuizUrl = url;
         this.isLoading = ko.observable(false);
         this.isQuestionsLoading = ko.observable(false);
         this.MyQuestions = ko.observableArray([]);
         this.getQuestionsUrl = getQuestionsUrl;
+        this.isMediaElementsLoading = ko.observable(false);
+        this.upload_media_element = ko.observable(new MediaElement());
+        this.url_media_element = ko.observable('');
+        this.current_question_id = ko.observable(0);
+        this.getMediaElementsURL = ko.observable(url2);
+        this.MyMediaElements = ko.observableArray(null);
+        var total = 0;
+        _.forEach(this.Quiz.questions(), function (c) {
+            total += parseInt(c.correct_answer_grade() + '');
+        });
+        this.totalQuestionsGrade(total);
+        if (!this.Quiz.show_questions_randomly()) {
+            this.Quiz.questions.sort(function (a, b) {
+                return a.order() == b.order() ? 0 : a.order() < b.order() ? -1 : 1;
+            });
+        }
         this.Quiz.questions.subscribe(function () {
             _.forEach(_this.Quiz.questions(), function (curr, index) {
+                // init answer id's
                 var oldId = curr.id();
                 var oldAnswers = curr.answers();
                 curr.edit.subscribe(function (val) {
@@ -32,8 +58,17 @@ var QuizEditViewModel = (function () {
                         curr.answers(oldAnswers);
                     }
                 });
+                curr.correct_answer_grade.subscribe(function (val) {
+                    var total = 0;
+                    _.forEach(_this.Quiz.questions(), function (c) {
+                        total += parseInt(c.correct_answer_grade() + '');
+                    });
+                    _this.totalQuestionsGrade(total);
+                });
             });
         });
+        // fire the subscriptions manually
+        this.Quiz.questions.valueHasMutated();
     }
     QuizEditViewModel.prototype.remove = function (questionIndex, answerIndex) {
         // remove the item
@@ -119,25 +154,20 @@ var QuizEditViewModel = (function () {
         });
     };
     QuizEditViewModel.prototype.canSave = function () {
-        if (this.Quiz.is_disabled()) {
-            return true;
-        }
+        var toReturn = false;
+        toReturn = this.Quiz.name.isValid() && this.Quiz.pass_grade.isValid() && this.Quiz.time.isValid() && this.Quiz.total_grade.isValid();
         if (this.Quiz.questions().length == 0 && !this.Quiz.is_disabled()) {
-            return false;
+            toReturn = false;
         }
         else if (this.Quiz.questions().length > 0) {
-            var toReturn = true;
             _.forEach(this.Quiz.questions(), function (current) {
-                console.log('Evaluating ..');
                 if (current.answers().length == 0) {
                     toReturn = false;
                 }
             });
             return toReturn;
         }
-        else {
-            return true;
-        }
+        return toReturn;
     };
     QuizEditViewModel.prototype.saveQuiz = function () {
         var _this = this;
@@ -155,9 +185,73 @@ var QuizEditViewModel = (function () {
                         }
                         _this.isLoading(false);
                     }
+                    console.log(response);
                 }
             });
         }
+    };
+    QuizEditViewModel.prototype.removeMediaElement = function (questionIndex, elementIndex) {
+        console.log(questionIndex, elementIndex);
+        this.Quiz.questions()[questionIndex].media_elements.splice(elementIndex, 1);
+    };
+    QuizEditViewModel.prototype.insertNewMediaElement = function () {
+        var activeTabIndex = 0;
+        $('#media-insert-tabs').children().each(function (index, item) {
+            if ($(item).hasClass('active')) {
+                activeTabIndex = index;
+            }
+        });
+        switch (activeTabIndex) {
+            case 0:
+                if (this.upload_media_element().dataURL().length > 0) {
+                    var toAdd = new MediaElement();
+                    toAdd.src(this.upload_media_element().dataURL());
+                    toAdd.media_type('file');
+                    this.Quiz.questions()[this.current_question_id()].media_elements.push(toAdd);
+                    this.upload_media_element(new MediaElement());
+                }
+                break;
+            case 1:
+                if (this.url_media_element().length > 0) {
+                    var toAdd = new MediaElement();
+                    toAdd.media_type('url');
+                    toAdd.src(this.url_media_element());
+                    this.Quiz.questions()[this.current_question_id()].media_elements.push(toAdd);
+                    this.url_media_element('');
+                }
+                break;
+            case 2:
+                var q = this.Quiz.questions()[this.current_question_id()];
+                var nonIncluded = _.filter(this.MyMediaElements(), function (c) {
+                    return c.selected() && _.filter(q.media_elements(), function (a) {
+                        return a.id() == c.id();
+                    }).length == 0;
+                });
+                _.forEach(nonIncluded, function (item) {
+                    q.media_elements.push(item);
+                });
+                break;
+        }
+    };
+    QuizEditViewModel.prototype.getMediaElements = function () {
+        var _this = this;
+        this.MyMediaElements([]);
+        this.isMediaElementsLoading(true);
+        $.ajax(this.getMediaElementsURL(), {
+            type: 'post',
+            success: function (response) {
+                _this.isMediaElementsLoading(false);
+                var items = JSON.parse(response);
+                _.forEach(items, function (item) {
+                    var toAdd = new MediaElement();
+                    toAdd.id(item.id);
+                    toAdd.src(item.src);
+                    toAdd.media_type(item.media_type);
+                    toAdd.selected(false);
+                    _this.MyMediaElements.push(toAdd);
+                });
+            }
+        });
     };
     return QuizEditViewModel;
 })();

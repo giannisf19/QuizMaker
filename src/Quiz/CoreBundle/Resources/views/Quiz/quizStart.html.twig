@@ -21,54 +21,67 @@
         <span><i class="fa fa-5x fa-spinner fa-spin"></i> </span>
     </div>
 
-    <ul class="list-inline top-buffer">
-        {% for a in quiz.getQuestions %}
-            <li class="question-list-item {{ loop.index0 == 0 ? 'question-active' : '' }}"><a href="#questions_carousel" data-interval="false" data-slide-to="{{ loop.index0 }}">{{ loop.index }}</a></li>
-          {% endfor %}
- </ul>
+
+
+    <h3 class="page-header">{{ quiz.getName }}</h3>
+
+
+  <div class="text-center" data-bind="visible: $root.resultMode()">
+
+            <span class="text-success status-text" data-bind="visible: $root.passed()">ΕΠΙΤΥΧΙΑ</span>
+            <span class="text-danger status-text" data-bind="visible: !$root.passed()">ΑΠΟΤΥΧΙΑ</span>
+
+
+            <div class="final-degree">
+                <span>Βαθμός:</span>
+                  <span class="text-info" data-bind="text: $root.finalDegree"></span>/
+                  <span data-bind="text: $root.Quiz.total_grade"></span>
+            </div>
+    </div>
+
+
+    <ul class="list-inline top-buffer" data-bind="foreach: $root.Quiz.questions">
+            <li class="question-list-item" data-bind="css: {'question-active' : $index() == 0}">
+                <a href="#questions_carousel" data-interval="false"
+                                    data-bind="attr: {'data-slide-to' : $index()}, text: $index() + 1">
+                  </a>
+            </li>
+    </ul>
 
 
 
-    <div id="questions_carousel" class="carousel slide">
+    <div id="questions_carousel" class="carousel slide top-buffer">
+        <div data-bind="foreach: $root.Quiz.questions"  class="carousel-inner" role="listbox">
 
-
-        <div  class="carousel-inner" role="listbox">
-
-            {% for question in quiz.getQuestions %}
-
-                    <div class="item{{ loop.index0 == 0 ? ' active' }}">
-                        <div class="question-title">
-                            <span class="btn-block text-info text-center">{{ question.getQuestionText }}</span>
+                    <div class="item" data-bind="css: {active : $index() == 0}, attr: { 'data-question' : $data.id() }">
+                        <div class="question-title text-center">
+                            <span class="question-title " data-bind="text: $data.question_text"></span>
                         </div>
 
 
-                            {% if question.getType == 'multiple' %}
+                    <div class="info-container">
+                        <div><span>Βαθμοί για σωστή απάντηση:</span> <span class="text-success"  data-bind="text: $data.correct_answer_grade"></span></div>
+                        <div data-bind="visible: $root.Quiz.has_negative_grade()"><span>Βαθμοί για λάθος απάντηση: -</span><span class="text-danger" data-bind="text: $data.wrong_answer_grade"></span></div>
+                    </div>
 
-                                {% for answer in question.getAnswers %}
-                                    <div class="answer-line">
-                                        <input  class="answer"  type="checkbox" name="{{ question.getId  ~ ':' ~ answer.getId }}"/> <span> {{ answer.getAnswerText }} </span>
-                                    </div>
-
-                                {% endfor %}
-
-                            {% elseif question.getType == 'match' %}
+                    <ul class="list-inline top-buffer" data-bind="foreach: $data.media_elements">
+                       <a data-bind="attr: { 'data-lightbox': 'image' + $index(), href: $data.src() }" > <img width="200" height="200" data-bind="attr: {src: $data.src()}"/></a>
+                     </ul>
 
 
-                            {% elseif question.getType == 'truefalse' %}
-
-                            {% elseif question.getType == 'essay' %}
-
-                            {% elseif question.getType == 'radio' %}
-
-                            {% endif %}
-
-
+                        <div data-bind="foreach: $data.answers  ,visible: $data.type() == 'multiple'">
+                            <div class="answer-line">
+                                <input  class="answer answer-control"  type="checkbox" data-bind="attr: {name : $parentContext.$data.id() + ':' +
+                                $data.id()}"/> <span class="answer-text" data-bind="text: $data.answer_text">  </span>
+                            </div>
+                        </div>
 
             </div>
+            </div>
 
-            {% endfor %}
 
-        <input type="button" data-bind="click: submitQuiz" class="btn btn-block btn-success" value={{ 'Αποστολή' | trans }} />
+        <input type="button" data-bind="click: $root.submitQuiz, visible: !$root.resultMode()" class="btn btn-block btn-success top-buffer" value={{ 'Αποστολή' | trans }} />
+        <a type="button" href="{{ url('_index') }}" data-bind="visible: $root.resultMode()"  class="btn btn-block btn-info top-buffer">{{ 'OK' | trans }}</a>
 
 
     </div>
@@ -108,8 +121,15 @@
 
 
 <script type="text/javascript">
-    $('.countdown-container').countdown({until: new Date(2014, 5,0), format: 'HMS', compact: true});
 
+    {% if quiz.getTime > 0 %}
+        var time = {{ quiz.getTime }};
+        var date = new Date();
+        date.setMinutes(date.getMinutes() + time);
+        $('.countdown-container').countdown({until: date, format: 'HMS', compact: true, onExpiry: function() {
+            vm.submitQuiz();
+        }});
+    {% endif %}
     var vm = new QuizViewModel('{{ sq |raw }}');
     ko.applyBindings(vm);
 

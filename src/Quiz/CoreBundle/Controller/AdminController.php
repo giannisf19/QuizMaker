@@ -3,9 +3,11 @@
 namespace Quiz\CoreBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\SerializationContext;
 use Proxies\__CG__\Quiz\CoreBundle\Entity\UserEntity;
 use Quiz\CoreBundle\Engine\QuizInfo;
 use Quiz\CoreBundle\Entity\Answer;
+use Quiz\CoreBundle\Entity\MediaElement;
 use Quiz\CoreBundle\Entity\Question;
 use Quiz\CoreBundle\Entity\Quiz;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -74,6 +76,14 @@ class AdminController extends Controller
 
     }
 
+    public function getMediaAction()
+    {
+        $serializer = $this->get('serializer');
+        $media = $this->get('doctrine.orm.entity_manager')->getRepository('QuizCoreBundle:MediaElement')->findAll();
+
+        return new Response($serializer->serialize($media, 'json'));
+    }
+
     public function getQuestionsAction()
     {
 
@@ -117,6 +127,17 @@ class AdminController extends Controller
 
     }
 
+    public function getQuizResultsAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $quiz = $em->find('QuizCoreBundle:Quiz', $request->getContent());
+       $serializer = $this->get('serializer');
+
+        $results = $quiz->getTestResults();
+        return new Response($serializer->serialize($results, 'json', SerializationContext::create()->setGroups(['results'])));
+
+    }
+
     /**
      * @return Response
      */
@@ -143,7 +164,6 @@ class AdminController extends Controller
 
 
                 $quiz = $em->find('QuizCoreBundle:Quiz', $jsonObject->id);
-
 
                 $quizId = null;
 
@@ -195,7 +215,10 @@ class AdminController extends Controller
         $quiz->setIsDisabled($jsonObject->is_disabled);
         $quiz->setIsPrivate($jsonObject->is_private);
         $quiz->setTime($jsonObject->time);
-
+        $quiz->setPassGrade($jsonObject->pass_grade);
+        $quiz->setTotalGrade($jsonObject->total_grade);
+        $quiz->setHasNegativeGrade($jsonObject->has_negative_grade);
+        $quiz->setShowQuestionsRandomly($jsonObject->show_questions_randomly);
 
         $qids = array_map(function($item){
             return $item->id;
@@ -239,6 +262,8 @@ class AdminController extends Controller
                 $questionToInsert->setOrder($question->order);
                 $questionToInsert->setType($question->type);
                 $questionToInsert->setQuestionText($question->question_text);
+                $questionToInsert->setCorrectAnswerGrade($question->correct_answer_grade);
+                $questionToInsert->setWrongAnswerGrade($question->wrong_answer_grade);
 
                 $quiz->addQuestion($questionToInsert);
                 $currentQuestionsFromDb = $questionToInsert;
@@ -250,6 +275,8 @@ class AdminController extends Controller
                 $currentQuestionsFromDb->setQuestionText($question->question_text);
                 $currentQuestionsFromDb->setType($question->type);
                 $currentQuestionsFromDb->setOrder($question->order);
+                $currentQuestionsFromDb->setCorrectAnswerGrade($question->correct_answer_grade);
+                $currentQuestionsFromDb->setWrongAnswerGrade($question->wrong_answer_grade);
 
                 if (isset($question->selected)) {
                     $quiz->addQuestion($currentQuestionsFromDb);
@@ -263,6 +290,55 @@ class AdminController extends Controller
             }, $question->answers);
 
 
+            $mids = array_map(function($item){
+                return $item->id;
+            }, $question->media_elements);
+
+
+
+
+
+
+            foreach($currentQuestionsFromDb->getMediaElements() as $todel) {
+                /* @var $todel MediaElement */
+
+                if (! in_array($todel->getId(), $mids)) {
+                    $todel->removeQuestion($currentQuestionsFromDb);
+                }
+            }
+
+            foreach($question->media_elements as $mediaElement) {
+
+                $currentMediaElementFromDb = null;
+
+                foreach ($currentQuestionsFromDb->getMediaElements() as $mm) {
+                    /* @var $mm MediaElement */
+
+
+                    if ($mm->getId() == $mediaElement->id) {
+                        $currentMediaElementFromDb = $mm;
+                    }
+                }
+
+
+
+                if ($mediaElement->id == 0) {
+                    // create new
+                    $mt = new MediaElement();
+
+                    $mt->setMediaType($mediaElement->media_type);
+                    $mt->setSrc($mediaElement->src);
+                    $currentQuestionsFromDb->addMediaElement($mt);
+
+
+                } else {
+                    if ($currentMediaElementFromDb == null) {
+                        $currentMediaElementFromDb = $this->get('doctrine.orm.entity_manager')->find('QuizCoreBundle:MediaElement', $mediaElement->id);
+                        $currentQuestionsFromDb->addMediaElement($currentMediaElementFromDb);
+                    }
+                }
+
+            }
 
 
             foreach($question->answers as $answer) {
@@ -296,7 +372,7 @@ class AdminController extends Controller
                     $answerToAdd->setAnswerText($answer->answer_text);
                     $answerToAdd->setLeftOrRight($answer->left_or_right);
                     $answerToAdd->setIsCorrect($answer->is_correct);
-
+                    $answerToAdd->setFeedback($answer->feedback);
 
                     $answerToAdd->setQuestion($currentQuestionsFromDb);
 
@@ -306,6 +382,7 @@ class AdminController extends Controller
                     $currentAnswerFromDb->setAnswerText($answer->answer_text);
                     $currentAnswerFromDb->setLeftOrRight($answer->left_or_right);
                     $currentAnswerFromDb->setIsCorrect($answer->is_correct);
+                    $currentAnswerFromDb->setFeedback($answer->feedback);
                 }
             }
 

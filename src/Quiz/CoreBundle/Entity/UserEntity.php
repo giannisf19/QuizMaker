@@ -6,6 +6,8 @@ use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -26,38 +28,43 @@ class UserEntity extends BaseUser {
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"results"})
      */
     protected $firstName;
 
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"results"})
      */
     protected $registryNumber;
 
 
     /**
      * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Quiz", mappedBy="owners", )
-     * @Groups({"admin"})
      * @Type("Quiz\CoreBundle\Entity\UserEntity")
+     * @Groups({"results"})
      */
 
     private $quizes;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"results"})
      */
     protected $semester;
 
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"results"})
      */
     protected $lastName;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Department", inversedBy="users")
+     * @Groups({"results"})
      */
     protected $department;
 

@@ -127,12 +127,7 @@
     {% javascripts '@QuizCoreBundle/Resources/public/js/models/registration/RegistrationModel.js'  %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
-    {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.js'  %}
-    <script src="{{ asset_url }}" type="text/javascript"></script>
-    {% endjavascripts %}
-    {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.el-gr.js'  %}
-    <script src="{{ asset_url }}" type="text/javascript"></script>
-    {% endjavascripts %}
+
 
     <script type="text/javascript">
         var vm = new RegistrationModule('{{ app.request.host  }}', '{{ app.request.port  }}');

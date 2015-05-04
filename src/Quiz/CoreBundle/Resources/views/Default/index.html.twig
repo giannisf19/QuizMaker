@@ -6,7 +6,7 @@
     {% endstylesheets %}
 {% endblock %}
 
-
+{% block pageTitle %}Αρχική σελίδα{% endblock %}
 {% block container %}
 
 
@@ -16,8 +16,7 @@
 
     <div class="row filter-bar">
         <div class="col-sm-6">
-            <select><option>sdfsdfsf</option></select>
-            <select><option>sdfsdfsf</option></select>
+                <input type="text" data-bind="textInput: searchTerm" class="form-control" placeholder="Αναζήτηση"/>
         </div>
     </div>
 
@@ -25,83 +24,78 @@
     <div class="row clearfix">
         <div class="col-sm-12">
 
-            <ul class="quiz-list">
+            <ul class="quiz-list" id="container" data-bind="foreach: $data">
 
 
 
-                <li class="">
+                <li class="item">
                     <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
+                        <div class="quiz-name"> <span><i class="fa fa-2x fa-check green-color"></i></span>
+                            <span data-bind="text: $data.name"></span></div>
+                        <div class="quiz-questions"><span data-bind="text: $data.questions().length" ></span> ερωτήσεις</div>
+                        <div class="quiz-type">
+
+
+                            <span data-bind="visible: $data.time() > 0, text: $data.time"></span>
+                            <span data-bind="visible: $data.time() > 0">λεπτά χρονικός περιορισμός.</span>
+
+                            <span data-bind="visible: $data.time() == 0">Χωρίς χρονικό περιορισμό.</span>
+
+                            <div class="text-center">
+                                <span class="btn btn-success" data-bind="click: function() { $root.start($data.id())}">Έναρξη</span>
+                            </div>
+
+                        </div>
                     </div>
                 </li>
 
 
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
 
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
-
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
-
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
-
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
-
-                <li class="">
-                    <div class="quiz-info-box">
-                        <div class="quiz-name">Τεχνολογία λογισμικού</div>
-                        <div class="quiz-questions">2 ερωτήσεις</div>
-                        <div class="quiz-type"><input type="checkbox" checked disabled> Χρονικός περιορισμός </div>
-                    </div>
-                </li>
 
             </ul>
 
         </div>
     </div>
 
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+    <script>
+
+
+        var obj = {{ sq |raw }};
+        var arr = [];
+
+
+        var url = '{{ url('_quiz_page') }}';
+        for (var a in obj) {
+            arr.push(obj[a]);
+        }
+
+        var vm = {
+            data: ko.mapping.fromJS(arr),
+            searchTerm : ko.observable(''),
+            start : function(id) {
+                url = url + '/' + id;
+                location.href = url;
+            }
+        };
+
+
+        var old = vm.data();
+        vm.searchTerm.subscribe(function(val){
+           var aa=  _.filter(old, function(c){
+               return _.contains(c.name(), val);
+            });
+
+            vm.data(aa);
+        });
+
+        ko.applyBindings(vm);
+
+    </script>
 
 {% endblock %}

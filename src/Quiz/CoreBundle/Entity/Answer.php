@@ -20,7 +20,7 @@ class Answer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $id;
 
@@ -28,14 +28,22 @@ class Answer
      * @var string
      *
      * @ORM\Column(name="AnswerText", type="string", length=255)
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $answerText;
 
 
     /**
+     * @ORM\Column(name="feedback", type="string", length=100000)
+     * @Groups({"admin", "results"})
+     */
+
+    protected $feedback;
+
+
+    /**
      * @ORM\Column(name="Correct", type="boolean")
-     * @Groups({"admin"})
+     * @Groups({"admin", "results"})
      */
     protected $isCorrect;
 
@@ -44,21 +52,21 @@ class Answer
     /**
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Question", inversedBy="answers")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $question;
 
 
     /**
      * @ORM\Column(type="string")
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $leftOrRight;
 
     /**
      *
      * @ORM\OneToOne(targetEntity="Quiz\CoreBundle\Entity\Answer", cascade={"persist"})
-     * @Groups({"public", "admin"})
+     * @Groups({"public", "admin", "results"})
      */
     protected $answer;
 
@@ -227,5 +235,29 @@ class Answer
     {
         $this->question = null;
         return $this;
+    }
+
+    /**
+     * Set feedback
+     *
+     * @param string $feedback
+     *
+     * @return Answer
+     */
+    public function setFeedback($feedback)
+    {
+        $this->feedback = $feedback;
+
+        return $this;
+    }
+
+    /**
+     * Get feedback
+     *
+     * @return string
+     */
+    public function getFeedback()
+    {
+        return $this->feedback;
     }
 }

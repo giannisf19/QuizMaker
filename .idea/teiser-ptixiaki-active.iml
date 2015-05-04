@@ -32,6 +32,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/sensio/framework-extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sensio/generator-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sensiolabs/security-checker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/snilius/twig-sort-by-field" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/assetic-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/monolog-bundle" />
@@ -97,6 +98,7 @@
           <root url="file://$MODULE_DIR$/vendor/twig/extensions" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/doctrine-cache-bundle" />
           <root url="file://$MODULE_DIR$/vendor/symfony/symfony1" />
+          <root url="file://$MODULE_DIR$/vendor/snilius/twig-sort-by-field" />
           <root url="file://$MODULE_DIR$/vendor/incenteev/composer-parameter-handler" />
           <root url="file://$MODULE_DIR$/vendor/bmatzner/fontawesome-bundle" />
         </CLASSES>
@@ -138,6 +140,7 @@
           <root url="file://$MODULE_DIR$/vendor/twig/extensions" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/doctrine-cache-bundle" />
           <root url="file://$MODULE_DIR$/vendor/symfony/symfony1" />
+          <root url="file://$MODULE_DIR$/vendor/snilius/twig-sort-by-field" />
           <root url="file://$MODULE_DIR$/vendor/incenteev/composer-parameter-handler" />
           <root url="file://$MODULE_DIR$/vendor/bmatzner/fontawesome-bundle" />
         </SOURCES>

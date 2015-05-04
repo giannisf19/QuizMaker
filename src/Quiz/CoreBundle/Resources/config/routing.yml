@@ -32,7 +32,7 @@ _start_quiz:
             path: /quiz/{id}/start
             defaults: {_controller: QuizCoreBundle:Quiz:start, id: 1}
             requirements:
-              _method: GET
+              _method: POST
 
 _submit_quiz:
         path: /quiz/{id}/submit
@@ -61,6 +61,22 @@ _get_questions:
     defaults: {_controller: QuizCoreBundle:Admin:getQuestions}
     requirements:
       _method: POST
+
+
+_get_media_elements:
+    path: /getMedia
+    defaults: {_controller: QuizCoreBundle:Admin:getMedia}
+    requirements:
+      _method: POST
+
+
+
+_get_quiz_results:
+    path: /getQuizResults
+    defaults: {_controller: QuizCoreBundle:Admin:getQuizResults}
+    requirements:
+      _method: POST
+
 
 _profile_page:
       path: /profile

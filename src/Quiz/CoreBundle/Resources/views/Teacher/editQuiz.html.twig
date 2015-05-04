@@ -28,7 +28,7 @@
         <div class="col-sm-6 input-group">
             <input id="name" type="text" class="form-control "
                   data-bind="textInput: Quiz.name"/>
-            <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+            <span data-bind="tooltip: {title: 'Το όνομα του quiz.', placement: 'right'}" class="input-group-addon"><i class="fa fa-info-circle"></i></span>
 
         </div>
     </div>
@@ -39,24 +39,70 @@
                 <input id="duration" type="text" class="form-control " data-bind="textInput: Quiz.time"
                       />
 
-                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                <span data-bind="tooltip: {title: 'Πόσο χρόνο έχει να ολοκληρώσει το Quiz. 0 για απεριόριστα.'}" class="input-group-addon"><i class="fa fa-info-circle"></i></span>
 
             </div>
         </div>
+
+
+
+        <div class="form-group">
+                <label for="totalGrade" class="control-label col-sm-2">Συνολική βαθμολογία:</label>
+
+                <div class="col-sm-6 input-group">
+                    <input id="totalGrade" data-bind="textInput: Quiz.total_grade" type="text" class="form-control">
+                    <span data-bind="tooltip: {title: 'Συνολική βαθμολογία (το άριστα).'}" class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="passGrade" class="control-label col-sm-2">Βαθμολογία επιτυχίας:</label>
+            <div class="col-sm-6 input-group">
+                <input id="passGrade" type="text" data-bind="textInput: Quiz.pass_grade" class="form-control">
+                <span data-bind="tooltip: {title: 'Η βαθμολογία που χρειάζεται για να επετύχει ο χρήστης.'}" class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="enabled" class="control-label col-sm-2">Αρνητική βαθμολογία:</label>
+            <div class="col-sm-6 input-group">
+                <input data-bind="checked: Quiz.has_negative_grade"   id="enabled" type="checkbox" class="checkbox-inline "/>
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="show-random" class="control-label col-sm-2">Τυχαία εμφάνιση ερωτήσεων:</label>
+            <div class="col-sm-6 input-group">
+                <input data-bind="checked: Quiz.show_questions_randomly"   id="show-random" type="checkbox" class="checkbox-inline "/>
+            </div>
+
+        </div>
+
 
         <div class="form-group">
             <label for="enabled" class="control-label col-sm-2">Απενεργοποιημένο:</label>
             <div class="col-sm-6 input-group">
-                <input data-bind="checked: Quiz.is_disabled"   id="enabled" type="checkbox" class="checkbox-inline "
-                      />
-
-                <span data-bind="click: saveQuiz, css: {disabled : (!$root.canSave())}" class="btn btn-info">Αποθήκευση <i data-bind="visible: $root.isLoading()"
-                                                                                     class="fa fa-spin fa-spinner"></i></span>
-
+                <input data-bind="checked: Quiz.is_disabled"   id="enabled" type="checkbox" class="checkbox-inline "/>
             </div>
 
         </div>
 
+        <div class="form-group">
+            <div class="col-sm-6 input-group">
+                <span data-bind="click: saveQuiz, css: {disabled : (!$root.canSave())}" class="btn btn-success">Αποθήκευση <i data-bind="visible: $root.isLoading()" class="fa fa-spin fa-spinner"></i></span>
+            </div>
+        </div>
+
+
+        <div class="error-box" data-bind="visible: Quiz.total_grade() != totalQuestionsGrade()">
+            <i class="fa fa-2x fa-info-circle red-color"></i>
+            <span class="white-color" data-bind="text: 'Έχετε ορίσει συνολική βαθμολογία ' + Quiz.total_grade() + ' ενώ στις ερωτήσεις η βαθμολογία είναι ' +
+            totalQuestionsGrade() + '.'"></span>
+        </div>
 
 
         <h4 class="page-header">Ερωτήσεις</h4>
@@ -79,15 +125,59 @@
                         </div>
                        <div data-bind="visible: $data.selected != undefined"> Ως νέα ερώτηση: <input type="checkbox" data-bind="checked: $data.edit" /></div>
                         <span class="btn btn-danger" data-bind="click: function() { $root.removeQuestion($index())}">Διαγραφή</span>
+
+                        <div class="grades-container row top-buffer">
+
+                            <div class="form-group top-buffer">
+                                <label for="correct_answer_grade" class="control-label col-sm-2">Βαθμός σωστής απάντησης:</label>
+                                <div class="col-sm-6 input-group">
+                                    <input data-bind="textInput: $data.correct_answer_grade" id="correct_answer_grade"   type="number" class="form-control "/>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group" data-bind="visible: $root.Quiz.has_negative_grade()">
+                                <label for="wrong_answer_grade" class="control-label col-sm-2">Αρνητική βαθμολογία:</label>
+                                <div class="col-sm-6 input-group">
+                                    <input data-bind="textInput: $data.wrong_answer_grade"  id="wrong_answer_grade"   type="number" class="form-control "/>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group" data-bind="visible: !$root.Quiz.show_questions_randomly()">
+                                <label for="order" class="control-label col-sm-2">Σειρά εμφάνισης:</label>
+                                <div class="col-sm-6 input-group">
+                                    <input data-bind="textInput: $data.order"  id="order"   type="number" class="form-control "/>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="top-buffer left-buffer-twenty-px media-element-container">
+                            <span data-toggle="modal" data-target="#insert-media-modal" class="btn btn-primary"
+                                  data-bind="click: function(){$root.current_question_id($index())}"><i class="fa fa-image"></i></span>
+                            <ul class="list-inline" data-bind="foreach: $data.media_elements">
+                                <li class="list-group-item media-element">
+                                    <a data-bind="attr: {href: $data.src}" target="_blank"><img width="200" height="200" data-bind="attr: {src: $data.src}" /></a>
+                                    <span data-bind="click: function() { $root.removeMediaElement($parentContext.$index(), $index()) }" class="btn btn-danger pull-right">
+                                        <i class="fa fa-remove"> </i></span> </li>
+                            </ul>
+                        </div>
                     </div>
 
 
+                    <h5 class="page-header">Απαντήσεις</h5>
                     <ul data-bind="foreach: $data.answers">
                         <li class="list-group-item" data-bind="css: { 'correct-answer': $data.is_correct() == true }">
                             <input type="text" data-bind="textInput: $data.answer_text, disable: $root.isQuestionDisabledForEditing($data.id())"/>
+                            <span>Συμβουλή στον χρήση μετά την απάντηση:</span>
+                            <input type="text" data-bind="textInput: $data.feedback">
                             <label>Σωστό</label>
                             <input type="checkbox" data-bind="checked: $data.is_correct, disable: $root.isQuestionDisabledForEditing($data.id())"/>
-                            <span data-bind="click: function() {$root.remove($parentContext.$index(), $index())}, css: {disabled: $root.isQuestionDisabledForEditing($data.id())}" class="left-buffer-twenty-px btn btn-danger badge"><i class="fa fa-remove"></i></span>
+                            <span data-bind="click: function() {$root.remove($parentContext.$index(), $index())}, css: {disabled: $root.isQuestionDisabledForEditing($data.id())}" class="left-buffer-twenty-px btn btn-danger pull-right"><i class="fa fa-remove"></i></span>
                         </li>
                     </ul>
 
@@ -127,7 +217,14 @@
 
 
     <script type="text/javascript">
-        var vm = new QuizEditViewModel( {{ quiz | raw }}, '{{ url('_save_quiz') }}', '{{ url('_get_questions') }}' );
+
+
+
+        {% if app.request.locale == 'el' %}
+             ko.validation.locale('el-GR');
+        {% endif %}
+
+        var vm = new QuizEditViewModel( {{ quiz | raw }}, '{{ url('_save_quiz') }}', '{{ url('_get_questions') }}', '{{ url('_get_media_elements') }}' );
         ko.applyBindings(vm);
 
     </script>

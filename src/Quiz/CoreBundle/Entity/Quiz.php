@@ -57,6 +57,22 @@ class Quiz
 
 
     /**
+     * @ORM\Column(name="show_questions_randomly", type="boolean")
+     * @Groups({"public", "admin"})
+     */
+
+    protected $showQuestionsRandomly;
+
+
+    /**
+     * @ORM\Column(name="negativeGrade", type="boolean")
+     * @Groups({"public", "admin"})
+     */
+
+    protected $hasNegativeGrade;
+
+
+    /**
      * @ORM\Column(name="Disabled", type="boolean")
      * @Groups({"public", "admin"})
      */
@@ -72,10 +88,24 @@ class Quiz
     protected $time;
 
 
+    /**
+     * @ORM\Column(name="totalGrade", type="decimal")
+     * @Groups({"public", "admin"})
+     */
+
+    protected $totalGrade;
+
+    /**
+     * @ORM\Column(name="passGrade", type="decimal")
+     * @Groups({"public", "admin"})
+     */
+
+    protected $passGrade;
 
 
     /**
      * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Question", mappedBy="quizes", cascade={"persist", "remove", "merge"})
+     * @ORM\OrderBy({"order"= "ASC"})
      * @Groups({"public", "admin"})
      */
     protected $questions;
@@ -86,7 +116,7 @@ class Quiz
 
     /**
      * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\TestResult", mappedBy="quiz", cascade={"all"})
-     * @Exclude()
+     * @Groups({"results"})
      */
 
     protected $TestResults;
@@ -353,4 +383,100 @@ class Quiz
 
 
 
+
+    /**
+     * Set totalGrade
+     *
+     * @param string $totalGrade
+     *
+     * @return Quiz
+     */
+    public function setTotalGrade($totalGrade)
+    {
+        $this->totalGrade = $totalGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get totalGrade
+     *
+     * @return string
+     */
+    public function getTotalGrade()
+    {
+        return $this->totalGrade;
+    }
+
+    /**
+     * Set passGrade
+     *
+     * @param string $passGrade
+     *
+     * @return Quiz
+     */
+    public function setPassGrade($passGrade)
+    {
+        $this->passGrade = $passGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get passGrade
+     *
+     * @return string
+     */
+    public function getPassGrade()
+    {
+        return $this->passGrade;
+    }
+
+    /**
+     * Set hasNegativeGrade
+     *
+     * @param boolean $hasNegativeGrade
+     *
+     * @return Quiz
+     */
+    public function setHasNegativeGrade($hasNegativeGrade)
+    {
+        $this->hasNegativeGrade = $hasNegativeGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get hasNegativeGrade
+     *
+     * @return boolean
+     */
+    public function getHasNegativeGrade()
+    {
+        return $this->hasNegativeGrade;
+    }
+
+    /**
+     * Set showQuestionsRandomly
+     *
+     * @param boolean $showQuestionsRandomly
+     *
+     * @return Quiz
+     */
+    public function setShowQuestionsRandomly($showQuestionsRandomly)
+    {
+        $this->showQuestionsRandomly = $showQuestionsRandomly;
+
+        return $this;
+    }
+
+    /**
+     * Get showQuestionsRandomly
+     *
+     * @return boolean
+     */
+    public function getShowQuestionsRandomly()
+    {
+        return $this->showQuestionsRandomly;
+    }
 }

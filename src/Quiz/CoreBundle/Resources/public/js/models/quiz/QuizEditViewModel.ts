@@ -11,16 +11,44 @@
      public isQuestionsLoading : KnockoutObservable<boolean>;
      public isLoading : KnockoutObservable<boolean>;
      public getQuestionsUrl : string;
+     public isMediaElementsLoading : KnockoutObservable<boolean>;
+     public totalQuestionsGrade : KnockoutObservable<number>;
 
-    constructor (quiz : any, url : string, getQuestionsUrl : string) {
+
+     public url_media_element : KnockoutObservable<string>;
+     public MyMediaElements : KnockoutObservableArray<any>;
+     public upload_media_element : KnockoutObservable<MediaElement>;
+     public current_question_id : KnockoutObservable<number>;
+     public getMediaElementsURL : KnockoutObservable<string>;
+
+
+    constructor (quiz : any, url : string, getQuestionsUrl : string, url2 : string) {
+
+
+        this.totalQuestionsGrade = ko.observable(0);
 
         if (quiz.name) {
             this.Quiz = ko.mapping.fromJS(quiz);
+
+            this.Quiz.name = ko.observable(this.Quiz.name()).extend({ required: true});
+            this.Quiz.time = ko.observable(this.Quiz.time()).extend({number: true, required: true});
+            this.Quiz.total_grade = ko.observable(this.Quiz.total_grade()).extend({number: true, required: true});
+            this.Quiz.pass_grade = ko.observable(this.Quiz.pass_grade()).extend({number: true, required: true, equalOrLess: this.Quiz.total_grade});
+
+
             _.map(this.Quiz.questions(), (curr : Question)=>{
                curr.edit = ko.observable(false);
             });
         } else {
             this.Quiz = new Quiz();
+
+
+            this.Quiz.name = ko.observable('').extend({number: false, required: true});
+            this.Quiz.time = ko.observable(60).extend({number: true, required: true});
+            this.Quiz.total_grade = ko.observable(0).extend({number: true, required: true});
+            this.Quiz.pass_grade = ko.observable(0).extend({number: true, required: true, equalOrLess: this.Quiz.total_grade});
+
+
         }
 
         this.saveQuizUrl =  url;
@@ -28,10 +56,44 @@
         this.isQuestionsLoading = ko.observable(false);
         this.MyQuestions = ko.observableArray([]);
         this.getQuestionsUrl = getQuestionsUrl;
+        this.isMediaElementsLoading = ko.observable(false);
+        this.upload_media_element = ko.observable(new MediaElement());
+        this.url_media_element = ko.observable('');
+        this.current_question_id = ko.observable(0);
+        this.getMediaElementsURL = ko.observable(url2);
+        this.MyMediaElements = ko.observableArray(null);
+
+
+
+
+
+        var total = 0;
+
+        _.forEach(this.Quiz.questions(), (c : Question) => {
+           total += parseInt(c.correct_answer_grade() + '');
+
+        });
+        this.totalQuestionsGrade(total);
+
+
+
+        if (! this.Quiz.show_questions_randomly()) {
+            this.Quiz.questions.sort( (a , b) => {
+               return a.order() == b.order() ? 0 :
+                   a.order() < b.order() ? -1 : 1;
+            });
+        }
+
+
+
+
 
 
       this.Quiz.questions.subscribe(()=>{
+
           _.forEach(this.Quiz.questions(), (curr: Question, index :number) =>{
+
+              // init answer id's
 
               var oldId = curr.id();
               var oldAnswers = curr.answers();
@@ -44,18 +106,31 @@
                           answer.id(0);
                       });
 
-
                   } else {
                       curr.id(oldId);
                       curr.answers(oldAnswers);
                   }
               });
 
+
+              curr.correct_answer_grade.subscribe((val : number) => {
+
+
+                  var total = 0;
+
+                  _.forEach(this.Quiz.questions(), (c : Question) =>{
+                     total += parseInt(c.correct_answer_grade() + '');
+                  });
+                  this.totalQuestionsGrade(total);
+
+              });
+
           });
       });
 
 
-
+        // fire the subscriptions manually
+        this.Quiz.questions.valueHasMutated();
     }
 
      remove(questionIndex : any, answerIndex : any) {
@@ -178,29 +253,27 @@
 
      canSave() {
 
-         if (this.Quiz.is_disabled()) {
-             return true;
-         }
+
+         var toReturn = false;
+         toReturn = this.Quiz.name.isValid() && this.Quiz.pass_grade.isValid() && this.Quiz.time.isValid() && this.Quiz.total_grade.isValid();
+
+
+
 
          if (this.Quiz.questions().length == 0 && !this.Quiz.is_disabled()) {
-             return false;
+             toReturn= false;
          } else if (this.Quiz.questions().length > 0)  {
 
-             var toReturn = true;
-
              _.forEach(this.Quiz.questions(), (current : Question) => {
-                 console.log('Evaluating ..');
                  if (current.answers().length == 0) {
                      toReturn = false;
                  }
              });
              return toReturn;
 
-
-         } else {
-
-             return true;
          }
+
+         return toReturn;
      }
 
 
@@ -223,9 +296,96 @@
 
                          this.isLoading(false);
                      }
+                     console.log(response);
                  }
              });
          }
+
+     }
+
+
+
+     removeMediaElement(questionIndex, elementIndex) {
+         console.log(questionIndex, elementIndex);
+         this.Quiz.questions()[questionIndex].media_elements.splice(elementIndex, 1);
+     }
+
+     insertNewMediaElement() {
+
+         var activeTabIndex = 0;
+          $('#media-insert-tabs').children().each((index,item)=>{
+              if ($(item).hasClass('active')) {
+                  activeTabIndex = index;
+              }
+          });
+
+
+
+         switch (activeTabIndex) {
+             case 0:
+                 if (this.upload_media_element().dataURL().length > 0) {
+
+                     var toAdd = new MediaElement();
+                     toAdd.src(this.upload_media_element().dataURL());
+                     toAdd.media_type('file');
+                     this.Quiz.questions()[this.current_question_id()].media_elements.push(toAdd);
+                     this.upload_media_element(new MediaElement());
+                 }
+                 break;
+
+             case 1:
+                 if (this.url_media_element().length > 0) {
+                    var toAdd = new MediaElement();
+                     toAdd.media_type('url');
+                     toAdd.src(this.url_media_element());
+                     this.Quiz.questions()[this.current_question_id()].media_elements.push(toAdd);
+                     this.url_media_element('');
+                 }
+
+                 break;
+
+             case 2:
+                 var q = this.Quiz.questions()[this.current_question_id()];
+
+                 var nonIncluded = _.filter(this.MyMediaElements(), (c : MediaElement) => {
+                     return c.selected() && _.filter(q.media_elements(), (a : MediaElement) => {
+                         return a.id() == c.id() }).length == 0;
+                 });
+
+                 _.forEach(nonIncluded, (item : MediaElement)=>{
+                    q.media_elements.push(item);
+                 });
+
+                 break;
+         }
+     }
+
+
+     getMediaElements() {
+
+
+         this.MyMediaElements([]);
+         this.isMediaElementsLoading(true);
+
+         $.ajax(this.getMediaElementsURL(), {
+             type: 'post',
+             success: (response) => {
+                 this.isMediaElementsLoading(false);
+                 var items = JSON.parse(response);
+
+                 _.forEach(items, (item : any)=>{
+                     var toAdd = new MediaElement();
+                     toAdd.id(item.id);
+                     toAdd.src(item.src);
+                     toAdd.media_type(item.media_type);
+                    toAdd.selected(false);
+
+                     this.MyMediaElements.push(toAdd);
+                 });
+
+
+             }
+         });
 
      }
 

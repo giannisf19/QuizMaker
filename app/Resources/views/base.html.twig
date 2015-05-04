@@ -17,7 +17,7 @@
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/bootstrap.min.js' %}
+        {% javascripts 'bundles/quizcore/js/bootstrap.min.js' filter='cssrewrite' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -37,6 +37,18 @@
         {% endstylesheets %}
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/sweetalert.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/knockout.file.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+
+
+
+
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/lightbox.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
@@ -63,9 +75,6 @@
         {% endjavascripts %}
 
 
-        {% javascripts '@QuizCoreBundle/Resources/public/js/scripts.js' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/lodash.js' %}
@@ -82,7 +91,32 @@
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/Quiz.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
+        {% javascripts '@QuizCoreBundle/Resources/public/js/knockoutfile.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.js'  %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+        {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.validation.el-gr.js'  %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.bootstrap.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/lightbox.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/scripts.js' %}
+        <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
         {% block javascripts %}{% endblock %}

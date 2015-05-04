@@ -9,6 +9,10 @@
             <link rel="stylesheet" href="{{ asset_url }}">
 {% endstylesheets %}
 
+    {% stylesheets 'bundles/quizcore/css/datatables.bootstrap.css'  filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
 {% endblock %}
 {% block containerFL %}
 
@@ -17,38 +21,24 @@
 <div class="row">
 
 
+    <div class="spinner" data-bind="visible: isLoading()">
+        <span><i class="fa fa-5x fa-spin fa-spinner"></i></span>
+    </div>
+
+
+
     <div class="col-sm-2 no-padding">
 
         <div class="collapse no-padding navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li class="active">
-                    <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                <li class="active dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-1"><i class="fa fa-fw fa-dashboard "></i> Αποτελέσματα</a>
                 </li>
-                <li>
-                    <a data-toggle="tab" href="#panel-1"><i class="fa fa-fw fa-question-circle"></i>{{ 'Τα Quiz μου' | trans }}</a>
+                <li class="dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-2"><i class="fa fa-fw fa-question-circle"></i>{{ 'Τα Quiz μου' | trans }}</a>
                 </li>
-                <li>
-                    <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-                </li>
-                <li>
-                    <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                </li>
-                <li>
-                    <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                </li>
-                <li>
-                    <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                </li>
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="demo" class="collapse">
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                    </ul>
+                <li class="dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-3"><i class="fa fa-fw fa-table"></i> Στατιστικά</a>
                 </li>
 
 
@@ -60,11 +50,23 @@
 
     <div class="col-sm-10">
         <div class="tab-content">
-            <div class="tab-pane" id="panel-1">
 
 
+
+            <div class="tab-pane active" id="panel-1">
+                <h1 class="page-header">Αποτελέσματα</h1>
+                <span>Επιλέξετε Quiz: </span> <select class="bottom-buffer" data-bind="options: Quizes, optionsText: 'name', value: selectedQuiz"></select>
+
+
+                <table class="table table-striped table-bordered top40-buffer" id="results-table"></table>
+            </div>
+
+
+            <div class="tab-pane" id="panel-2">
 
                 <h1 class="page-header">Τα Quiz μου</h1>
+
+                <a class="btn btn-success" href="{{ url('_new_quiz') }}">Δημιουργία νέου Quiz</a>
 
                 {% if user.getQuizes.count == 0 %}
                     <span>Δεν έχετε δημιουργήσει κανένα quiz.</span>
@@ -74,7 +76,7 @@
                         <div class="quiz-info-bar">
                            <div class="visible-info"> <i class="fa fa-2x fa-chevron-down"></i> <span class="quiz-name"> {{  quiz.getName }}</span></div>
                            <div class="quiz-more-info">
-                               {{ quiz.getQuestions.count }} ερωτήσεις, {{ quiz.getTime  }} <span class="btn btn-success"><a href='{{ url('_edit_quiz') ~ '/' ~ quiz.getId }}'><i class="fa fa-cog"></i></a></span>
+                               {{ quiz.getQuestions.count }} ερωτήσεις, {{ quiz.getTime  }} λεπτά, {{ quiz.getIsDisabled ? 'Απενεργοποιημένο': 'Online' }}  <a class="btn btn-success edit-quiz-btn" href='{{ url('_edit_quiz') ~ '/' ~ quiz.getId }}'><i class="fa fa-cog"></i></a>
                            </div>
 
                         </div>
@@ -82,6 +84,80 @@
 
                 {% endif %}
             </div>
+
+
+
+            <div class="modal fade" id="moreInfoModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Αποτέλεσμα</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="page-header text-center" data-bind="text: selectedQuiz().name"></h3>
+                            <div>
+                                <label>Όνομα:</label>
+                                <span data-bind="text: currentResult().user.first_name + ' ' + currentResult().user.last_name"></span>
+                            </div>
+
+                            <div>
+                                <label>Βαθμός:</label>
+                                <span data-bind="text: currentResult().degree"></span>
+                            </div>
+
+                            <div>
+                                <label>Αποτέλεσμα:</label>
+                                <span class="text-danger" data-bind="visible: $root.currentResult().is_passed == false">ΑΠΟΤΥΧΙΑ</span>
+                                <span class="text-success" data-bind="visible: $root.currentResult().is_passed == true">ΕΠΙΤΥΧΙΑ</span>
+                            </div>
+
+
+                            <h4 class="page-header">Απαντήσεις</h4>
+
+                            <span class="text-danger" data-bind="visible: currentResult().results.length ==0">
+                                Ο χρήστης δεν απάντησε σε καμία ερώτηση.
+                            </span>
+                            <div data-bind="foreach: currentResult().questionAnswer">
+                                <div>
+                                    <div>
+                                        <label>Ερώτηση:</label> <span data-bind="text: $data.question.question_text"></span>
+                                    </div>
+                                    <div data-bind="foreach: $data.answers">
+                                        <div>
+                                            <label>Απάντηση: </label> <span data-bind="text: $data.answer_text"></span>
+                                            <span class="fa fa-2x fa-check green-color" data-bind="visible: $data.is_correct"></span>
+                                            <span class="fa fa-2x fa-times red-color" data-bind="visible: !$data.is_correct"></span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Οκ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="tab-pane" id="panel-3">
+
+                <h1 class="page-header">Στατιστικά</h1>
+
+                <span>Επιλέξετε Quiz: </span> <select class="bottom-buffer" data-bind="options: Quizes, optionsText: 'name', value: selectedQuiz"></select>
+
+
+            </div>
+
+
+
+
 
         </div>
     </div>
@@ -97,7 +173,36 @@
 {% endblock %}
 
   {% block javascripts %}
+
+
+      {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.datatables.js' %}
+      <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
+      {% javascripts '@QuizCoreBundle/Resources/public/js/datatables.bootstrap.js' %}
+      <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
+
+      {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.flot.js' %}
+            <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
+      {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/ResultViewModel.js' %}
+      <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
+
       <script type="text/javascript">
+
+
+          var vm = new ResultViewModel('{{ url('_get_quiz_results') }}', '{{ asset('js/i18n.lang') }}');
+          _.forEach({{ quiz | raw }}, function(item) {
+             vm.Quizes.push(item);
+          });
+
+
+          ko.applyBindings(vm);
 
           $(function() {
 

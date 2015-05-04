@@ -26,3 +26,13 @@ $(function() {
 });
 
 
+ko.validation.rules['equalOrLess'] = {
+    validator: function (val, otherVal) {
+        return parseInt(val) <= parseInt(otherVal);
+    },
+    message: 'Η βαθμολογία επιτυχίας δεν μπορεί να είναι μεγαλύτερη από την συνολική βαθμολογία.'
+};
+
+ko.validation.registerExtenders();
+
+

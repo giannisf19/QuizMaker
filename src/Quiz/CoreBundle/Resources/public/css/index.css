@@ -17,6 +17,7 @@
 .quiz-name {
     font-size: 20px;
     color: white;
+    height: 80px;
     letter-spacing: 1px;
     padding-right: 5px;
     background: darkgreen;

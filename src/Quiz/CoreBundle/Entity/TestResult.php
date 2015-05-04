@@ -4,6 +4,8 @@ namespace Quiz\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 
 
 /**
@@ -20,6 +22,7 @@ class TestResult
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"results"})
      */
     private $id;
 
@@ -27,6 +30,7 @@ class TestResult
     /**
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\UserEntity")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Groups({"results"})
      */
 
     private $user;
@@ -35,15 +39,14 @@ class TestResult
      * @var \stdClass
      *
      * @ORM\ManyToOne(targetEntity="Quiz\CoreBundle\Entity\Quiz", inversedBy="TestResults")
+     * @Groups({"public","admin","results"})
      */
     private $quiz;
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quiz\CoreBundle\Entity\Result")
-     * @ORM\JoinTable(name="test_results",
-     * joinColumns={@ORM\JoinColumn(name="test_result_id", referencedColumnName="id")},
-     * inverseJoinColumns={@ORM\JoinColumn(name="result_id", referencedColumnName="id", unique=true)})
+     * @ORM\OneToMany(targetEntity="Quiz\CoreBundle\Entity\Result", mappedBy="testResult", cascade={"persist", "merge", "remove"})
+     * @Groups({"admin", "public", "results"})
      */
     protected $results;
 
@@ -51,6 +54,7 @@ class TestResult
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @Groups({"admin", "public", "results"})
      */
     private $date;
 
@@ -58,6 +62,7 @@ class TestResult
      * @var boolean
      *
      * @ORM\Column(name="completed", type="boolean")
+     * @Groups({"admin", "public", "results"})
      */
     private $completed;
 
@@ -65,9 +70,23 @@ class TestResult
      * @var string
      *
      * @ORM\Column(name="degree", type="string", length=255)
+     * @Groups({"admin", "public", "results"})
      */
     private $degree;
 
+    /**
+     * @ORM\Column(name="test_duration", type="integer")
+     * @Groups({"results"})
+     */
+
+    protected $testDuration;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"admin", "public", "results"})
+     */
+
+    protected $isPassed;
 
     /**
      * Get id
@@ -187,7 +206,7 @@ class TestResult
     public function addResult(\Quiz\CoreBundle\Entity\Result $results)
     {
         $this->results[] = $results;
-
+        $results->setTestResult($this);
         return $this;
     }
 
@@ -232,5 +251,53 @@ class TestResult
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set isPassed
+     *
+     * @param boolean $isPassed
+     *
+     * @return TestResult
+     */
+    public function setIsPassed($isPassed)
+    {
+        $this->isPassed = $isPassed;
+
+        return $this;
+    }
+
+    /**
+     * Get isPassed
+     *
+     * @return boolean
+     */
+    public function getIsPassed()
+    {
+        return $this->isPassed;
+    }
+
+    /**
+     * Set testDuration
+     *
+     * @param integer $testDuration
+     *
+     * @return TestResult
+     */
+    public function setTestDuration($testDuration)
+    {
+        $this->testDuration = $testDuration;
+
+        return $this;
+    }
+
+    /**
+     * Get testDuration
+     *
+     * @return integer
+     */
+    public function getTestDuration()
+    {
+        return $this->testDuration;
     }
 }

@@ -7,9 +7,15 @@
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Entity/Question.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Entity/UserEntity.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/css/quiz.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/knockoutfile.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/Quiz.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/QuizEditViewModel.ts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/QuizViewModel.ts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/models/quiz/ResultViewModel.ts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/public/js/scripts.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/views/Partials/_insertQuestionModal.html..twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/views/Teacher/editQuiz.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Quiz/CoreBundle/Resources/views/Teacher/teacherDashboard.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/js/i18n.lang" charset="UTF-8" />
   </component>
 </project>
