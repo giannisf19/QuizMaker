@@ -1,0 +1,9 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+
+ {% block pageTitle %}{{ "Επεξεργασία προφίλ" | trans() }}{% endblock %}
+
+
+{% block fos_user_content %}
+    {% include "edit_content.html.twig" %}
+{% endblock fos_user_content %}

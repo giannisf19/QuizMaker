@@ -7,7 +7,13 @@
             </div>
 
             <div class="col-sm-3">
-                <h3>{{ message ~ '' }}</h3>
+                <h3>
+
+                    {% if message is defined %}
+                        {{ message ~ '' }}
+                    {% endif %}
+
+                </h3>
             </div>
 
             <div class="col-sm-3">
@@ -23,6 +29,12 @@
                     <div class="user-name menu-item"> <i class="fa fa-user"></i> {{ app.user }} </div>
                     <ul class="user-info-box">
                         <li><i class="fa fa-user"></i> <a class="menu-link" href="{{ url('_profile_page') }}"> {{ 'Προφίλ' | trans }}</a></li>
+
+                        {% if app.user.granted('ROLE_STUDENT') %}
+                            <li><i class="fa fa-history"></i> <a class="menu-link" href="{{ url('_quiz_histories') }}"> {{ 'Ιστορικό' | trans }}</a></li>
+                        {% endif %}
+
+
                         <li>  <i class="fa fa-sign-out"></i> <a class="menu-link" href="{{ url('fos_user_security_logout') }}">{{ 'Έξοδος' | trans }}</a></li>
                     </ul>
                 {% endif %}

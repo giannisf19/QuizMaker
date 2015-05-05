@@ -48,6 +48,12 @@ class RegistrationFormType extends AbstractType {
 
         ]);
 
+
+        $builderInterface->add('userType', 'choice', [
+            'choices' => ['m' => 'Μαθητής', 'k' => 'Καθηγητής'],
+            'required' => true
+        ]);
+
         $builderInterface->add('department', 'entity', [
             'class' => 'Quiz\CoreBundle\Entity\Department',
             'property' => 'name'

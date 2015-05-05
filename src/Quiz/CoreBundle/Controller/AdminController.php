@@ -133,8 +133,15 @@ class AdminController extends Controller
         $quiz = $em->find('QuizCoreBundle:Quiz', $request->getContent());
        $serializer = $this->get('serializer');
 
-        $results = $quiz->getTestResults();
-        return new Response($serializer->serialize($results, 'json', SerializationContext::create()->setGroups(['results'])));
+
+        if ($this->getUser()->getQuizes()->contains($quiz)) {
+            $results = $quiz->getTestResults();
+            return new Response($serializer->serialize($results, 'json', SerializationContext::create()->setGroups(['results'])));
+        } else {
+            return new Response("[]");
+        }
+
+
 
     }
 

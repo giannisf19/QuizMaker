@@ -40,11 +40,14 @@ class DefaultController extends Controller
 
         foreach($all as $quiz) {
             /* @var $quiz Quiz */
-            $ret  = new \stdClass();
-            $ret->name = $quiz->getName();
-            $ret->id = $quiz->getId();
 
-            array_push($retValues, $ret);
+            if ($user->getQuizes()->contains($quiz)) {
+                $ret  = new \stdClass();
+                $ret->name = $quiz->getName();
+                $ret->id = $quiz->getId();
+
+                array_push($retValues, $ret);
+            }
 
         }
 
@@ -70,17 +73,19 @@ class DefaultController extends Controller
             return $this->render('@QuizCore/Teacher/teacherDashboard.html.twig', ['quiz' => json_encode($retValues)  ,'user' => $this->getUser(), 'message' => $message]);
 
         } else if (in_array('ROLE_SUPER_ADMIN',$userRoles)) {
-            // super
+
+            return $this->render('@QuizCore/SuperAdmin/index.html..twig', ['message' => 'Διαχειριστής']);
         }
 
-        $enabledQuizes = $em->getRepository('QuizCoreBundle:Quiz')->findBy(['isDisabled' => false]);
 
+
+        // student
+        $enabledQuizes = $em->getRepository('QuizCoreBundle:Quiz')->findBy(['isDisabled' => false]);
         $enabledQuizes = array_filter($enabledQuizes, function($item) {
             /* @var $item Quiz */
             return $item->getQuestions()->count() > 0;
         });
-
-        return $this->render('@QuizCore/Default/index.html.twig', ['message' => '', 'quizes' => $enabledQuizes,
+        return $this->render('@QuizCore/Default/index.html.twig', ['message' => 'Αρχική σελίδα', 'quizes' => $enabledQuizes,
             'sq' => $serializer->serialize($enabledQuizes, 'json', SerializationContext::create()->setGroups(['public']))]);
     }
 
@@ -88,6 +93,15 @@ class DefaultController extends Controller
     public function ProfileAction()
     {
 
+
+    }
+
+    public function historyAction()
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $resultsByUser  = $em->getRepository('QuizCoreBundle:TestResult')->findBy(['user' => $this->getUser()]);
+
+        return $this->render('@QuizCore/Quiz/history.html..twig', ['results' =>  $resultsByUser, 'message' => 'Ιστορικό']);
 
     }
 

@@ -10,21 +10,28 @@ class ResultViewModel {
     public selectedQuiz  : KnockoutObservable<any> = ko.observable();
     public isLoading : KnockoutObservable<boolean> = ko.observable(false);
     public dt : any;
+    public countChart : any;
+    public gradesChart : any;
     public assetUrl : any;
     public data = [];
     public currentResult : KnockoutObservable<any> = ko.observable({user : {first_name: '', last_name :''}, results :[]});
     public resp : any;
     public getResultsUrl  : string;
-    constructor(url : string, assetUrl : any) {
+    public swfUrl : string;
+    constructor(url : string, assetUrl : any, swf) {
 
 
         this.getResultsUrl = url;
         this.assetUrl = assetUrl;
-
+        this.swfUrl = swf;
 
         this.selectedQuiz.valueHasMutated();
         this.selectedQuiz.subscribe(()=> {
 
+
+            if (this.selectedQuiz().length < 1) {
+                return;
+            }
             this.isLoading(true);
             $.ajax(this.getResultsUrl, {
                 type : 'post',
@@ -35,6 +42,14 @@ class ResultViewModel {
                     var obj = JSON.parse(response);
                     this.data = [];
                     this.resp = obj;
+
+
+                    var countSuccess = 0;
+                    var countFail = 0;
+
+                    var gradesData  = [];
+
+
                     for (var a in Object.keys(obj)) {
 
                         var b = obj[a];
@@ -53,14 +68,63 @@ class ResultViewModel {
                             'Κλικ'
                         ];
 
+
+
+
+                        if (b.is_passed) {
+                            countSuccess++;
+                        } else {
+                            countFail++;
+                        }
+
+
+
+
+                        // grades chart data
+                        var index = _.findIndex(gradesData, (tt : any) => {
+                            return tt.name == b.degree;
+                        });
+
+
+
+                        if (index == -1) {
+                            gradesData.push({name: b.degree, data: [1]})
+                        } else {
+                            gradesData[index].data[0]++;
+                        }
+
+
+
                         this.data.push(toAdd);
                     }
+
 
 
                     this.dt.fnClearTable();
 
                     if (this.data.length != 0) {
                         this.dt.fnAddData(this.data);
+                        this.countChart.highcharts().series[0].setData([
+                            ['Επιτυχία', countSuccess],
+                            ['Αποτυχία', countFail]
+                        ]);
+
+
+                        gradesData.sort((a : any,b : any)=> {
+                            return  b.data-a.data;
+                        });
+
+                        _.forEach(gradesData, (gdata) => {
+                            this.gradesChart.highcharts().addSeries(gdata);
+                        });
+
+
+                    } else {
+                        this.countChart.highcharts().series[0].setData([]);
+
+                        while(this.gradesChart.highcharts().series.length > 0) {
+                            this.gradesChart.highcharts().series[0].remove(true);
+                        }
                     }
 
 
@@ -76,7 +140,7 @@ class ResultViewModel {
             this.dt = $('#results-table').dataTable({
 
                 data : [],
-
+                "sDom": 'Tlfrtip',
                 columns: [
                     {'title' : 'Id'},
                     {'title' : 'Όνομα'},
@@ -88,7 +152,36 @@ class ResultViewModel {
                     {'title' : 'Αποτέλεσμα'},
                     {'title' : 'Λεπτομέρειες'}
                 ],
-                language: {url :this.assetUrl}
+                language: {url :this.assetUrl},
+
+                "tableTools": {
+                    "sSwfPath": this.swfUrl,
+                    "sDom": 'Tlfrtip',
+                    "aButtons": [
+                        {
+                            "sExtends": "copy",
+                            "sButtonText": "Αντιγραφή"
+                        },
+                        {
+                            "sExtends": "print",
+                            "sButtonText": "Εκτύπωση"
+                        },
+                        {
+                            "sExtends": "csv",
+                            "sButtonText": "CSV"
+                        },
+                        {
+                            "sExtends": "pdf",
+                            "sButtonText": "PDF"
+                        },
+                        {
+                            "sExtends": "xls",
+                            "sButtonText": "Excel"
+                        }
+
+                    ]
+
+                }
             });
 
 
@@ -134,6 +227,86 @@ class ResultViewModel {
                 $('#moreInfoModal').modal('show');
 
             });
+
+
+
+
+
+
+
+            this.countChart = $('#countChart').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    width: 600
+                },
+                title: {
+                    text: 'Πόσοι πέρασαν από όσους πήραν το Quiz'
+                },
+                tooltip: {
+
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                //color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Σύνολο',
+                    data: [
+                       ['Επιτυχία', 20],
+                        ['Αποτυχία', 80]
+
+                    ]
+                }]
+            });
+
+
+
+            this.gradesChart =  $('#gradesChart').highcharts({
+                chart: {
+                    type: 'column',
+                    width: 600
+                },
+                title: {
+                    text: 'Κατανομή βαθμών'
+                },
+
+
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Σύνολο'
+                    }
+                },
+                tooltip: {
+
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: []
+
+            });
+
+
+
+
+
+
 
         });
 

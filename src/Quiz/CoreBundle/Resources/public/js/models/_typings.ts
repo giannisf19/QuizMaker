@@ -7,4 +7,6 @@
 /// <reference path="../typings/knockout.mapping/knockout.mapping.d.ts"/>
 /// <reference path="../typings/toastr/toastr.d.ts"/>
 /// <reference path="../typings/jquery.dataTables/jquery.dataTables.d.ts"/>
+/// <reference path="../typings/highcharts/highcharts.d.ts"/>
+
 /// <reference path="quiz/Quiz.ts"/>

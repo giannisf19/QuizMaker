@@ -1,0 +1,42 @@
+{% extends '@FOSUser/layout.html.twig' %}
+{% block pageTitle %}Διαχειριστής{% endblock %}
+
+
+
+{% block stylesheets %}
+{% stylesheets '@QuizCoreBundle/Resources/public/css/admin-page.css'  filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+
+{% endblock %}
+
+{% block containerFL %}
+{% include '@QuizCore/Partials/_header.html.twig' %}
+
+
+
+    <div class="col-sm-2 no-padding">
+
+        <div class="collapse no-padding navbar-collapse navbar-ex1-collapse navbar-left2">
+            <ul class="nav navbar-nav side-nav">
+                <li class="active dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-1"><i class="fa fa-fw fa-dashboard "></i> Αποτελέσματα</a>
+                </li>
+                <li class="dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-2"><i class="fa fa-fw fa-question-circle"></i>{{ 'Τα Quiz μου' | trans }}</a>
+                </li>
+                <li class="dashboard-menu-item">
+                    <a data-toggle="tab" href="#panel-3"><i class="fa fa-fw fa-table"></i> Στατιστικά</a>
+                </li>
+
+
+            </ul>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
+

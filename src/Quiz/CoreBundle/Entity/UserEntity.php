@@ -59,6 +59,13 @@ class UserEntity extends BaseUser {
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Groups({"results"})
      */
+    protected $userType;
+
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"results"})
+     */
     protected $lastName;
 
 
@@ -249,5 +256,33 @@ class UserEntity extends BaseUser {
     public function getQuizes()
     {
         return $this->quizes;
+    }
+
+    public function granted($role) {
+        return in_array($role, $this->getRoles());
+    }
+
+    /**
+     * Set userType
+     *
+     * @param string $userType
+     *
+     * @return UserEntity
+     */
+    public function setUserType($userType)
+    {
+        $this->userType = $userType;
+
+        return $this;
+    }
+
+    /**
+     * Get userType
+     *
+     * @return string
+     */
+    public function getUserType()
+    {
+        return $this->userType;
     }
 }

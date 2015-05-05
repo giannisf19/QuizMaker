@@ -1,0 +1,58 @@
+{% extends '@FOSUser/layout.html.twig' %}
+  {% block pageTitle %}Ιστορικό αποτελεσμάτων{% endblock %}
+
+{% block container %}
+
+
+    {%   include '@QuizCore/Partials/_header.html.twig' %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2 class="page-header">Ιστορικό αποτελεσμάτων</h2>
+
+
+            {% if results | length == 0 %}
+                <p class="text-info">Δεν έχετε ολοκληρώσει ακόμα κάποιο Quiz.</p>
+            {% else %}
+
+
+
+
+                <table class="table">
+                    <tr>
+                        <th>Όνομα Quiz</th>
+                        <th>Ημερομηνία</th>
+                        <th>Βαθμός</th>
+                        <th>Αποτέλεσμα</th>
+                        <th>Διάρκεια</th>
+                    </tr>
+
+
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ result.getQuiz.getName }}</td>
+                            <td>{{ result.getDate | date('m/d/Y') }}</td>
+                            <td>{{ result.getDegree }}</td>
+                            <td>
+                                {% if  result.getIsPassed  %}
+                                    Επιτυχία
+                                {% else %}
+                                    Αποτυχία
+                                {% endif %}
+                            </td>
+                            <td>{{ result.getTestDuration }} λεπτά</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+
+            {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}
+

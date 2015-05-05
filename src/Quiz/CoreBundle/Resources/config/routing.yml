@@ -81,3 +81,8 @@ _get_quiz_results:
 _profile_page:
       path: /profile
       defaults: {_controller: QuizCoreBundle:Default:Profile}
+
+
+_quiz_histories:
+    path: /history
+    defaults: {_controller: QuizCoreBundle:Default:history}

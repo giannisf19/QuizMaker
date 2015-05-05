@@ -80,6 +80,9 @@ fos_user:
   db_driver: orm
   firewall_name: main
   user_class: Quiz\CoreBundle\Entity\UserEntity
+  profile:
+    form:
+        type: ap_edit_profile
   registration:
     form:
         type: quiz_user_registration

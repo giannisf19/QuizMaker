@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
 
+    {% stylesheets '@QuizCoreBundle/Resources/public/css/tableTools.css'  filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
 {% endblock %}
 {% block containerFL %}
 
@@ -153,6 +157,19 @@
                 <span>Επιλέξετε Quiz: </span> <select class="bottom-buffer" data-bind="options: Quizes, optionsText: 'name', value: selectedQuiz"></select>
 
 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="countChart">
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6" id="gradesChart">
+
+                    </div>
+                </div>
+
             </div>
 
 
@@ -179,13 +196,21 @@
       <script type="text/javascript" src="{{ asset_url }}" ></script>
       {% endjavascripts %}
 
+      {% javascripts '@QuizCoreBundle/Resources/public/js/tabletools.js' %}
+      <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
       {% javascripts '@QuizCoreBundle/Resources/public/js/datatables.bootstrap.js' %}
       <script type="text/javascript" src="{{ asset_url }}" ></script>
       {% endjavascripts %}
 
 
-      {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.flot.js' %}
+      {% javascripts '@QuizCoreBundle/Resources/public/js/higchcharts.js' %}
             <script type="text/javascript" src="{{ asset_url }}" ></script>
+      {% endjavascripts %}
+
+      {% javascripts '@QuizCoreBundle/Resources/public/js/highcharts.export.js' %}
+      <script type="text/javascript" src="{{ asset_url }}" ></script>
       {% endjavascripts %}
 
       {% javascripts '@QuizCoreBundle/Resources/public/js/models/quiz/ResultViewModel.js' %}
@@ -196,7 +221,7 @@
       <script type="text/javascript">
 
 
-          var vm = new ResultViewModel('{{ url('_get_quiz_results') }}', '{{ asset('js/i18n.lang') }}');
+          var vm = new ResultViewModel('{{ url('_get_quiz_results') }}', '{{ asset('js/i18n.lang') }}', '{{ asset('bundles/quizcore/swf/copy_csv_xls_pdf.swf')  }}');
           _.forEach({{ quiz | raw }}, function(item) {
              vm.Quizes.push(item);
           });

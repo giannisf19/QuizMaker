@@ -213,3 +213,11 @@ body {
 .bottom-buffer {
     margin-bottom:20px;
 }
+
+
+.navbar-left2 {
+    background: black;
+}
+
+div.DTTT { margin-bottom: 0.5em; float: right; }
+div.dataTables_wrapper { clear: both; }

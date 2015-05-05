@@ -9,3 +9,14 @@ services:
            public: false
            tags:
                - { name: twig.extension }
+
+    quiz_user.group_set:
+      class: %quiz_user.group_set.class%
+      arguments: [@fos_user.user_manager, @doctrine.orm.entity_manager]
+      tags:
+        - { name: kernel.event_subscriber }
+    ap_user.edit.form.type:
+            class: Quiz\CoreBundle\Form\Type\EditFormType
+            arguments: [%fos_user.model.user.class%]
+            tags:
+                - { name: form.type, alias: ap_edit_profile }

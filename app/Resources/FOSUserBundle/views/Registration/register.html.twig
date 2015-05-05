@@ -16,6 +16,21 @@
                 <h2>{{ "Εγγραφή νέου χρήστη" | trans() }}</h2>
                 <hr class="colorgraph">
 
+
+
+
+                <div class="form-group">
+                    <label for="fos_user_registration_form_firstName" class="col-sm-2 control-label">{{ 'Τύπος' | trans() }}:</label>
+                    <div class="col-xs-10 input-group">
+                        {{ form_widget(form.userType, {'attr': {'class': 'form-control col-sm-10' }}) }}
+                    </div>
+
+                </div>
+
+
+
+
+
                 <div class="form-group">
                     <label for="fos_user_registration_form_firstName" class="col-sm-2 control-label">{{ 'Όνομα' | trans() }}:</label>
                     <div class="col-xs-10 input-group">
