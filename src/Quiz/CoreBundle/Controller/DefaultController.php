@@ -74,7 +74,7 @@ class DefaultController extends Controller
 
         } else if (in_array('ROLE_SUPER_ADMIN',$userRoles)) {
 
-            return $this->render('@QuizCore/SuperAdmin/index.html..twig', ['message' => 'Διαχειριστής']);
+            return $this->render('index.html.twig', ['message' => 'Διαχειριστής']);
         }
 
 
@@ -101,7 +101,7 @@ class DefaultController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         $resultsByUser  = $em->getRepository('QuizCoreBundle:TestResult')->findBy(['user' => $this->getUser()]);
 
-        return $this->render('@QuizCore/Quiz/history.html..twig', ['results' =>  $resultsByUser, 'message' => 'Ιστορικό']);
+        return $this->render('history.html.twig', ['results' =>  $resultsByUser, 'message' => 'Ιστορικό']);
 
     }
 
