@@ -41,13 +41,16 @@ class DefaultController extends Controller
         foreach($all as $quiz) {
             /* @var $quiz Quiz */
 
-            if ($user->getQuizes()->contains($quiz)) {
-                $ret  = new \stdClass();
-                $ret->name = $quiz->getName();
-                $ret->id = $quiz->getId();
+            if (isset($user)) {
+                if ($user->getQuizes()->contains($quiz)) {
+                    $ret  = new \stdClass();
+                    $ret->name = $quiz->getName();
+                    $ret->id = $quiz->getId();
 
-                array_push($retValues, $ret);
+                    array_push($retValues, $ret);
+                }
             }
+
 
         }
 
