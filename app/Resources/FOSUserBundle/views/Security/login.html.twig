@@ -5,9 +5,7 @@
 
     {% block container %}
 
-        {% if error %}
-            <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-        {% endif %}
+
 
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info" >
@@ -34,6 +32,13 @@
 
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+
+                        {% if error %}
+                            <div class="row">
+                                <div class="col-xs-6 red-color">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            </div>
+
+                        {% endif %}
 
                         <div class="input-group">
                             <div class="checkbox">
