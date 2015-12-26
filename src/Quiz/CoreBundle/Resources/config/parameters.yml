@@ -1,0 +1,2 @@
+quiz_user.group_set.class: Quiz\CoreBundle\EventListener\NewUserGroupSet
+user_class: Quiz\CoreBundle\Entity\UserEntity

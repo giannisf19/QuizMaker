@@ -1,9 +1,7 @@
 /// <reference path="../../typings/knockout/knockout.d.ts"/>
 /// <reference path="../../typings/knockout.validation/knockout.validation.d.ts"/>
 /// <reference path="../../typings/jquery/jquery.d.ts"/>
-/// <reference path="../../typings/lodash/lodash.d.ts"/>
 /// <reference path="../../typings/sweetalert/sweetalert.d.ts"/>
-/// <reference path="../../typings/bootstrap/bootstrap.d.ts"/>
 /// <reference path="../../typings/knockout.mapping/knockout.mapping.d.ts"/>
 /// <reference path="Quiz.ts"/>
 
@@ -24,7 +22,7 @@ class QuizViewModel {
     public resultMode : KnockoutObservable<boolean>;
     public finalDegree : KnockoutObservable<number>;
     public passed : KnockoutObservable<boolean>;
-
+    public canSubmit : KnockoutObservable<boolean>;
 
     public Quiz : Quiz;
 
@@ -38,7 +36,7 @@ class QuizViewModel {
         this.resultMode  = ko.observable(false);
         this.finalDegree = ko.observable(0);
         this.passed = ko.observable(false);
-
+        this.canSubmit = ko.observable(false);
 
 
 
@@ -60,14 +58,16 @@ class QuizViewModel {
           $(()=>{
 
               $('.answer').on('change', (event) => {
-              var info = $(event.target).attr('name');
-              var questionId = info.split(':')[0];
-              var answerId = info.split(':')[1];
-              var answerCheked = $(event.target).prop('checked');
+                      var info = $(event.target).attr('name');
+                      var questionId = info.split(':')[0];
+                      var answerId = info.split(':')[1];
+                      var answerCheked = $(event.target).prop('checked');
 
-              var questionIndex = _.findIndex(this.Answers, (item : UserAnswer) => {
-                  return item.questionId == questionId;
-              });
+                      var questionIndex = _.findIndex(this.Answers, (item : UserAnswer) => {
+                          return item.questionId == questionId;
+                      });
+
+
 
 
               var answerIndex  = _.findIndex(this.Answers[questionIndex].answer, (item ) => {
@@ -97,8 +97,14 @@ class QuizViewModel {
                   case 'radio':
                       break;
 
-
               }
+
+
+                  var can = _.every(this.Answers, (answer)=>{
+                      return answer.answer.length > 0;
+                  });
+
+                  this.canSubmit(can);
 
           });
 
@@ -133,6 +139,14 @@ class QuizViewModel {
     }
 
 
+
+
+
+
+    nextQuestion() {
+        var myCarousel =  $('#questions_carousel');
+        myCarousel.carousel('next');
+    }
 
     submitQuiz() {
 

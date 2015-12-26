@@ -9,7 +9,7 @@
 
 {% endblock %}
 
-{% block container %}
+{% block containerFL %}
 
     <div class="user-bar">
         {% include '@QuizCore/Partials/_header.html.twig' %}
@@ -23,7 +23,17 @@
 
 
 
-    <h3 class="page-header">{{ quiz.getName }}</h3>
+    <h3 class="page-header">{{ quiz.getName }}
+
+
+            <input type="button" data-bind=" tooltip: {title: 'Πρέπει να απαντήσετε σε όλες τις ερωτήσεις.', placement: 'right'} ,click: $root.submitQuiz, disable: ($root.resultMode() || !$root.canSubmit())"
+            class="btn btn-success left-buffer-twenty-px pull-right" value={{ 'Αποστολή' | trans }} />
+
+             <input type="button" data-bind="click: $root.nextQuestion, visible: !$root.resultMode()"
+              class="btn  btn-info  pull-right" value="Επόμενη ερώτηση" />
+
+
+    </h3>
 
 
   <div class="text-center" data-bind="visible: $root.resultMode()">
@@ -80,7 +90,7 @@
             </div>
 
 
-        <input type="button" data-bind="click: $root.submitQuiz, visible: !$root.resultMode()" class="btn btn-block btn-success top-buffer" value={{ 'Αποστολή' | trans }} />
+
         <a type="button" href="{{ url('_index') }}" data-bind="visible: $root.resultMode()"  class="btn btn-block btn-info top-buffer">{{ 'OK' | trans }}</a>
 
 

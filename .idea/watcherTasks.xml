@@ -15,7 +15,7 @@
           <FilterInfo>
             <option name="description" value="tsc error format" />
             <option name="name" value="tsc" />
-            <option name="regExp" value="$FILE_PATH$\($LINE$,$COLUMN$\): $MESSAGE$$" />
+            <option name="regExp" value="$PROJECT_DIR$/../teiser-ptixiaki-active\($LINE$,$COLUMN$\): $MESSAGE$$" />
           </FilterInfo>
         </array>
       </option>

@@ -1,9 +1,7 @@
 /// <reference path="../../typings/knockout/knockout.d.ts"/>
 /// <reference path="../../typings/knockout.validation/knockout.validation.d.ts"/>
 /// <reference path="../../typings/jquery/jquery.d.ts"/>
-/// <reference path="../../typings/lodash/lodash.d.ts"/>
 /// <reference path="../../typings/sweetalert/sweetalert.d.ts"/>
-/// <reference path="../../typings/bootstrap/bootstrap.d.ts"/>
 /// <reference path="../../typings/knockout.mapping/knockout.mapping.d.ts"/>
 /// <reference path="Quiz.ts"/>
 var QuizViewModel = (function () {
@@ -16,6 +14,7 @@ var QuizViewModel = (function () {
         this.resultMode = ko.observable(false);
         this.finalDegree = ko.observable(0);
         this.passed = ko.observable(false);
+        this.canSubmit = ko.observable(false);
         if (this.Quiz.show_questions_randomly()) {
             this.Quiz.questions(QuizViewModel.shuffle(this.Quiz.questions()));
         }
@@ -57,6 +56,10 @@ var QuizViewModel = (function () {
                     case 'radio':
                         break;
                 }
+                var can = _.every(_this.Answers, function (answer) {
+                    return answer.answer.length > 0;
+                });
+                _this.canSubmit(can);
             });
         });
         $('body').keydown(function (which) {
@@ -74,12 +77,14 @@ var QuizViewModel = (function () {
             $('#questions_carousel').carousel('pause');
             var index = $('#questions_carousel').find('.active').index('#questions_carousel .item');
             var $indicator = $('.question-list-item');
-            $indicator.each(function (index, item) {
-                $(item).removeClass('question-active');
-            });
+            $indicator.each(function (index, item) { $(item).removeClass('question-active'); });
             $indicator.eq(index).addClass('question-active');
         });
     }
+    QuizViewModel.prototype.nextQuestion = function () {
+        var myCarousel = $('#questions_carousel');
+        myCarousel.carousel('next');
+    };
     QuizViewModel.prototype.submitQuiz = function () {
         var _this = this;
         var final = location.href.replace('/start', '/submit');
@@ -111,21 +116,13 @@ var QuizViewModel = (function () {
                         });
                         console.log(userAnswers);
                         var domQuestion = $('[data-question="' + current.id() + '"]');
-                        var correctAnswerIds = _.filter(resultQuestion.answers(), function (item) {
-                            return item.is_correct();
-                        });
-                        var correctAnswers = _.map(correctAnswerIds, function (item) {
-                            return item.id();
-                        });
+                        var correctAnswerIds = _.filter(resultQuestion.answers(), function (item) { return item.is_correct(); });
+                        var correctAnswers = _.map(correctAnswerIds, function (item) { return item.id(); });
                         domQuestion.find('.answer-line').each(function (index, element) {
                             var thisAnswerId = parseInt($(element).find('input').attr('name').split(':')[1]);
-                            var hasUserSelectedThis = _.filter(userAnswers, function (item) {
-                                return item.answer.id() == thisAnswerId;
-                            }).length != 0;
+                            var hasUserSelectedThis = _.filter(userAnswers, function (item) { return item.answer.id() == thisAnswerId; }).length != 0;
                             var isCorrect = correctAnswers.indexOf(thisAnswerId) != -1;
-                            var thisAnswer = _.filter(resultQuestion.answers(), function (item) {
-                                return item.id() == thisAnswerId;
-                            })[0];
+                            var thisAnswer = _.filter(resultQuestion.answers(), function (item) { return item.id() == thisAnswerId; })[0];
                             var feedback = '<span> ' + thisAnswer.feedback() + '</span>';
                             var icon = '';
                             $(element).find('input').prop('disabled', true);
@@ -153,6 +150,7 @@ var QuizViewModel = (function () {
     };
     QuizViewModel.shuffle = function (array) {
         var counter = array.length, temp, index;
+        // While there are elements in the array
         while (counter > 0) {
             // Pick a random index
             index = Math.floor(Math.random() * counter);

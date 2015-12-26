@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+#    - { resource: "@QuizCoreBundle/Resources/config/parameters.yml"}
     - {resource: "@QuizCoreBundle/Resources/config/services.yml"}
 
 framework:

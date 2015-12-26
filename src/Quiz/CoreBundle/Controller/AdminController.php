@@ -41,8 +41,10 @@ class AdminController extends Controller
 
         if ($isTeacher && $id == 0) {
             // create new quiz
-
             $action = 'Δημιουργία';
+
+
+
             return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => '{}', 'message' => $message, 'action' => $action ]);
         }
 
@@ -61,8 +63,6 @@ class AdminController extends Controller
             // the user is a TEACHER and the quiz belongs to him
 
             $quiz = $em->getRepository('QuizCoreBundle:Quiz')->findOneBy(['id'=> $id]);
-
-
             $action = 'Επεξεργασία';
 
             return $this->render('@QuizCore/Teacher/editQuiz.html.twig', ['quiz' => $serializer->serialize($quiz, 'json'),
@@ -72,21 +72,17 @@ class AdminController extends Controller
             return new Response("error");
         }
 
-
-
     }
 
     public function getMediaAction()
     {
         $serializer = $this->get('serializer');
         $media = $this->get('doctrine.orm.entity_manager')->getRepository('QuizCoreBundle:MediaElement')->findAll();
-
         return new Response($serializer->serialize($media, 'json'));
     }
 
     public function getQuestionsAction()
     {
-
 
         /* @var $user \Quiz\CoreBundle\Entity\UserEntity */
         $user = $this->getUser();
@@ -110,11 +106,6 @@ class AdminController extends Controller
                         $questions[] = $qq;
                     }
                 }
-
-
-
-
-
 
                 return new Response($serializer->serialize($questions, 'json'));
 

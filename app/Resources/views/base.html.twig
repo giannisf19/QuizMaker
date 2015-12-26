@@ -112,12 +112,22 @@
 
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/lightbox.js' %}
-        <script src="{{ asset_url }}"></script>
+             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
+
+
+
+
+
+
+
         {% javascripts '@QuizCoreBundle/Resources/public/js/scripts.js' %}
-        <script src="{{ asset_url }}"></script>
+             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+
+
+        <script type="text/javascript" src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
         {% block javascripts %}{% endblock %}
     </body>

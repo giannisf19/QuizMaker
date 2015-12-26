@@ -66,7 +66,7 @@
 
 
         <div class="form-group">
-            <label for="enabled" class="control-label col-sm-2">Αρνητική βαθμολογία:</label>
+            <label for="negative_grade" class="control-label col-sm-2">Αρνητική βαθμολογία:</label>
             <div class="col-sm-6 input-group">
                 <input data-bind="checked: Quiz.has_negative_grade"   id="enabled" type="checkbox" class="checkbox-inline "/>
             </div>
@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label for="quiz_name" class="control-label col-sm-2" > {{ 'Κείμενο ερώτησης:' }}  </label>
                         <div class="col-sm-6">
-                            <textarea id="quiz_name" class="form-control" type="text"
+                            <textarea name="question-name" id="quiz_name" class="form-control"
                                       data-bind="textInput: $data.question_text, disable: $root.isQuestionDisabledForEditing($data.id())"></textarea>
                         </div>
                        <div data-bind="visible: $data.selected != undefined"> Ως νέα ερώτηση: <input type="checkbox" data-bind="checked: $data.edit" /></div>
@@ -223,6 +223,9 @@
         {% if app.request.locale == 'el' %}
              ko.validation.locale('el-GR');
         {% endif %}
+
+
+        
 
         var vm = new QuizEditViewModel( {{ quiz | raw }}, '{{ url('_save_quiz') }}', '{{ url('_get_questions') }}', '{{ url('_get_media_elements') }}' );
         ko.applyBindings(vm);
