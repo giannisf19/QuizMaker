@@ -9,7 +9,7 @@
 
 {% endblock %}
 
-{% block containerFL %}
+{% block container %}
 
     <div class="user-bar">
         {% include '@QuizCore/Partials/_header.html.twig' %}
@@ -65,7 +65,9 @@
 
                     <div class="item" data-bind="css: {active : $index() == 0}, attr: { 'data-question' : $data.id() }">
                         <div class="question-title text-center">
-                            <span class="question-title " data-bind="text: $data.question_text"></span>
+                            {#<span class="question-title " data-bind="text: $data.question_text"></span>#}
+
+                            <div  data-bind="editableText: $data.question_text, attr: {id: 'id' + $index()}"  style="height: 350px" class="form-control question-title editor-wrapper"  ></div>
                         </div>
 
 
@@ -74,6 +76,9 @@
                         <div data-bind="visible: $root.Quiz.has_negative_grade()"><span>Βαθμοί για λάθος απάντηση: -</span><span class="text-danger" data-bind="text: $data.wrong_answer_grade"></span></div>
                     </div>
 
+
+                     <h3>Απαντήσεις</h3>
+                        <hr />
                     <ul class="list-inline top-buffer" data-bind="foreach: $data.media_elements">
                        <a data-bind="attr: { 'data-lightbox': 'image' + $index(), href: $data.src() }" > <img width="200" height="200" data-bind="attr: {src: $data.src()}"/></a>
                      </ul>
@@ -104,6 +109,9 @@
 
 {% block javascripts %}
 
+    <script type="text/javascript">
+        $('.editor-wrapper').wysiwyg();
+    </script>
 
     {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.plugin.min.js' %}
 <script type="text/javascript" src="{{ asset_url }}" ></script>
@@ -140,7 +148,7 @@
             vm.submitQuiz();
         }});
     {% endif %}
-    var vm = new QuizViewModel('{{ sq |raw }}');
+    var vm = new QuizViewModel('{{ sq  | e('js') }}');
     ko.applyBindings(vm);
 
 

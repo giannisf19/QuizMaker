@@ -27,7 +27,7 @@ class QuizViewModel {
     public Quiz : Quiz;
 
        constructor(quizInfo : any) {
-
+           
         this.Answers = [];
         this.Quiz = ko.mapping.fromJS(JSON.parse(quizInfo));
         this.isLoading = ko.observable(false);

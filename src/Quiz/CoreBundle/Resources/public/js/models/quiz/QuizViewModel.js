@@ -164,5 +164,5 @@ var QuizViewModel = (function () {
         return array;
     };
     return QuizViewModel;
-})();
+}());
 //# sourceMappingURL=QuizViewModel.js.map

@@ -6,7 +6,7 @@ var UserAnswer = (function () {
         this.answer = answer;
     }
     return UserAnswer;
-})();
+}());
 var Answer = (function () {
     function Answer() {
         this.answer_text = ko.observable('');
@@ -16,7 +16,7 @@ var Answer = (function () {
         this.feedback = ko.observable('');
     }
     return Answer;
-})();
+}());
 var MediaElement = (function () {
     function MediaElement() {
         this.media_type = ko.observable('');
@@ -26,7 +26,7 @@ var MediaElement = (function () {
         this.id = ko.observable(0);
     }
     return MediaElement;
-})();
+}());
 var QuizGradeResult = (function () {
     function QuizGradeResult(qid, userAnswer, correct) {
         this.questionId = qid;
@@ -34,7 +34,7 @@ var QuizGradeResult = (function () {
         this.correctAnswerId = correct;
     }
     return QuizGradeResult;
-})();
+}());
 var Question = (function () {
     function Question() {
         this.id = ko.observable(0);
@@ -49,7 +49,7 @@ var Question = (function () {
         this.edit = ko.observable(false);
     }
     return Question;
-})();
+}());
 var Quiz = (function () {
     function Quiz() {
         this.id = ko.observable(0);
@@ -64,5 +64,5 @@ var Quiz = (function () {
         this.has_negative_grade = ko.observable(false);
     }
     return Quiz;
-})();
+}());
 //# sourceMappingURL=Quiz.js.map

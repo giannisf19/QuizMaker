@@ -38,7 +38,8 @@ var QuizEditViewModel = (function () {
         this.totalQuestionsGrade(total);
         if (!this.Quiz.show_questions_randomly()) {
             this.Quiz.questions.sort(function (a, b) {
-                return a.order() == b.order() ? 0 : a.order() < b.order() ? -1 : 1;
+                return a.order() == b.order() ? 0 :
+                    a.order() < b.order() ? -1 : 1;
             });
         }
         this.Quiz.questions.subscribe(function () {
@@ -88,13 +89,11 @@ var QuizEditViewModel = (function () {
         swal({
             title: "Σίγουρα?",
             text: "Θα διαγραφεί η ερώτηση!",
-            type: "warning",
-            showCancelButton: true,
+            type: "warning", showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Ναι!",
             cancelButtonText: "Όχι!",
-            closeOnConfirm: true
-        }, function () {
+            closeOnConfirm: true }, function () {
             // remove the question
             self.Quiz.questions.splice(questionIndex, 1);
         });
@@ -109,13 +108,54 @@ var QuizEditViewModel = (function () {
     };
     QuizEditViewModel.prototype.addNewQuestion = function () {
         this.Quiz.questions.unshift(new Question());
+        var index = this.Quiz.questions().length - 1;
+        function initToolbarBootstrapBindings() {
+            var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+                'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+                'Times New Roman', 'Verdana'
+            ], fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+            $.each(fonts, function (idx, fontName) {
+                fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+            });
+            $('a[title]').tooltip({
+                container: 'body'
+            });
+            $('.dropdown-menu input').click(function () {
+                return false;
+            })
+                .change(function () {
+                $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+            })
+                .keydown('esc', function () {
+                this.value = '';
+                $(this).change();
+            });
+            $('[data-role=magic-overlay]').each(function () {
+                var overlay = $(this), target = $(overlay.data('target'));
+                overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+            });
+            if ("onwebkitspeechchange" in document.createElement("input")) {
+                x;
+                var editorOffset = $('#editor').offset();
+                $('.voiceBtn').css('position', 'absolute').offset({
+                    top: editorOffset.top,
+                    left: editorOffset.left + $('#editor').innerWidth() - 35
+                });
+            }
+            else {
+                $('.voiceBtn').hide();
+            }
+        }
+        initToolbarBootstrapBindings();
+        $('#notes' + (this.Quiz.questions().length)).wysiwyg();
+        window.prettyPrint;
+        prettyPrint();
     };
     QuizEditViewModel.prototype.addSelectedQuestions = function () {
         var _this = this;
         var nonIncluded = _.filter(this.MyQuestions(), function (current) {
-            return (current.selected() == true) && _.filter(_this.Quiz.questions(), function (item) {
-                return item.id() == current.id();
-            }).length == 0;
+            return (current.selected() == true) &&
+                _.filter(_this.Quiz.questions(), function (item) { return item.id() == current.id(); }).length == 0;
         });
         _.forEach(nonIncluded, function (toAdd) {
             _this.Quiz.questions.unshift(toAdd);
@@ -254,5 +294,5 @@ var QuizEditViewModel = (function () {
         });
     };
     return QuizEditViewModel;
-})();
+}());
 //# sourceMappingURL=QuizEditViewModel.js.map

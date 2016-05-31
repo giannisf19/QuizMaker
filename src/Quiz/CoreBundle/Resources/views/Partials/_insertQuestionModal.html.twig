@@ -20,7 +20,7 @@
                                 <li class="list-group-item">
                                     <div class="panel-group">
                                         <input type="checkbox" data-bind="checked: $data.selected">
-                                        <span data-bind="text: $data.question_text"></span>
+                                        <span data-bind="text:  $($data.question_text()).text() "></span>
                                     </div>
 
                                 </li>

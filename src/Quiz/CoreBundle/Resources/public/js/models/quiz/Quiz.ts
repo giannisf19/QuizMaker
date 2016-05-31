@@ -70,7 +70,6 @@ class Question {
     public wrong_answer_grade : KnockoutObservable<number>;
 
 
-
     public selected : KnockoutObservable<boolean>;
     public edit : KnockoutObservable<boolean>;
 

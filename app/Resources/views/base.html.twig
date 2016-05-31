@@ -12,20 +12,15 @@
 
 
 
-
-        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery-1.11.2.min.js' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-
-        {% javascripts 'bundles/quizcore/js/bootstrap.min.js' filter='cssrewrite' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bmatznerfontawesome/css/font-awesome.min.css') }}" />
 
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+
+        {% stylesheets '@QuizCoreBundle/Resources/public/css/prettify.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
 
         {% stylesheets '@QuizCoreBundle/Resources/public/css/toastr.css' %}
@@ -47,7 +42,6 @@
 
 
 
-
         {% stylesheets '@QuizCoreBundle/Resources/public/css/lightbox.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
         {% endstylesheets %}
@@ -60,9 +54,19 @@
         {% block body %}{% endblock %}
 
 
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery-1.11.2.min.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
+        {% javascripts 'bundles/quizcore/js/bootstrap.min.js' filter='cssrewrite' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.color.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@QuizCoreBundle/Resources/public/js/bootstrap-wysiwyg.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -106,17 +110,21 @@
 
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/knockout.bootstrap.js' %}
-        <script src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-
+        {% javascripts '@QuizCoreBundle/Resources/public/js/jquery.hotkeys.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
         {% javascripts '@QuizCoreBundle/Resources/public/js/lightbox.js' %}
              <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
 
-
+        {% javascripts '@QuizCoreBundle/Resources/public/js/prettify.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
 
 
@@ -127,7 +135,6 @@
         {% endjavascripts %}
 
 
-        <script type="text/javascript" src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
         {% block javascripts %}{% endblock %}
     </body>

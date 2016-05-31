@@ -4,6 +4,14 @@ services:
       tags:
         - {name: form.type, alias: quiz_user_registration}
 
+
+
+    fos_user.doctrine_registry:
+        alias: doctrine
+
+
+
+
     app.twig_extension:
            class: Quiz\CoreBundle\Twig\GetQuizTypeName
            public: false

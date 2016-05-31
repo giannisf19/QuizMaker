@@ -18,7 +18,7 @@
 <div class="row">
 
 
-    <div class="col-xs-12">
+    <div class="col-md-12">
     <h2 class="page-header">{{ action ~ name }}</h2>
 
     <form class="form-horizontal" role="form">
@@ -119,22 +119,31 @@
 
                     <div class="form-group">
                         <label for="quiz_name" class="control-label col-sm-2" > {{ 'Κείμενο ερώτησης:' }}  </label>
-                        <div class="col-sm-6">
-                            <textarea name="question-name" id="quiz_name" class="form-control"
-                                      data-bind="textInput: $data.question_text, disable: $root.isQuestionDisabledForEditing($data.id())"></textarea>
+                        <div class="col-sm-8">
+
+
+                            {% include '@QuizCore/Partials/_editor.html.twig' %}
+
+                            {#<textarea name="question-name" id="quiz_name" class="form-control"#}
+                                      {#data-bind="textInput: $data.question_text, disable: $root.isQuestionDisabledForEditing($data.id())"></textarea>#}
+
+
                         </div>
                        <div data-bind="visible: $data.selected != undefined"> Ως νέα ερώτηση: <input type="checkbox" data-bind="checked: $data.edit" /></div>
                         <span class="btn btn-danger" data-bind="click: function() { $root.removeQuestion($index())}">Διαγραφή</span>
 
                         <div class="grades-container row top-buffer">
 
-                            <div class="form-group top-buffer">
-                                <label for="correct_answer_grade" class="control-label col-sm-2">Βαθμός σωστής απάντησης:</label>
-                                <div class="col-sm-6 input-group">
-                                    <input data-bind="textInput: $data.correct_answer_grade" id="correct_answer_grade"   type="number" class="form-control "/>
-                                </div>
+                            <div class="col-md-12">
+                                <div class="form-group top-buffer">
+                                    <label for="correct_answer_grade" class="control-label col-sm-4">Βαθμός σωστής απάντησης:</label>
+                                    <div class="col-sm-2 input-group">
+                                        <input data-bind="textInput: $data.correct_answer_grade" id="correct_answer_grade"   type="number" class="form-control "/>
+                                    </div>
 
+                                </div>
                             </div>
+
 
                             <div class="form-group" data-bind="visible: $root.Quiz.has_negative_grade()">
                                 <label for="wrong_answer_grade" class="control-label col-sm-2">Αρνητική βαθμολογία:</label>
@@ -229,6 +238,8 @@
 
         var vm = new QuizEditViewModel( {{ quiz | raw }}, '{{ url('_save_quiz') }}', '{{ url('_get_questions') }}', '{{ url('_get_media_elements') }}' );
         ko.applyBindings(vm);
+
+
 
     </script>
 
