@@ -218,10 +218,11 @@
       {% endjavascripts %}
 
 
+
       <script type="text/javascript">
 
 
-          var vm = new ResultViewModel('{{ url('_get_quiz_results') }}', '{{ asset('js/i18n.lang') }}', '{{ asset('bundles/quizcore/swf/copy_csv_xls_pdf.swf')  }}');
+          var vm = new ResultViewModel('{{ url('_get_quiz_results') }}', '{{ asset('bundles/quizcore/js/greek.json') }}', '{{ asset('bundles/quizcore/js/copy_csv_xls_pdf.swf') }}');
           _.forEach({{ quiz | raw }}, function(item) {
              vm.Quizes.push(item);
           });
