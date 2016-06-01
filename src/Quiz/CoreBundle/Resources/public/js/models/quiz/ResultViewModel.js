@@ -30,7 +30,8 @@ var ResultViewModel = (function () {
                     for (var a in Object.keys(obj)) {
                         var b = obj[a];
                         var d = new Date(b.date);
-                        var formated = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                        var formated = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + d.getHours() +
+                            ':' + d.getMinutes() + ':' + d.getSeconds();
                         var toAdd = [
                             b.id,
                             b.user.first_name + ' ' + b.user.last_name,
@@ -40,7 +41,7 @@ var ResultViewModel = (function () {
                             b.test_duration,
                             b.degree,
                             b.is_passed == true ? 'Επιτυχία' : 'Αποτυχία',
-                            'Κλικ'
+                            'Επιλογή'
                         ];
                         if (b.is_passed) {
                             countSuccess++;
@@ -61,6 +62,7 @@ var ResultViewModel = (function () {
                         _this.data.push(toAdd);
                     }
                     _this.dt.fnClearTable();
+                    _this.gradesChart.highcharts().setData([]);
                     if (_this.data.length != 0) {
                         _this.dt.fnAddData(_this.data);
                         _this.countChart.highcharts().series[0].setData([
@@ -141,12 +143,20 @@ var ResultViewModel = (function () {
                                     c.questionAnswer[index].answers.push(item.answer);
                                 }
                                 else {
-                                    c.questionAnswer.push({ question: item.question, is_correct: item.is_correct, degree: item.degree, answers: [item.answer] });
+                                    c.questionAnswer.push({ question: item.question,
+                                        is_correct: item.is_correct,
+                                        degree: item.degree,
+                                        answers: [item.answer]
+                                    });
                                 }
                             }
                             else {
                                 c.questionAnswer = [];
-                                c.questionAnswer.push({ question: item.question, is_correct: item.is_correct, degree: item.degree, answers: [item.answer] });
+                                c.questionAnswer.push({ question: item.question,
+                                    is_correct: item.is_correct,
+                                    degree: item.degree,
+                                    answers: [item.answer]
+                                });
                             }
                         });
                         _this.currentResult(c);
@@ -177,13 +187,13 @@ var ResultViewModel = (function () {
                     }
                 },
                 series: [{
-                    type: 'pie',
-                    name: 'Σύνολο',
-                    data: [
-                        ['Επιτυχία', 20],
-                        ['Αποτυχία', 80]
-                    ]
-                }]
+                        type: 'pie',
+                        name: 'Σύνολο',
+                        data: [
+                            ['Επιτυχία', 20],
+                            ['Αποτυχία', 80]
+                        ]
+                    }]
             });
             _this.gradesChart = $('#gradesChart').highcharts({
                 chart: {
@@ -211,5 +221,5 @@ var ResultViewModel = (function () {
         });
     }
     return ResultViewModel;
-})();
+}());
 //# sourceMappingURL=ResultViewModel.js.map

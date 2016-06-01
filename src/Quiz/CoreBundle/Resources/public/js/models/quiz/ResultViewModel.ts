@@ -65,7 +65,7 @@ class ResultViewModel {
                             b.test_duration,
                             b.degree,
                             b.is_passed == true ? 'Επιτυχία' : 'Αποτυχία',
-                            'Κλικ'
+                            'Επιλογή'
                         ];
 
 
@@ -101,6 +101,9 @@ class ResultViewModel {
 
 
                     this.dt.fnClearTable();
+                    this.gradesChart.highcharts().setData([]);
+
+
 
                     if (this.data.length != 0) {
                         this.dt.fnAddData(this.data);
