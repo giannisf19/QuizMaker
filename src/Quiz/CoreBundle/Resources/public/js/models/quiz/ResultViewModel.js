@@ -62,7 +62,11 @@ var ResultViewModel = (function () {
                         _this.data.push(toAdd);
                     }
                     _this.dt.fnClearTable();
-                    _this.gradesChart.highcharts().setData([]);
+                    try {
+                        _this.gradesChart.highcharts().series[0].setData([]);
+                    }
+                    catch (ex) {
+                    }
                     if (_this.data.length != 0) {
                         _this.dt.fnAddData(_this.data);
                         _this.countChart.highcharts().series[0].setData([

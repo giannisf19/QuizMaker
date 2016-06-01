@@ -101,7 +101,14 @@ class ResultViewModel {
 
 
                     this.dt.fnClearTable();
-                    this.gradesChart.highcharts().setData([]);
+
+                    try {
+                        this.gradesChart.highcharts().series[0].setData([]);
+
+                    } catch (ex ) {
+
+                    }
+
 
 
 
