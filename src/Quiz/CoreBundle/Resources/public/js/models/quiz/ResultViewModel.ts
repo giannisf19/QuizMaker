@@ -103,7 +103,9 @@ class ResultViewModel {
                     this.dt.fnClearTable();
 
                     try {
-                        this.gradesChart.highcharts().series[0].setData([]);
+                        while(this.gradesChart.highcharts().series.length > 0) {
+                            this.gradesChart.highcharts().series[0].remove(true);
+                        }
 
                     } catch (ex ) {
 

@@ -63,7 +63,9 @@ var ResultViewModel = (function () {
                     }
                     _this.dt.fnClearTable();
                     try {
-                        _this.gradesChart.highcharts().series[0].setData([]);
+                        while (_this.gradesChart.highcharts().series.length > 0) {
+                            _this.gradesChart.highcharts().series[0].remove(true);
+                        }
                     }
                     catch (ex) {
                     }
